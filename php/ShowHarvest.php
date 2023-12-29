@@ -1,51 +1,62 @@
 <?php
 session_start();
-include '../Connect/conn.php';
-include "../Connect/session.php";
-if (isset($_GET['id_plot_data']) && isset($_GET['plot_name'])) {
-    $id_plot_data = $_GET['id_plot_data'];
-    $name_plot = $_GET['plot_name'];
+if (!isset($_SESSION['user'])) {
+    header('Location: loginform.php');
+    exit(); // ให้แน่ใจว่าไม่มีโค้ดเพิ่มเติมที่ทำงานหลัง header
 }
-$sql_plot_plan = "SELECT * FROM `tb_plot` as a 
-INNER JOIN tb_greenhouse as b on a.id_greenhouse = b.id_greenhouse 
-INNER JOIN tb_farm as c on b.id_farm = c.id_farm 
-INNER JOIN tb_user as d on c.id_user = d.id_user 
-LEFT JOIN tb_planting as e on a.id_plot = e.id_plot
-LEFT JOIN tb_veg_farm as vf on vf.id_veg_farm = e.id_veg_farm   
-LEFT JOIN tb_vegetable as f on f.id_vegetable = vf.id_vegetable   
-LEFT JOIN tb_fertilizationdate as g on   g.id_plot = e.id_plot
-WHERE a.id_plot = '$id_plot_data' GROUP BY e.id_planting";
-      $result_plan = mysqli_query($conn, $sql_plot_plan);
+
+include '../Connect/conn.php';
+include '../Connect/session.php';
+
+$sql_harvest = "SELECT p.plot_name, v.vegetable_name,v.img_name ,h.harvestdate, h.harvest_amount , f.name_farm
+FROM `tb_harvest` AS h  
+INNER JOIN tb_plot AS p ON p.id_plot = h.id_plot
+INNER JOIN tb_veg_farm AS vf ON vf.id_veg_farm = h.id_veg_farm
+INNER JOIN tb_vegetable AS v ON v.id_vegetable = vf.id_vegetable
+INNER JOIN tb_farm AS f ON f.id_farm = vf.id_farm
+INNER JOIN tb_greenhouse as g on g.id_greenhouse = p.id_greenhouse
+WHERE g.id_greenhouse = $id_greenhouse_session
+  AND h.harvestdate BETWEEN DATE_SUB(CURDATE(), INTERVAL 30 DAY) AND CURDATE();";
+$result_harvest = mysqli_query($conn, $sql_harvest);
+
+
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
 
 <body>
+    <?php include '../navbar/navbar.php'; ?>
     <!-- เมนูด้านข้าง ( Side Menu ) -->
     <div class="d-flex flex-column p-3 text-white bg-dark side-menu" style="width: 250px; height: 100vh; position: fixed; left: -250px">
+
+
         <ul class="nav nav-pills flex-column mb-auto pt-4 side_nav_menu">
+
     </div>
     <div class="pt-5 main-content-div" style=" text-align: center;">
         <div class="container" style="margin-top: 20px;">
-
-
             <table class="table table-striped table-bordered">
-                <caption class="caption-top">ตารางแสดงข้อมูลแปลง <?php echo "$name_plot" ?> </caption>
+                <caption class="caption-top">ตารางแสดงข้อมูลการเก็บเกี่ยวย้อนหลัง 30 วัน </caption>
                 <thead>
-                  
-                    
-                    <th style="border: none;"> </th>
-                    <th style="border: none; text-align: right;"> </th>
-
-                   
+                    <th colspan="3" style="border: none;  text-align: left;">
+                        <p class="h5"> โรงเรือน <?php echo "$greenhouse_name" ?> </p>
+                    </th>
+                    </th>
+                    <th style="border: none;">
+                    <th style="border: none; text-align: right;">
+                       
+                    </th>
                 </thead>
                 <thead class="table-dark">
                     <tr>
@@ -59,9 +70,8 @@ WHERE a.id_plot = '$id_plot_data' GROUP BY e.id_planting";
                 </thead>
                 <tbody>
                     <?php
-                    foreach ( $result_plan as $row) {
-                        $thaimonth = array("ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค.");
-                        $thaiMonth = $thaimonth[date('n', strtotime($row["planting_date"])) - 1];
+                    foreach ($result_harvest as $row) {
+                     
                     ?>
                         <th style="border: none;"></th>
                         <th style="border: none;"></th>
@@ -79,8 +89,8 @@ WHERE a.id_plot = '$id_plot_data' GROUP BY e.id_planting";
 
 
                             <td class="text-center"><?= $row["vegetable_name"] ?></td>
-                            <td><?= $row["vegetable_amount"] ?></td>
-                            <td><?= date('d ', strtotime($row["planting_date"])) ?><?= $thaiMonth ?></td>
+                            <td><?= $row["harvest_amount"] ?></td>
+                            <td><?= date('d / m', strtotime($row["harvestdate"])) ?></td>
 
 
 
@@ -94,6 +104,7 @@ WHERE a.id_plot = '$id_plot_data' GROUP BY e.id_planting";
         </div>
     </div>
 
+    <script src="../navbar/navbar.js"></script>
 
 
 </body>

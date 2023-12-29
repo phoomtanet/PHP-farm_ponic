@@ -157,24 +157,25 @@ $formattedPrice = number_format($allprice);
     <div class="pt-3 main-content-div" style="text-align: center;">
       <div class="d-flex flex-wrap justify-content-center text-center ">
 
-        <div class="border px-4 mx-3" >
+        <div class="border px-4 mx-3">
           <canvas id="scatterPlot" width="500%" height="300"></canvas>
         </div>
         <div class="border px-4 mx-3">
           <canvas id="plot_price" width="500%" height="300"></canvas>
         </div>
-        
-        <div class="border p-3 m-3" ><canvas id="lineChart" width="700%" height="300"></canvas></div>
+
+        <div class="border p-3 m-3"><canvas id="lineChart" width="700%" height="300"></canvas></div>
       </div>
     </div>
     <script src="../navbar/navbar.js"></script>
+  </div>
 </body>
 
 
 
 
 <script>
- 
+
 </script>
 
 

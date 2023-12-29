@@ -21,7 +21,7 @@ if (isset($_POST["save_harvest"])) {
     // echo  $id_plot_harvest;
 
     $sql_harvest = "INSERT INTO  `tb_harvest`
-(`id_harvest`, `id_plot`, `id_veg_farm`, `harvestdate`, `vegetable_amount`) 
+(`id_harvest`, `id_plot`, `id_veg_farm`, `harvestdate`, `harvest_amount`) 
  VALUES ('',$id_plot_harvest,$id_veg,'$harvest_date',$harvest_amount)";
     mysqli_query($conn, $sql_harvest);
 

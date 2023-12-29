@@ -107,8 +107,12 @@ $result_greenhouse = mysqli_query($conn, $sql_greenhouse);
         <a class="nav-link top_nav_menu" href="../php/show_germination.php">การเพาะเมล็ด</a>
       </li>
       <li class="nav-item">
+        <a class="nav-link top_nav_menu" href="../php/ShowHarvest.php">การเก็บเกี่ยว</a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link top_nav_menu" href="../php/ShowVegetable.php">ข้อมูลผัก</a>
       </li>
+      
       <li class="nav-item">
         <a class="top_nav_menu" href="../grap/grap_status.php">ภาพรวม</a>
       </li>

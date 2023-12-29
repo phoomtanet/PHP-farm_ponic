@@ -73,12 +73,15 @@ $total_pages = ceil($total_records / $perpage);
     <div class="pt-5 main-content-div" style="text-align: center; align-items: center;  ">
       <div class="d-flex flex-nowrap justify-content-between text-center px-5  ">
         <div class="d-flex flex-nowrap justify-content-between text-center  ">
-          <div>
-            <button type="button" class="btn btn-primary">จัดการข้อมูลแปลงผัก</button>
-          </div>
+          
           <div class="mx-2">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_plot" title="เพิ่มแปลงปลูก"> <i class="fas fa-plus"> </i> <i class="fas fa-seedling"></i></button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_plot" title="เพิ่มแปลงปลูก"> 
+              <i class="fas fa-plus"> </i> 
+              <i class="fas fa-inbox"> </i>
+
+            </button>
           </div>
+        
         </div>
         <div>
           <ul class="pagination justify-content-center">
@@ -131,7 +134,7 @@ $total_pages = ceil($total_records / $perpage);
                     </tr>
                     <tr>
                       <th scope="col">ข้อมูล : </th>
-                      <td class="text-success"> <a href="../php/information_plot.php?id_plot_data=<?= $col['id_plot'] ?>">เพิ่มเติม</a> </td>
+                      <td class="text-success"> <a href="../php/information_plot.php?id_plot_data=<?= $col['id_plot'] ?>&plot_name=<?= $col['plot_name'] ?>">เพิ่มเติม</a> </td>
                     </tr>
                   </table>
                 </div>
@@ -239,7 +242,9 @@ $total_pages = ceil($total_records / $perpage);
                           <?php   } ?>
                         </tr>
                         <tr>
-                          <th style="text-align: center;" scope="col">ข้อมูล : <span class="text-success"><a href="">เพิ่มเติม</a></span> </th>
+                          <th style="text-align: center;" scope="col">ข้อมูล :
+                           <span class="text-success"> <a href="../php/information_plot.php?id_plot_data=<?= $col['id_plot'] ?>&plot_name=<?= $col['plot_name'] ?>">เพิ่มเติม</a></span> </th>
+
                         </tr>
                     </table>
                   </div>
@@ -412,7 +417,7 @@ $total_pages = ceil($total_records / $perpage);
           <input type="hidden" name="id_fertilizationDate" id="id_fertilizationDate" class="form-control" readonly onBlur="checkAvailability()" onkeyup="check_char(this)">
           <label style="text-align: left; display: block;">ชื่อแปลง:</label><span id="user-availability-status"></span>
           <input type="text" name="plot_fertilization" id="plot_fertilization" class="form-control" readonly onBlur="checkAvailability()" onkeyup="check_char(this)">
-          <label style="text-align: left; display: block;">วันที่เก็บเกี่ยว:</label>
+          <label style="text-align: left; display: block;">วันที่ให้ปุ๋ย:</label>
           <input type="date" name="fertilizationdate" id="fertilizationdate" class="form-control" required placeholder="วันที่เพาะเมล็ด" max="<?php echo date('Y-m-d'); ?>">
       </div>
       <div class="modal-footer">

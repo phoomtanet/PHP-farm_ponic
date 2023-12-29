@@ -38,8 +38,7 @@ include '../Connect/conn.php';
   <div class="d-flex flex-wrap justify-content-center text-center  align-self-center  vh-100 p-3">
     <main class="form-signin">
       <form method="post" action="../phpsql/login_check.php" onsubmit="return login()">
-        <img class="mb-4" src="https://cdn-icons-png.flaticon.com/512/219/219983.png" alt="" height="300">
-        <h1 class="h3 mb-3 fw-normal"><b>Farm System</b> - Login</h1>
+        <img class="mb-4" src="../img/salad.jpg" alt="" height="400px">
 
         <div class="form-floating">
           <input name="user" type="text" class="form-control" id="username" required placeholder="name@example.com">
