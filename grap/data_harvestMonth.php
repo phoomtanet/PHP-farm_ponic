@@ -7,7 +7,7 @@ include "../Connect/session.php";
 $dateTwelveMonthsAgo = date('Y-m-d', strtotime('-12 months'));
 
 $sql_harvest_month = "SELECT
-    SUM(h.vegetable_amount) AS total_amount,
+    SUM(h.harvest_amount) AS total_amount,
     EXTRACT(YEAR_MONTH FROM h.harvestdate) AS harvest_month
 FROM tb_harvest AS h
 INNER JOIN tb_plot AS p ON p.id_plot = h.id_plot

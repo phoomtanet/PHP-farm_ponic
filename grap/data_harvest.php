@@ -3,7 +3,7 @@ session_start();
 include '../Connect/conn.php';
 include '../Connect/session.php';
 
-$sql_harvest = "SELECT v.vegetable_name, SUM(h.vegetable_amount) AS total_amount
+$sql_harvest = "SELECT v.vegetable_name, SUM(h.harvest_amount) AS total_amount
 FROM tb_harvest AS h
 INNER JOIN tb_plot AS p ON p.id_plot = h.id_plot
 INNER JOIN tb_greenhouse AS g ON p.id_greenhouse = g.id_greenhouse

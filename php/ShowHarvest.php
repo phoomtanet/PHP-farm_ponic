@@ -21,6 +21,8 @@ $result_harvest = mysqli_query($conn, $sql_harvest);
 
 
 
+
+
 ?>
 
 <!DOCTYPE html>
@@ -70,7 +72,9 @@ $result_harvest = mysqli_query($conn, $sql_harvest);
                 </thead>
                 <tbody>
                     <?php
-                    foreach ($result_harvest as $row) {
+                       foreach ($result_harvest  as $row) {
+
+               
                      
                     ?>
                         <th style="border: none;"></th>

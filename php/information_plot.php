@@ -15,7 +15,7 @@ LEFT JOIN tb_veg_farm as vf on vf.id_veg_farm = e.id_veg_farm
 LEFT JOIN tb_vegetable as f on f.id_vegetable = vf.id_vegetable   
 LEFT JOIN tb_fertilizationdate as g on   g.id_plot = e.id_plot
 WHERE a.id_plot = '$id_plot_data' GROUP BY e.id_planting";
-      $result_plan = mysqli_query($conn, $sql_plot_plan);
+$result_plan = mysqli_query($conn, $sql_plot_plan);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -40,35 +40,51 @@ WHERE a.id_plot = '$id_plot_data' GROUP BY e.id_planting";
             <table class="table table-striped table-bordered">
                 <caption class="caption-top">ตารางแสดงข้อมูลแปลง <?php echo "$name_plot" ?> </caption>
                 <thead>
-                  
-                    
+
+
                     <th style="border: none;"> </th>
                     <th style="border: none; text-align: right;"> </th>
 
-                   
+
                 </thead>
                 <thead class="table-dark">
                     <tr>
                         <th>แปลง</th>
                         <th colspan="2">ชื่อผัก</th>
                         <th>จำนวน</th>
-                        <th>วันที่เก็บเกี่ยว</th>
-                 
+                        <th>อายุผัก</th>
+                        <th>วันที่เพาะ</th>
+                        <th>วันที่เก็บเกี่ยวได้</th>
+
                         </th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-                    foreach ( $result_plan as $row) {
+                    foreach ($result_plan as $row) {
                         $thaimonth = array("ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค.");
                         $thaiMonth = $thaimonth[date('n', strtotime($row["planting_date"])) - 1];
+
+                        $nurseryDate = new DateTime($row['planting_date']);
+                        $currentDate = new DateTime(); // วันที่ปัจจุบัน
+                        $diff = $nurseryDate->diff($currentDate);
+                        $age = $diff->format('%a');
+
+                        $planting_date = new DateTime($row['planting_date']);
+                        $vegetable_age = new DateInterval('P' . $row['vegetable_age'] . 'D');
+                        $date_harvest = $planting_date->add($vegetable_age)->format('Y-m-d');
+
+
+                        $thaiMonth_harvest  = $thaimonth[date('n', strtotime( $date_harvest)) - 1];
+
                     ?>
                         <th style="border: none;"></th>
                         <th style="border: none;"></th>
                         <th style="border: none;"></th>
                         <th style="border: none;"></th>
                         <th style="border: none;"></th>
-                      
+                        <th style="border: none;"></th>
+                        <th style="border: none;"></th>
                         <tr class="text-center">
 
                             <td class="text-center"><?= $row["plot_name"] ?></td>
@@ -77,11 +93,12 @@ WHERE a.id_plot = '$id_plot_data' GROUP BY e.id_planting";
                                 <img src="../img/<?php echo $row['img_name'] ?>" style="width: 50px; border-radius: 50px;">
                             </td>
 
-
+                   
                             <td class="text-center"><?= $row["vegetable_name"] ?></td>
                             <td><?= $row["vegetable_amount"] ?></td>
+                            <td><?=$age . " วัน"?></td>
                             <td><?= date('d ', strtotime($row["planting_date"])) ?><?= $thaiMonth ?></td>
-
+                            <td><?=date('d ', strtotime($date_harvest)) ?><?=  $thaiMonth_harvest ?></td>
 
 
                         </tr>
