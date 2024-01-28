@@ -241,7 +241,7 @@ $result_sql_fer = mysqli_query($conn, $sql_fer);
       <div class="modal-body">
 
         <form method="post" action="../phpsql/insert_vegatable.php" enctype="multipart/form-data">
-          <input type="text" name="id_farm" id="id_farm" class="form-control" value="<?= $id_farm_session ?>" hidden>
+          <input type="text" name="id_farm" id="id_farm" class="form-control" value="<?=$id_farm_session?>" hidden>
           <div class="row mt-2 mb-2">
             <div class="col">
               <label>ชื่อผัก : </label><span id="user-availability-status"></span>

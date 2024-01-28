@@ -20,7 +20,7 @@ if (isset($_POST['insert_plotnursery'])) {
     $row_greenhouse = mysqli_fetch_assoc($result_greenhouse);
     $count = $row_greenhouse['count'];
 
-    echo $count;
+
     if ($count == 0) {
         $is_plot_nur = "INSERT INTO `tb_plot_nursery` 
         (`id_greenhouse`, `plotnursery_name`, `row`, `column`, `status_plot`) 

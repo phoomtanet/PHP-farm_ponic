@@ -3,6 +3,9 @@ session_start();
 include '../Connect/conn.php';
 include '../Connect/session.php';
 
+if(isset($_POST['id_nursery']) && isset($_POST['id_veg_farm'])){
+
+
 $id_nursery = $_POST['id_nursery']; //รหัสการอนุบาล 
 $id_plot = $_POST['id_plot']; //รหัสการอนุบาล 
 
@@ -16,24 +19,8 @@ $date = $_POST['date']; //
 $id_veg_farm = $_POST['id_veg_farm'];
 
 $_SESSION["num_fertilizing"] = $num_fertilizing;
-
-
 $currentDate = date("Y-m-d"); // รับวันที่ปัจจุบันในรูปแบบ ปี-เดือน-วัน
 
-// Assuming $user, $greenhouse_name, and $farm_name are defined in your included session.php
-
-echo "$name_plot";
-echo " รหัสการอนุบาล . $id_nursery ";
-echo " ชื่อผัก $vegetable_name";
-echo '<br>';
-echo " จำนวนที่อนุบาล $num_nursery";
-echo " จำนวนที่ย้ายได้สูงสุด $num_max";
-echo " จำนวนที่ย้าย $num_planting";
-echo " รอบการให้ปุ๋ย $num_fertilizing";
-echo " รอบการให้ปุ๋ย $date";
-
-
-echo "รหัสแปลง $id_plot";
 
 
 $sql_count_planting = "SELECT b.id_planting FROM tb_planting as b WHERE b.id_plot = '$id_plot'";
@@ -42,8 +29,9 @@ $count_planting = mysqli_num_rows($result_count_planting);// นับจำน�
 // เมื่อยังไม่มีการปลูกในแปลง ให้ เพิ่มเวลาให้ปุ๋ย
 echo "แถว $count_planting";
 if($count_planting == 0){
-    $fertilizationdate = "INSERT INTO `tb_fertilizationdate`(`id_fertilizationDate`, `id_plot`, `fertilizationDate`) 
-    VALUES ('','$id_plot','$currentDate')";
+    $fertilizationdate = "INSERT INTO `tb_fertilizationdate` (`id_plot`, `fertilizationDate`) 
+    VALUES ('$id_plot', '$currentDate')";
+
 mysqli_query($conn, $fertilizationdate);
 
 }
@@ -72,3 +60,9 @@ echo "<script>window.location = '../php/index.php'</script>";
 
 // Close the database connection if needed
 mysqli_close($conn);
+}else{
+    echo "<script> alert('*การเข้าถึงไม่ถูกต้อง*'); </script>";
+
+    echo "<script>window.location = '../php/index.php'</script>";
+}
+?>

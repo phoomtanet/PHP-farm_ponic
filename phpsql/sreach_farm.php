@@ -1,4 +1,5 @@
 <?php
+ob_start();
 session_start();
 include '../Connect/conn.php';
 include '../Connect/session.php';
@@ -22,7 +23,7 @@ if (isset($_POST['farm_name'])) {
   
     if ($row_farm_name > 0) {
         $_SESSION["farm_name"] = $namefarm;
-        header("Location: $referer");
+         echo "<script>window.location = '$referer';</script>";
 
         $greenhouse_first = "SELECT a.name_greenhouse as first_greenhouse
         FROM `tb_greenhouse` as a
@@ -52,4 +53,5 @@ $_SESSION["greenhouse_name"] = $row_greenhouse['first_greenhouse'];
     }
     mysqli_close($conn);
 }
-
+ob_end_flush();
+?>

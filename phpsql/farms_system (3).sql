@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 18, 2024 at 03:17 AM
+-- Generation Time: Jan 27, 2024 at 02:33 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -41,7 +41,7 @@ CREATE TABLE `tb_farm` (
 INSERT INTO `tb_farm` (`id_farm`, `id_user`, `name_farm`, `location`) VALUES
 (1001, 0002, 'porponic farm', 'บ้านเกาะ'),
 (1002, 0002, 'porponic newfarm', 'ิbbk\r\n'),
-(1003, 0002, 'new farm', 'new');
+(1003, 0002, 'new', 'new');
 
 -- --------------------------------------------------------
 
@@ -310,7 +310,6 @@ INSERT INTO `tb_user` (`id_user`, `f_name`, `l_name`, `user_name`, `password`, `
 CREATE TABLE `tb_vegetable` (
   `id_vegetable` int(3) UNSIGNED ZEROFILL NOT NULL COMMENT 'รหัสผัก',
   `id_fertilizer` int(3) UNSIGNED ZEROFILL NOT NULL COMMENT 'รหัสปุ๋ย',
-  `id_farm` int(4) UNSIGNED ZEROFILL NOT NULL COMMENT 'รหัสฟาร์ม',
   `vegetable_name` varchar(50) NOT NULL COMMENT 'ชื่อผัก',
   `vegetable_age` int(3) NOT NULL COMMENT 'อายุผัก',
   `img_name` varchar(200) NOT NULL COMMENT 'ชื่อรูปผัก'
@@ -320,11 +319,11 @@ CREATE TABLE `tb_vegetable` (
 -- Dumping data for table `tb_vegetable`
 --
 
-INSERT INTO `tb_vegetable` (`id_vegetable`, `id_fertilizer`, `id_farm`, `vegetable_name`, `vegetable_age`, `img_name`) VALUES
-(001, 111, 0000, 'green oak', 40, 'photo_65a88542a3a34.jpg'),
-(002, 111, 0000, 'red oak', 40, 'photo_65a0d3dc5aea6.jpg'),
-(003, 111, 0000, 'Butterhead', 40, 'photo_65a0d3f2b0add.jpg'),
-(004, 111, 0000, 'Green Cos', 40, 'photo_65a0d409c73e2.jpg');
+INSERT INTO `tb_vegetable` (`id_vegetable`, `id_fertilizer`, `vegetable_name`, `vegetable_age`, `img_name`) VALUES
+(001, 111, 'green oak', 40, 'photo_65a88542a3a34.jpg'),
+(002, 111, 'red oak', 40, 'photo_65a0d3dc5aea6.jpg'),
+(003, 111, 'Butterhead', 40, 'photo_65a0d3f2b0add.jpg'),
+(004, 111, 'Green Cos', 40, 'photo_65a0d409c73e2.jpg');
 
 -- --------------------------------------------------------
 

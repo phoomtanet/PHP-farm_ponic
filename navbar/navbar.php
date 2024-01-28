@@ -1,8 +1,5 @@
 <?php
-if (!isset($_SESSION['user'])) {
-  header('Location: loginform.php');
-  exit(); // ให้แน่ใจว่าไม่มีโค้ดเพิ่มเติมที่ทำงานหลัง header
-}
+
 
 include '../Connect/conn.php';
 include '../Connect/session.php';
@@ -116,6 +113,9 @@ $result_greenhouse = mysqli_query($conn, $sql_greenhouse);
       <li class="nav-item">
         <a class="top_nav_menu" href="../grap/grap_status.php">ภาพรวม</a>
       </li>
+      <li class="nav-item">
+        <a class="top_nav_menu" href="../grapnew/dashboard.php">ภาพรวมใหม่</a>
+      </li>
 
 
       <li class="nav-item">
@@ -144,15 +144,3 @@ $result_greenhouse = mysqli_query($conn, $sql_greenhouse);
 
 </html>
 
-<!-- <div class="ml-auto d-flex flex-nowrap nav-link top_nav_menu">
-          <img class="navbar-brand" style="width: 32px;" src="../img/<?php echo $photo_name ?>">
-          <div class="btn-group">
-            <button class="btn btn-secondary  dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <?php echo $f_name; ?>
-            </button>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">จัดการบันชี</a></li>
-              <li><a class="dropdown-item" href="../php/logout.php">ออกจากระบบ</a></li>
-            </ul>
-          </div>
-        </div> -->

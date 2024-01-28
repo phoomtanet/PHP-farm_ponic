@@ -15,6 +15,9 @@ if (isset($_POST['Add'])) {
     $photo_name = "SELECT photo_name FROM tb_user WHERE user_name = '$user'";
 
     $result = mysqli_query($conn, $usercheck);
+    if (!$result) {
+        die("Query failed: " . mysqli_error($conn));
+    }
     $row = mysqli_fetch_array($result);
 
     $result_f_name = mysqli_query($conn, $f_name);
@@ -94,4 +97,3 @@ if (isset($_POST['Add'])) {
     echo "<script>window.location = '../php/loginform.php'</script>";
 }
 
-mysqli_close($conn);

@@ -5,6 +5,7 @@ include '../Connect/session.php';
 
 $sql = "SELECT * FROM `tb_farm`
 INNER JOIN `tb_user` ON tb_farm.id_user = tb_user.id_user
+
 WHERE tb_user.user_name = '$user'";
 $result = mysqli_query($conn, $sql);
 
@@ -66,7 +67,7 @@ $re = mysqli_fetch_array($result_sql_id);
             <!-- <a class="btn btn-secondary" href="index.php?">กลับ</a> -->
           </th>
           <th style="border: none;"></th>
-          <th style="border: none;"></th>
+    
           <!-- <th style="border: none;"></th> -->
           <!-- <th style="border: none;"></th> -->
 
@@ -82,7 +83,7 @@ $re = mysqli_fetch_array($result_sql_id);
             <!-- <th>รหัสผู้ใช้</th> -->
             <th>ชื่อฟาร์ม</th>
             <th>ที่ตั้ง</th>
-            <th>ลบข้อมูล</th>
+      
             <th>แก้ไขข้อมูล</th>
           </tr>
         </thead>
@@ -97,11 +98,7 @@ $re = mysqli_fetch_array($result_sql_id);
               <td><?= $row["location"] ?></td>
 
 
-              <td style="border: none;">
-                <a class="" style="color: red;" 
-                href="../phpsql/delete_data.php?id=<?= $row['id_farm'] ?>&tb=tb_farm&idtb=id_farm&location=../php/ShowFarm.php" 
-                onclick="Del(this.href);return false;"><i class="fa-regular fa-trash-can fa-xl"></i></a>
-              </td>
+            
               <td style="border: none;">
                 <a type="button" class="edit-button" style="color: orange; cursor: pointer;" 
                 data-bs-toggle="modal" 
@@ -141,16 +138,16 @@ $re = mysqli_fetch_array($result_sql_id);
             ?>
           </div>
           <input type="text" name="id_user" id="id_user" class="form-control" value="<?= $re['id_user'] ?>" hidden>
-          <br>
           <label class="mb-2">ชื่อฟาร์ม : </label><span id="user-availability-status"></span>
           <input type="text" name="farm_name" id="farm_name" class="form-control" required oninput="checkAvailability()">
-          <br>
           <label class="mb-2">ที่อยู่ฟาร์ม : </label><br>
           <input type="text" name="location" id="location" class="form-control" required>
+          <label class="mb-2">โรงเรือนในฟาร์ม : </label><br>
+          <input type="text" name="greenhouse" id="greenhouse" class="form-control" required>
+          <input type="num" name="check_insert" value="1" hidden >
           <br>
-
           <button type="button" class="btn btn-secondary" onclick="cancel()" data-bs-dismiss="modal">ยกเลิก</button>
-          <button type="submit" id="save1" class="btn btn-success">บันทึก</button>
+          <button type="submit" id="savefarm"  class="btn btn-success">บันทึก</button>
         </form>
 
       </div>
@@ -169,7 +166,7 @@ $re = mysqli_fetch_array($result_sql_id);
       </div>
       <div class="modal-body" id="info_update5">
 
-      <form method="post" action="../phpsql/update_farm.php" enctype="multipart/form-data">
+      <form method="post" action="../phpsql/insert_farm.php" enctype="multipart/form-data">
           <label class="mb-2">บัญชี : </label>
           <div class="alert alert-secondary" role="alert">
             <?php
@@ -179,16 +176,16 @@ $re = mysqli_fetch_array($result_sql_id);
           </div>
           <input type="text" name="id_user" id="id_user" class="form-control" value="<?= $re['id_user'] ?>" hidden>
           <input type="text" name="id_farm_edit" id="id_farm_edit" class="form-control" hidden>
-          <br>
           <label class="mb-2">ชื่อฟาร์ม : </label><span id="user-availability-status"></span>
           <input type="text" name="farm_name_edit" id="farm_name_edit" class="form-control" required oninput="checkAvailability()">
-          <br>
           <label class="mb-2">ที่อยู่ฟาร์ม : </label><br>
+          
           <input type="text" name="location_edit" id="location_edit" class="form-control" required>
+          <input type="num" name="check_edit" value="1" hidden >
           <br>
 
           <button type="button" class="btn btn-secondary" onclick="cancel()" data-bs-dismiss="modal">ยกเลิก</button>
-          <button type="submit" id="save1" class="btn btn-warning">แก้ไข</button>
+          <button type="submit" id="save_edit" class="btn btn-warning">แก้ไข</button>
         </form>
 
       </div>
@@ -211,21 +208,18 @@ $re = mysqli_fetch_array($result_sql_id);
       success: function(data) {
         $("#user-availability-status").html(data);
         if (data.indexOf("ถูกใช้ไปแล้ว") !== -1) {
-          $("#save1").css("display", 'none');
+          $("#savefarm").css("display", 'none');
         } else {
-          $("#save1").css({
+          $("#savefarm").css({
             "display": 'block',
             "float": "right",
-            "margin-right": "330px",
+            "margin-right": "320px",
           });
         }
       }
     });
   }
 
-  function cancel() {
-    window.location.reload();
-  }
 
   function Del(mypage) {
     var agree = confirm("คุณต้องการลบข้อมูลหรือไม่");

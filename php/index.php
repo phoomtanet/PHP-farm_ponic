@@ -54,7 +54,9 @@ $total_pages = ceil($total_records / $perpage);
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-...(checksum)" crossorigin="anonymous" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
   <title>Bootstrap 5</title>
 </head>
 <style type="text/css">
@@ -73,15 +75,15 @@ $total_pages = ceil($total_records / $perpage);
     <div class="pt-5 main-content-div" style="text-align: center; align-items: center;  ">
       <div class="d-flex flex-nowrap justify-content-between text-center px-5  ">
         <div class="d-flex flex-nowrap justify-content-between text-center  ">
-          
+
           <div class="mx-2">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_plot" title="เพิ่มแปลงปลูก"> 
-              <i class="fas fa-plus"> </i> 
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_plot" title="เพิ่มแปลงปลูก">
+              <i class="fas fa-plus"> </i>
               <i class="fas fa-inbox"> </i>
 
             </button>
           </div>
-        
+
         </div>
         <div>
           <ul class="pagination justify-content-center">
@@ -132,9 +134,17 @@ $total_pages = ceil($total_records / $perpage);
                         <b class="text-danger"> <?php echo  ' ' . $col['row'] * $col['column'] - $total_vegetable_amount;   ?>
                       </td></b>
                     </tr>
+         <td  style="padding-top:100px; "> </td>
                     <tr>
-                      <th scope="col">ข้อมูล : </th>
-                      <td class="text-success"> <a href="../php/information_plot.php?id_plot_data=<?= $col['id_plot'] ?>&plot_name=<?= $col['plot_name'] ?>">เพิ่มเติม</a> </td>
+                      <td scope="col">
+                      <i class=" edit_plot btn fas fa-edit text-warning  " style='font-size:20px' data-bs-toggle="modal" data-bs-target="#edit_plot" title="แก้ไขแปลงปลูก" 
+                       data-edit_plot_name="<?= $col['plot_name'] ?>"    data-edit_plot_col="<?= $col['column'] ?>"  data-edit_plot_row="<?= $col['row'] ?>" data-id_edit_plot="<?= $col['id_plot'] ?>"> </i>
+
+                      </td>
+                      <td scope="col">
+                      <a class="btn fa-regular fa-trash-alt text-danger " style='font-size:20px'  href="../phpsql/insert_plot.php?id_plot_del=<?= $col['id_plot'] ?>"onclick="Del(this.href);return false;"> </a>
+
+                      </td>
                     </tr>
                   </table>
                 </div>
@@ -243,7 +253,8 @@ $total_pages = ceil($total_records / $perpage);
                         </tr>
                         <tr>
                           <th style="text-align: center;" scope="col">ข้อมูล :
-                           <span class="text-success"> <a href="../php/information_plot.php?id_plot_data=<?= $col['id_plot'] ?>&plot_name=<?= $col['plot_name'] ?>">เพิ่มเติม</a></span> </th>
+                            <span class="text-success"> <a href="../php/information_plot.php?id_plot_data=<?= $col['id_plot'] ?>&plot_name=<?= $col['plot_name'] ?>">เพิ่มเติม</a></span>
+                          </th>
 
                         </tr>
                     </table>
@@ -354,10 +365,10 @@ $total_pages = ceil($total_records / $perpage);
       <div class="modal-body">
         <form action="../phpsql/insert_plot.php" method="post" id="insertregister" name="insertregister" enctype="multipart/form-data">
           <label style="text-align: left; display: block;">ชื่อแปลง:</label><span id="user-availability-status"></span>
-          <input type="text" name="nameplot" class="form-control" placeholder="ป้อนชื่อแปลง.." onBlur="checkAvailability()" onkeyup="check_char(this)">
-          <label style="text-align: left; display: block;">แถว :</label>
+          <input type="text" name="nameplot"   class="form-control" placeholder="ป้อนชื่อแปลง.." onBlur="checkAvailability()" onkeyup="check_char(this)">
+          <label style="text-align: left; display: block;">แถว(ด้านยาว) :</label>
           <input type="number" name="row" class="form-control" placeholder="ป้อนตัวเลข'ด้านยาว' ...">
-          <label style="text-align: left; display: block;">คอลัมน์:</label>
+          <label style="text-align: left; display: block;">คอลัมน์(ด้านกว้าง) :</label>
           <input type="number" name="columne" class="form-control" placeholder="ป้อนตัวเลข'ด้านกว้าง' ..." required>
           <!-- Other form fields -->
       </div>
@@ -369,6 +380,35 @@ $total_pages = ceil($total_records / $perpage);
     </div>
   </div>
 </div>
+<!-- ฟอร์ม แก้ไชแปลง -->
+
+<div class="modal fade" id="edit_plot" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border border-dark ">
+      <div class="modal-header text-center" style="background-color: #212529;">
+        <h5 class="modal-title mx-auto text-white" style="text-align: center;" id="staticBackdropLabel">แก้ไขแปลง</h5>
+      </div>
+      <div class="modal-body">
+        <form action="../phpsql/insert_plot.php" method="post" id="insertregister" name="insertregister" enctype="multipart/form-data">
+        <input hidden type="text" name="id_edit_plot" id="id_edit_plot" class="form-control">
+     
+        <label style="text-align: left; display: block;">ชื่อแปลง:</label><span id="user-availability-status"></span>
+          <input type="text" name="edit_nameplot" id="edit_nameplot" class="form-control" onBlur="checkAvailability()" onkeyup="check_char(this)">
+          <label style="text-align: left; display: block;">แถว(ด้านยาว) :</label>
+          <input type="number" name="edit_row" id="edit_row" class="form-control"  required>
+          <label style="text-align: left; display: block;">คอลัมน์(ด้านกว้าง) :</label>
+          <input type="number" name="edit_col" id="edit_col" class="form-control"  required>
+          <!-- Other form fields -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="cancel()" data-bs-dismiss="modal">ยกเลิก</button>
+        <input type="submit" name="editplot"  class="btn btn-primary" value="ยืนยัน"></input>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <!-- ฟอร์ม เก็บเกี่ยว -->
 <div class="modal fade" id="add_harvest" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
@@ -443,6 +483,37 @@ $total_pages = ceil($total_records / $perpage);
 
 
 <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const moveButtons = document.querySelectorAll('.edit_plot');
+
+    moveButtons.forEach(function(button) {
+      button.addEventListener('click', function() {
+
+        const data_edit_plot_name = button.getAttribute('data-edit_plot_name');
+        const edit_plot_name = document.getElementById('edit_nameplot');
+        edit_plot_name.value = data_edit_plot_name;
+
+        const data_edit_plot_row = button.getAttribute('data-edit_plot_row');
+        const edit_plot_row = document.getElementById('edit_row');
+        edit_plot_row.value = data_edit_plot_row;
+
+        
+        const data_edit_plot_col = button.getAttribute('data-edit_plot_col');
+        const edit_plot_col = document.getElementById('edit_col');
+        edit_plot_col.value = data_edit_plot_col;
+
+        const data_id_edit_plot = button.getAttribute('data-id_edit_plot');
+        const id_edit_plot = document.getElementById('id_edit_plot');
+        id_edit_plot.value = data_id_edit_plot;
+
+
+
+
+      });
+    });
+  });
+
+
   document.addEventListener('DOMContentLoaded', function() {
     const moveButtons = document.querySelectorAll('.add_fertilizer');
 
@@ -520,6 +591,13 @@ $total_pages = ceil($total_records / $perpage);
     }
 
   }
+
+  function Del(mypage) {
+        var agree = confirm("ข้อมูลประวัติการเก็บเกี่ยวของแปลงจะถูกลบไปด้วย คุณต้องการลบข้อมูลหรือไม่");
+        if (agree) {
+            window.location = mypage;
+        }
+    }
 </script>
 
 </html>

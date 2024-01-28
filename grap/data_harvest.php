@@ -33,6 +33,3 @@ $data_vegh_count = array(
 // Return data in JSON format
 header('Content-Type: application/json');
 echo json_encode($data_vegh_count);
-
-
-

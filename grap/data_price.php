@@ -37,4 +37,4 @@ $data_price = array(
 // คืนค่าข้อมูลในรูปแบบ JSON
 header('Content-Type: application/json');
 echo json_encode($data_price);
-
+?>

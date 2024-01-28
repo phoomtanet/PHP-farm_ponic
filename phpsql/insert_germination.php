@@ -59,8 +59,7 @@ if (isset($_POST["edit"])) {
     $id_traysize = $_POST['name_traysize2'];
     $Amount_trays = $_POST['Amount_trays2'];
     $germination_date = $_POST['germination_date2'];
-    echo $id_traysize;
-    echo "ไอดีผัก $id_vegetable ";
+
 
 
     $sql_germination_amount = "SELECT a.row_tray ,a.column_tray 
