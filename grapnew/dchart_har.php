@@ -24,26 +24,51 @@ while ($row_h_veg = $rs_h_veg->fetch_assoc()) {
 
 
 <script>
-console.log(<?php echo json_encode($data_nh_veg); ?>);
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart_har);
 
-var xValues = <?php echo json_encode($data_nh_veg); ?>;
-var yValues = <?php echo json_encode($data_ch_veg); ?>;
-var barColors = ["#b91d47", "#00aba9", "#2b5797", "#e8c3b9", "#1e7145"];
-
-new Chart("dChart_har", {
-    type: "doughnut",
-    data: {
-        labels: yValues, // Use vegetable names as labels
-        datasets: [{
-            backgroundColor: barColors,
-            data: xValues // Use total amounts as data
-        }]
-    },
-    options: {
-        title: {
-            display: true,
-            text: "Vegetable Production Chart" // Customize the title as needed
-        }
+function drawChart_har() {
+    // Create a two-dimensional array from PHP data
+    var chartData_har = [['Vegetable Name', 'Total Amount']];
+    <?php
+    for ($i = 0; $i < count($data_ch_veg); $i++) {
+        echo "chartData_har.push(['" . $data_ch_veg[$i] . "', " .  $data_nh_veg[$i] . "]);\n";
     }
-});
+    ?>
+
+    const data_har = google.visualization.arrayToDataTable(chartData_har);
+
+    const options = {
+    title: 'กราฟแสดงจำนวนผักที่เก็บเกี่ยวย้านหลัง 30 วัน',
+    pieHole: 0.3,
+    titleTextStyle: {
+        color: 'black', // สีของตัวหนังสือ
+        // fontSize: 18, // ขนาดตัวหนังสือ
+        bold: true, // ตัวหนังสือหนา
+        italic: false, // ตัวหนังสือเอียง
+        textAlign: 'center' // การจัดวางข้อความ (center, start, end)
+      },
+      backgroundColor: 'transparent',
+      width: 500, // ปรับขนาดความกว้างตามที่คุณต้องการ
+      height: 300, // ปรับขนาดความสูงตามที่คุณต้องการ
+      // legend: { position: 'none' }
+    slices: {
+        0: { color: '#b91d47' },   // red
+        1: { color: '#00aba9' },   // teal
+        2: { color: '#2b5797' },   // blue
+        3: { color: '#e8c3b9' },   // light brown
+        4: { color: '#1e7145' },   // green
+        5: { color: '#ff6666' },   // light red
+        6: { color: '#006666' },   // dark teal
+        7: { color: '#4d4dff' },   // indigo
+        8: { color: '#ff9933' },   // orange
+        9: { color: '#339966' },   // dark green
+
+    },
+};
+    
+
+    const chart = new google.visualization.PieChart(document.getElementById('dChart_har'));
+    chart.draw(data_har, options);
+}
 </script>

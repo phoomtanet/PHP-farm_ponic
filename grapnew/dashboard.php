@@ -36,8 +36,10 @@ $formattedPrice = number_format($allprice);
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <!-- Include this in your HTML file -->
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
 
-   
+
 </head>
 <style>
     @media (max-width: 1000px) {
@@ -76,7 +78,7 @@ $formattedPrice = number_format($allprice);
 <body>
     <!-- สร้าง Top เมนู -->
     <?php include '../navbar/navbar.php'; ?>
-   
+
     <!-- เมนูด้านข้าง ( Side Menu ) -->
     <div class="d-flex flex-column p-3 text-white bg-dark side-menu" style="width: 250px; height: 100vh; position: fixed; left: -250px">
 
@@ -102,17 +104,14 @@ $formattedPrice = number_format($allprice);
             </div>
         </div>
         <div class="d-flex flex-wrap justify-content-center text-center ">
-            <div class="border p-2 m-2">
-            <canvas id="dChart_plan" style="width:100%;max-width:600px"></canvas>
-         
-                </div>
-            <div class="border p-2 m-2">
-            <canvas id="dChart_nur" style="width:100%;max-width:600px"></canvas>
-
+            <div class="border px-1 mx-1">
+                <div id="dChart_plan" style="width: 400px; height: 250px;"> </div>
             </div>
-            <div class="border p-2 m-2">
-            <canvas id="dChart_har" style="width:100%;max-width:600px"></canvas>
-
+            <div class="border px-1 mx-1">
+                <div id="dChart_nur" style="width: 400px; height: 250px;"> </div>
+            </div>
+            <div class="border px-1 mx-1">
+                <div id="dChart_har" style="width: 400px; height: 250px;"> </div>
             </div>
         </div>
 
@@ -123,25 +122,26 @@ $formattedPrice = number_format($allprice);
 
                 </div>
                 <div class="border px-4 mx-3">
-                <canvas id="Chart_num_slot" width="400" height="400"></canvas>
-                    
-      
-        </div>
- 
-         
-    </div>
+                    <canvas id="Chart_num_slot" width="400" height="400"></canvas>
+
+
+                </div>
+
+
+            </div>
+            <?php
+            include '../grapnew/chart_plot_price.php';
+            include '../grapnew/dchart_har.php';
+            include '../grapnew/dchart_c_veg.php';
+            include '../grapnew/dchar_c_nur.php';
+            include '../grapnew/chart_plot_slot.php';
+
+
+            ?>
 </body>
 
 
 <script src="../navbar/navbar.js"></script>
 
-<?php
-include '../grapnew/chart_plot_price.php';
-include '../grapnew/dchart_har.php';
-include '../grapnew/dchart_c_veg.php';
-include '../grapnew/dchar_c_nur.php';
-include '../grapnew/chart_plot_slot.php';
 
-
-?>
 </html>

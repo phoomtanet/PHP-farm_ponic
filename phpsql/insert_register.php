@@ -43,4 +43,3 @@ if ($result['user_name'] === $username) {
 }
 //}
 
-mysqli_close($conn);
