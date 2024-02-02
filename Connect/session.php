@@ -43,7 +43,9 @@ if (isset($_SESSION["f_name"])) {
 }
 
 if (!isset($_SESSION['user'])) {
-    // header('Location: loginform.php');
+
+    echo "<script>window.location = '../php/loginform.php'</script>";
+
 
   }
 

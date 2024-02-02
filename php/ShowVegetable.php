@@ -6,29 +6,22 @@ include '../Connect/session.php';
 date_default_timezone_set('asia/bangkok');
 $datenow = date("Y-m-d");
 
-$sql = "SELECT* FROM `tb_vegetable` as a
-INNER JOIN  tb_veg_farm as vt  ON vt.id_vegetable  = a.id_vegetable
-INNER JOIN  tb_farm as b  ON vt.id_farm = b.id_farm
-INNER JOIN tb_user as c   ON b.id_user = c.id_user
-INNER JOIN tb_fertilizer as d ON d.id_fertilizer  = a.id_fertilizer
-WHERE   b.id_farm = '$id_farm_session'";
-$result = mysqli_query($conn, $sql);
 
-$sql_pri = "SELECT * FROM `tb_vegetableprice` AS a
-INNER JOIN `tb_veg_farm` AS vt ON  vt.id_veg_farm =  a.id_veg_farm
-INNER JOIN `tb_vegetable` AS b ON vt.id_vegetable = b.id_vegetable ";
-$result_pri = mysqli_query($conn, $sql_pri);
-
-$sql_weight = "SELECT * FROM `tb_vegetableweight` AS a
-INNER JOIN `tb_veg_farm` AS vt ON vt.id_veg_farm =  a.id_veg_farm
-INNER JOIN `tb_vegetable` AS b ON  b.id_vegetable = vt.id_vegetable ";
-$result_weight = mysqli_query($conn, $sql_weight);
 
 $sql_fer = "SELECT * FROM `tb_fertilizer` as a 
 INNER JOIN tb_farm as b ON b.id_farm = a.id_farm 
 INNER JOIN tb_user as c ON c.id_user = b.id_user 
 WHERE b.name_farm = '$farm_name' AND c.user_name = '$user';";
 $result_sql_fer = mysqli_query($conn, $sql_fer);
+
+$sql_veg = "SELECT * FROM `tb_vegetable` AS v
+INNER JOIN  tb_veg_farm AS vf on v.id_vegetable = vf.id_vegetable
+INNER JOIN tb_farm AS f on f.id_farm = vf.id_farm
+INNER JOIN  tb_vegetableweight AS vw ON vw.id_veg_farm = vf.id_veg_farm
+INNER JOIN  tb_vegetableprice AS vp  ON vp.id_veg_farm = vf.id_veg_farm
+INNER JOIN tb_fertilizer as fl on fl.id_fertilizer = v.id_fertilizer
+WHERE f.id_farm = $id_farm_session";
+$rs_vet = mysqli_query($conn, $sql_veg );
 
 ?>
 
@@ -65,6 +58,7 @@ $result_sql_fer = mysqli_query($conn, $sql_fer);
   }
 </style>
 
+
 <body>
   <?php include '../navbar/navbar.php'; ?>
   <!-- เมนูด้านข้าง ( Side Menu ) -->
@@ -90,47 +84,45 @@ $result_sql_fer = mysqli_query($conn, $sql_fer);
           <th style="border: none;"></th>
           <th style="border: none;"></th>
           <th style="border: none;"></th>
-          <th style="border: none;"></th>
-          <th style="border: none;"></th>
+          <!-- <th style="border: none;"></th> -->
+          <!-- <th style="border: none;"></th> -->
           <th style="border: none; text-align: right;">
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_data_Modal"> 
-           <i class="fas fa-plus"></i><i class="fas fa-seedling"></i>
+            <button class="btn btn-primary text-nowrap" data-bs-toggle="modal" data-bs-target="#add_data_Modal">
+              <i class="fas fa-plus"></i><i class="fas fa-seedling"></i>
             </button>
           </th>
         </thead>
         <thead class="table-dark">
           <tr>
             <!-- <th>รหัสผัก</th> -->
-            <th>ชื่อผัก</th>
-            <th>ปุ๋ยที่ใช้</th>
-            <th>อายุผัก</th>
-            <th>รูป</th>
+            <th colspan="2">ชื่อผัก</th>
+            <th>ปุ๋ย</th>
+            <th>อายุ</th>
             <th>ราคา</th>
-            <th>จำนวนต้นต่อน้ำหนัก</th>
-            <th>น้ำหนักผัก</th>
-            <th>วันที่บันทึก</th>
-            <th>ลบข้อมูล</th>
-            <th>แก้ไขข้อมูล</th>
+            <th  class="text-nowrap">น้ำหนักเฉลี่ย</th>
+            <!-- <th>น้ำหนัก</th> -->
+            <!-- <th>วันที่บันทึก</th> -->
+            <th>ลบ</th>
+            <th>แก้ไข</th>
           </tr>
         </thead>
         <tbody>
-          <?php while ($row = mysqli_fetch_array($result)) { ?>
+          <?php while ($row = mysqli_fetch_array($rs_vet)) {
+          
+          ?>
             <tr>
-              <!-- <td><?= $row["id_vegetable"] ?></td> -->
-              <td><?= $row["vegetable_name"] ?></td>
-              <td><?= $row["fertilizer_name"] ?></td>
-              <td><?= $row["vegetable_age"] ?> วัน</td>
+
               <td><img src="../img/<?= $row['img_name'] ?>" style="width: 50px; border-radius: 50px;"></td>
 
-              <?php if ($row_pri = mysqli_fetch_array($result_pri)) { ?>
-                <td><?= $row_pri["price"] ?> บาท</td>
-              <?php } ?>
+              <td><?= $row["vegetable_name"] ?></td>
+              <td><?= $row["fertilizer_name"] ?></td>
+              <td class="text-nowrap"><?= $row["vegetable_age"] ?> วัน</td>
 
-              <?php if ($row_weight = mysqli_fetch_array($result_weight)) { ?>
-                <td><?= $row_weight["amount_tree"] ?> ต้น</td>
-                <td><?= $row_weight["vegetableweight"] ?> กก.</td>
-                <td><?= $row_weight["vegetableweightdate"] ?></td>
-              <?php } ?>
+                <td class="text-nowrap"><?= $row["price"] ?> บ.</td>
+
+                <td class="text-nowrap"><?= number_format($row["vegetableweight"] / $row["amount_tree"], 1) ?>  กรัม</td>
+                <!-- <td><?= $row["vegetableweight"] ?> กก.</td> -->
+                <!-- <td><?= $row["vegetableweightdate"] ?></td> -->
 
               <?php
               //แก้
@@ -142,6 +134,16 @@ $result_sql_fer = mysqli_query($conn, $sql_fer);
               $del2 = "SELECT id_veg_farm FROM tb_seed_germination WHERE id_veg_farm = '$idvegetable'";
               $nodel2 = mysqli_query($conn, $del2);
               $fet_nodel2 = mysqli_fetch_array($nodel2);
+
+              $new = "SELECT v.vegetable_name , pt.id_planting , vn.id_nursery  , sg.id_seed_germination
+              FROM `tb_veg_farm`  AS vf 
+              INNER JOIN tb_farm as f on vf.id_farm =  f.id_farm
+              INNER JOIN tb_vegetable AS v on v.id_vegetable = vf.id_veg_farm
+              RIGHT JOIN tb_planting as pt ON pt.id_veg_farm = vf.id_veg_farm
+              RIGHT JOIN tb_vegetable_nursery as vn ON vn.id_veg_farm = vf.id_veg_farm
+              RIGHT JOIN tb_seed_germination as sg ON sg.id_veg_farm = vf.id_veg_farm
+              WHERE f.id_farm = 1001";// แก้
+
 
               if ((isset($fet_nodel2['id_vegetable']))) {
               ?>
@@ -177,8 +179,8 @@ $result_sql_fer = mysqli_query($conn, $sql_fer);
           <th style="border: none;"></th>
           <th style="border: none;"></th>
           <th style="border: none; text-align: right;">
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_fertilizer_Modal"> 
-            <i class="fas fa-plus"></i><i class="fas fa-tint"></i>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_fertilizer_Modal">
+              <i class="fas fa-plus"></i><i class="fas fa-tint"></i>
             </button>
           </th>
         </thead>
@@ -241,7 +243,7 @@ $result_sql_fer = mysqli_query($conn, $sql_fer);
       <div class="modal-body">
 
         <form method="post" action="../phpsql/insert_vegatable.php" enctype="multipart/form-data">
-          <input type="text" name="id_farm" id="id_farm" class="form-control" value="<?=$id_farm_session?>" hidden>
+          <input type="text" name="id_farm" id="id_farm" class="form-control" value="<?= $id_farm_session ?>" hidden>
           <div class="row mt-2 mb-2">
             <div class="col">
               <label>ชื่อผัก : </label><span id="user-availability-status"></span>
@@ -434,25 +436,25 @@ $result_sql_fer = mysqli_query($conn, $sql_fer);
   }
 
   $(document).ready(function() {
-  $(document).on('click', '.update_data', function() {
-    var id = $(this).attr("id");
-    var id_veg_farm = $(this).attr("id_veg_farm");
+    $(document).on('click', '.update_data', function() {
+      var id = $(this).attr("id");
+      var id_veg_farm = $(this).attr("id_veg_farm");
 
-    $.ajax({
-      url: "../phpsql/select_vegeta_edit.php",
-      type: "POST",
-      cache: false,
-      data: {
-        id: id,
-        id_veg_farm: id_veg_farm  // Corrected syntax here
-      },
-      success: function(data) {
-        $('#info_update5').html(data);
-        // $('#editData5').modal('show');
-      }
+      $.ajax({
+        url: "../phpsql/select_vegeta_edit.php",
+        type: "POST",
+        cache: false,
+        data: {
+          id: id,
+          id_veg_farm: id_veg_farm // Corrected syntax here
+        },
+        success: function(data) {
+          $('#info_update5').html(data);
+          // $('#editData5').modal('show');
+        }
+      });
     });
   });
-});
 
 
   function Del(mypage) {

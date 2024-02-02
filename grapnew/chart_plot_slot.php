@@ -46,17 +46,29 @@ document.addEventListener('DOMContentLoaded', function() {
                 label: 'Total Price',
                 data: <?php echo json_encode($data_slot); ?>,
 
-                backgroundColor: 'rgba(255, 99, 132, 0.2)', // Adjust as needed
+                backgroundColor: 'rgba(255, 99, 132, 1)', // Adjust as needed
                 borderColor: 'rgba(255, 99, 132, 1)', // Adjust as needed
                 borderWidth: 1
             }]
         },
         options: {
             scales: {
+                x: {
+                    type: 'category', // เปลี่ยน type เป็น 'category' สำหรับแกน x
+                },
                 y: {
                     beginAtZero: true
                 }
-            }
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'จำนวนผักในแต่ละแปลงปลูก',
+                    font: {
+                        size: 16, // Set the font size
+                    },
+                },
+            },
         }
     });
 });

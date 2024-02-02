@@ -118,11 +118,11 @@ $formattedPrice = number_format($allprice);
         <div class="pt-3 main-content-div" style="text-align: center;">
             <div class="d-flex flex-wrap justify-content-center text-center ">
                 <div class="border px-4 mx-3">
-                    <canvas id="priceChart" width="400" height="400"></canvas>
+                    <canvas id="priceChart" width="400" height="300"></canvas>
 
                 </div>
                 <div class="border px-4 mx-3">
-                    <canvas id="Chart_num_slot" width="400" height="400"></canvas>
+                    <canvas id="Chart_num_slot" width="400" height="300"></canvas>
 
 
                 </div>
@@ -143,5 +143,30 @@ $formattedPrice = number_format($allprice);
 
 <script src="../navbar/navbar.js"></script>
 
+<script>
+  function toggleChart() {
+    var chartDiv = document.getElementById('dChart_plan');
+    var chartDivh = document.getElementById('dChart_nur');
+    var chartDivnur = document.getElementById('dChart_har');
 
+    // ใช้ style.visibility เพื่อเปลี่ยนสถานะการแสดงผล
+    if (chartDiv.style.visibility === 'hidden') {
+      // แสดงกราฟ
+      chartDiv.style.visibility = 'visible';
+      chartDivh.style.visibility = 'visible';
+      chartDivnur.style.visibility = 'visible';
+
+
+      // แสดงข้อมูลในกราฟ (ตัวอย่าง: แสดง alert)
+    } else {
+      // ซ่อนกราฟ
+      chartDiv.style.visibility = 'hidden';
+      chartDivh.style.visibility = 'hidden';
+      chartDivnur.style.visibility = 'hidden';
+
+
+      // ปิดข้อมูลในกราฟ (ตัวอย่าง: แสดง alert)
+    }
+  }
+</script>
 </html>

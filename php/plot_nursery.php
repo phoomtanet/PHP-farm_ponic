@@ -82,7 +82,7 @@ $result_plot__nursery = mysqli_query($conn, $sql_plot_nursery);
                             <th>วันที่เพาะ</th>
                             <th>อายุผัก</th>
                             <th>จำนวนต้น</th>
-                            <th>แก้ไข / ลบ</th>
+                            <th class="text-nowrap">แก้ไข / ลบ</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -128,14 +128,14 @@ $result_plot__nursery = mysqli_query($conn, $sql_plot_nursery);
                                     echo '<td style="border: none;">
                                 <a href="../php/move_germination.php?id_plotnursery=' . $col['id_plotnursery'] . '&emp_slot=' . $emp_slot  . '&plotnursery_name=' . $col['plotnursery_name'] . '" style="text-decoration: none; color: green;">
                                 <button class="btn btn-success btn-sm">
-                                <i class="">   <b>+'   . $currentPlotName  . '</button>
+                                <i class="text-nowrap">   <b>+'   . $currentPlotName  . '</button>
                                 <br>
                                 </a>
                          <span class="text-success" style="font-size: 13px;">' .  $emp_slot . 'ช่อง</span ></b></i> 
                                 </td>';
                                 } else {
                                     echo '<td ><button class="btn btn-danger btn-sm">
-                                    <i class="">   <b>'   . $currentPlotName . '</button>
+                                    <i class="text-nowrap">   <b>'   . $currentPlotName . '</button>
                                     <br>
                                     <span class="text-danger" style="font-size: 13px;">ช่องเต็ม</span ></b></i> 
                                     </td>';
@@ -151,25 +151,23 @@ $result_plot__nursery = mysqli_query($conn, $sql_plot_nursery);
                                     echo '<td>' . $age . ' วัน</td>';
                                     echo '<td>' . $col['nursery_amount'] . '</td>';
 
-                                    echo '<td>';
+                                    echo '<td class="text-nowrap">';
                                 echo'<i class="btn fas fa-edit edit-button2 text-warning" data-bs-toggle="modal" data-bs-target="#edit_nursery" 
                                 data-id_nursery="' . $col['id_nursery'] . '"
                                 data-vegetable_name="' . $col['vegetable_name'] . '"
                                 data-nursery_date="' . $col['nursery_date'] . '"
                                 data-nursery_amount="' . $col['nursery_amount'] . '"
-                                data-emp_slot="' . $emp_slot+ $col['nursery_amount'] . '"
+                                data-emp_slot="' . $emp_slot+ $col['nursery_amount'] . '" >
+                                </i>';
 
-                             
-                                ></i>';
-
-                                    echo '<a class="btn fa-regular fa-trash-alt text-danger" name="del_plotnursery" id="del_plotnursery" href="../phpsql/insert_plotnursery.php?id_nur=' . $col['id_nursery'] . '" onclick="Del(this.href); return false;"></a>                                 ';
+                                    echo '<a class="btn fa-regular fa-trash-alt text-danger " name="del_plotnursery" id="del_plotnursery" href="../phpsql/insert_plotnursery.php?id_nur=' . $col['id_nursery'] . '" onclick="Del(this.href); return false;"></a>                                 ';
 
                                     echo '</td>';
                                 } else {
                                     
                                     echo '<td style="border: none; colspan="2" ">
 
-                                     <i  class=" btn fas fa-edit  text-warning edit-button1" data-bs-toggle="modal" data-bs-target="#edit_plot_nursery" 
+                                     <i  class=" btn fas fa-edit  text-warning edit-button1 text-nowrap" data-bs-toggle="modal" data-bs-target="#edit_plot_nursery" 
                                     data-id_plotnursery="' . $col['id_plotnursery'] . '"
                                     data-plotnursery_name="' . $col['plotnursery_name'] . '"
                                     data-row="' . $col['row'] . '"

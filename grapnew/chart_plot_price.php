@@ -11,7 +11,7 @@ LEFT JOIN tb_vegetableweight AS vw ON vw.id_veg_farm = vf.id_veg_farm
 INNER JOIN tb_greenhouse AS g ON p.id_greenhouse = g.id_greenhouse
 WHERE g.id_greenhouse = '$id_greenhouse_session'
 GROUP BY p.plot_name 
-ORDER BY p.id_plot ASC";
+ORDER BY LENGTH(p.plot_name), p.plot_name";
 
 $result_price = $conn->query($sql_price);
 
@@ -42,17 +42,29 @@ document.addEventListener('DOMContentLoaded', function() {
                 label: 'Total Price',
                 data: <?php echo json_encode($data_price); ?>,
 
-                backgroundColor: 'rgba(255, 99, 132, 0.2)', // Adjust as needed
+                backgroundColor: 'rgba(255, 99, 132, 1)', // Adjust as needed
                 borderColor: 'rgba(255, 99, 132, 1)', // Adjust as needed
                 borderWidth: 1
             }]
         },
         options: {
             scales: {
+                x: {
+                    type: 'category', // เปลี่ยน type เป็น 'category' สำหรับแกน x
+                },
                 y: {
                     beginAtZero: true
                 }
-            }
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'รายได้ในแต่ละแปลงปลูก',
+                    font: {
+                        size: 16, // Set the font size
+                    },
+                },
+            },
         }
     });
 });
