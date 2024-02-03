@@ -25,6 +25,9 @@ $result_plan = mysqli_query($conn, $sql_plot_plan);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Ajax -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <title>Document</title>
 </head>
 
@@ -34,63 +37,71 @@ $result_plan = mysqli_query($conn, $sql_plot_plan);
         <ul class="nav nav-pills flex-column mb-auto pt-4 side_nav_menu">
     </div>
     <div class="pt-5 main-content-div" style=" text-align: center;">
-    <div class="d-flex  justify-content-start mx-5"  >
-<a href="../php/index.php">กลับ</a>
-</div>
+      
+        <br>
         <div class="container">
-            <div class="d-flex  flex-wrap justify-content-start">
-                <div class="px-5  mx-5 secondary border mb-2 ">
-                    <table class="border">
-                        <tr  >
-                            <td colspan="2" class="bg-primary text-nowrap rounded-top py-3" 
-                            style=" padding: 150px; "><b >Green Oak</b></td>
-                        </tr>
-                        <tr>
-                            <td class="mt-3" style="text-align: left;">
-                                <img src="../img/Butterhead1.jpg" class="rounded-bottom" style="width: 150px; ">
-                            </td>
-                            <td>
-                                <p style="text-align: left;">
-                                    อายุ 30 วัน <br>
-                                    จำนวน 270 ต้น <br>
-                                    วันที่เพาะ 2 ธ.ค. 65 <br>
-                                    ให้ปุ๋ย 30 ธ.ค. 66 <br>
-                                    เก็บเกี่ยว 2 ม.ค. 66
-                                </p>
-                            </td>
-                        </tr>
+
+            <div class="d-flex  flex-wrap justify-content-evenly">
+                <?php foreach ($result_plan as $row) {
+                    $thaimonth = array("ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค.");
+                    $thaiMonth = $thaimonth[date('n', strtotime($row["planting_date"])) - 1];
+
+                    $Date = new DateTime($row['planting_date']);
+                    $currentDate = new DateTime(); // วันที่ปัจจุบัน
+                    $diff = $Date->diff($currentDate);
+                    $age = $diff->format('%a');
+
+                    $planting_date = new DateTime($row['planting_date']);
+                    $vegetable_age = new DateInterval('P' . $row['vegetable_age'] . 'D');
+                    $date_harvest = $planting_date->add($vegetable_age)->format('Y-m-d');
 
 
-                    </table>
-                </div>
-                <div class="px-5  mx-5 secondary border">
-                    <table class="border">
-                        <tr>
-                            <td class="bg-primary rounded-top  py-3" style="padding: 150px;  "><b>Red Oak</b></td>
-                        </tr>
-                        <tr>
-                            <td class="mt-3">
-                                <img src="../img/Butterhead1.jpg" style="width: 150px; border-radius: 30px;">
-                            <td>
-                        </tr>
-                        <tr>
-                            <td>อายุ 30 วัน 270 ต้น</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>วันที่เพาะ 2 ธ.ค. 65</td>
-                        </tr>
-                        <tr>
-                            <td>ให้ปุ๋ยล่าสุด 30 ธ.ค. 66</td>
-                        </tr>
-                        <tr>
-                            <td>เก็บเกี่ยว 2 ม.ค. 66</td>
-                        </tr>
-                    </table>
-                </div>
+                    $thaiMonth_harvest  = $thaimonth[date('n', strtotime($date_harvest)) - 1];
+                ?>
+
+                    <div class="  mx-5 secondary mb-2 ">
+                        <table class="border">
+                            <tr>
+                            <th class="bg-secondary rounded-start">
+                                    <div class="d-flex justify-content-start mx-3 my-2 text-light">
+                                <?= $row["vegetable_name"] ?>
+                                </div>
+                                </th>
+                                <th class="bg-secondary rounded-end">
+                                    <div class="d-flex justify-content-end">
+                                        <a class="mx-2" style="color: red;" href="../phpsql/sql_planting.php?id_plan=<?= $row['id_planting'] ?>&id_plot=<?= $row['id_plot'] ?>&plot_name=<?= $name_plot  ?>" onclick="Del(this.href);return false;">
+                                            <i class="fa-regular fa-trash-can fa-xl"></i>
+                                        </a>
+                                        <a class="mx-2" type="button" class="edit-button" style="color: orange; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#update_data_Modal" data-greenhouse_name="<?= $row["name_greenhouse"] ?>" data-id_greenhouse="<?= $row["id_greenhouse"] ?>"><i class="fa-regular fa-pen-to-square fa-xl"></i></a>
+                                    </div>
+                                </th>
+
+                            </tr>
+                            <tr>
+                                <td class="mt-3 " style="text-align: left;">
+                                    <img src="../img/<?= $row['img_name'] ?>" class="rounded-bottom" style="width: 150px; ">
+                                </td>
+                                <td style="text-align: left; ">
+                                    <p class="px-4 text-nowrap">
+                                        อายุ <?= $age ?> วัน <br>
+                                        จำนวน <?= $row['vegetable_amount'] ?> ต้น <br>
+                                        วันที่เพาะ <?= date('d ', strtotime($row["planting_date"])) ?><?= $thaiMonth ?> <br>
+                                        ให้ปุ๋ยล่าสุด <?= date('d ', strtotime($row['fertilizationDate'])) ?><?= $thaiMonth_harvest ?><br>
+                                        วันเก็บเกี่ยว <?= date('d ', strtotime($date_harvest)) ?><?= $thaiMonth_harvest ?>
+                                    </p>
+                                </td>
+                            </tr>
+
+
+                        </table>
+                    </div>
+                <?php } ?>
+
+
             </div>
+        </div>
+        <div class="d-flex  justify-content-start mx-5">
+            <a href="../php/index.php  " class="mx-5">กลับ</a>
         </div>
         <!-- 
 
@@ -124,9 +135,9 @@ $result_plan = mysqli_query($conn, $sql_plot_plan);
                         $thaimonth = array("ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค.");
                         $thaiMonth = $thaimonth[date('n', strtotime($row["planting_date"])) - 1];
 
-                        $nurseryDate = new DateTime($row['planting_date']);
+                        $Date = new DateTime($row['planting_date']);
                         $currentDate = new DateTime(); // วันที่ปัจจุบัน
-                        $diff = $nurseryDate->diff($currentDate);
+                        $diff = $Date->diff($currentDate);
                         $age = $diff->format('%a');
 
                         $planting_date = new DateTime($row['planting_date']);
@@ -172,3 +183,11 @@ $result_plan = mysqli_query($conn, $sql_plot_plan);
 </body>
 
 </html>
+<script>
+     function Del(mypage) {
+        var agree = confirm("คุณต้องการลบข้อมูลหรือไม่");
+        if (agree) {
+            window.location = mypage;
+        }
+    }
+</script>
