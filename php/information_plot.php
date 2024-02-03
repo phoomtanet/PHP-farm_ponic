@@ -25,12 +25,9 @@ $result_plan = mysqli_query($conn, $sql_plot_plan);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
-<<<<<<< HEAD
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Ajax -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-=======
->>>>>>> c03b8d9bff0352a31b850c4233eed4fdca480355
     <title>Document</title>
 </head>
 
@@ -40,7 +37,6 @@ $result_plan = mysqli_query($conn, $sql_plot_plan);
         <ul class="nav nav-pills flex-column mb-auto pt-4 side_nav_menu">
     </div>
     <div class="pt-5 main-content-div" style=" text-align: center;">
-<<<<<<< HEAD
       
         <br>
         <div class="container">
@@ -107,66 +103,6 @@ $result_plan = mysqli_query($conn, $sql_plot_plan);
         <div class="d-flex  justify-content-start mx-5">
             <a href="../php/index.php  " class="mx-5">กลับ</a>
         </div>
-=======
-    <div class="d-flex  justify-content-start mx-5"  >
-<a href="../php/index.php">กลับ</a>
-</div>
-        <div class="container">
-            <div class="d-flex  flex-wrap justify-content-start">
-                <div class="px-5  mx-5 secondary border mb-2 ">
-                    <table class="border">
-                        <tr  >
-                            <td colspan="2" class="bg-primary text-nowrap rounded-top py-3" 
-                            style=" padding: 150px; "><b >Green Oak</b></td>
-                        </tr>
-                        <tr>
-                            <td class="mt-3" style="text-align: left;">
-                                <img src="../img/Butterhead1.jpg" class="rounded-bottom" style="width: 150px; ">
-                            </td>
-                            <td>
-                                <p style="text-align: left;">
-                                    อายุ 30 วัน <br>
-                                    จำนวน 270 ต้น <br>
-                                    วันที่เพาะ 2 ธ.ค. 65 <br>
-                                    ให้ปุ๋ย 30 ธ.ค. 66 <br>
-                                    เก็บเกี่ยว 2 ม.ค. 66
-                                </p>
-                            </td>
-                        </tr>
-
-
-                    </table>
-                </div>
-                <div class="px-5  mx-5 secondary border">
-                    <table class="border">
-                        <tr>
-                            <td class="bg-primary rounded-top  py-3" style="padding: 150px;  "><b>Red Oak</b></td>
-                        </tr>
-                        <tr>
-                            <td class="mt-3">
-                                <img src="../img/Butterhead1.jpg" style="width: 150px; border-radius: 30px;">
-                            <td>
-                        </tr>
-                        <tr>
-                            <td>อายุ 30 วัน 270 ต้น</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>วันที่เพาะ 2 ธ.ค. 65</td>
-                        </tr>
-                        <tr>
-                            <td>ให้ปุ๋ยล่าสุด 30 ธ.ค. 66</td>
-                        </tr>
-                        <tr>
-                            <td>เก็บเกี่ยว 2 ม.ค. 66</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
->>>>>>> c03b8d9bff0352a31b850c4233eed4fdca480355
         <!-- 
 
             <table class="table table-striped table-bordered">
@@ -199,15 +135,9 @@ $result_plan = mysqli_query($conn, $sql_plot_plan);
                         $thaimonth = array("ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค.");
                         $thaiMonth = $thaimonth[date('n', strtotime($row["planting_date"])) - 1];
 
-<<<<<<< HEAD
                         $Date = new DateTime($row['planting_date']);
                         $currentDate = new DateTime(); // วันที่ปัจจุบัน
                         $diff = $Date->diff($currentDate);
-=======
-                        $nurseryDate = new DateTime($row['planting_date']);
-                        $currentDate = new DateTime(); // วันที่ปัจจุบัน
-                        $diff = $nurseryDate->diff($currentDate);
->>>>>>> c03b8d9bff0352a31b850c4233eed4fdca480355
                         $age = $diff->format('%a');
 
                         $planting_date = new DateTime($row['planting_date']);
@@ -252,7 +182,6 @@ $result_plan = mysqli_query($conn, $sql_plot_plan);
 
 </body>
 
-<<<<<<< HEAD
 </html>
 <script>
      function Del(mypage) {
@@ -262,6 +191,3 @@ $result_plan = mysqli_query($conn, $sql_plot_plan);
         }
     }
 </script>
-=======
-</html>
->>>>>>> c03b8d9bff0352a31b850c4233eed4fdca480355
