@@ -118,11 +118,11 @@ $formattedPrice = number_format($allprice);
         <div class="pt-3 main-content-div" style="text-align: center;">
             <div class="d-flex flex-wrap justify-content-center text-center ">
                 <div class="border px-4 mx-3">
-                    <canvas id="priceChart" width="400" height="300"></canvas>
+                <canvas id="Chart_num_slot" width="400" height="300"></canvas>
 
                 </div>
                 <div class="border px-4 mx-3">
-                    <canvas id="Chart_num_slot" width="400" height="300"></canvas>
+                    <canvas id="priceChart" width="400" height="300"></canvas>
 
 
                 </div>

@@ -4,6 +4,7 @@ if (isset($_GET['id_plan'])) {
     $id_plan = $_GET['id_plan'];
     $id_plot = $_GET['id_plot'];
     $plot_name = $_GET['plot_name'];
+    $slot = $_GET['slot'];
     $sql_del_plan = "DELETE FROM `tb_planting` WHERE id_planting = $id_plan";
     mysqli_query($conn,$sql_del_plan);
    
@@ -19,10 +20,10 @@ if (isset($_GET['id_plan'])) {
        mysqli_query($conn, $update);
        $sql_del_fert = "DELETE FROM `tb_fertilizationdate` WHERE id_plot = '$id_plot'";
        mysqli_query($conn, $sql_del_fert);
-echo "<script> window.location='../php/index.php'</script>";
+    echo "<script> window.location='../php/index.php'</script>";
 
    }else{
-    echo "<script> window.location='../php/information_plot.php?id_plot_data=$id_plot&plot_name=$plot_name'</script>";
+    echo "<script> window.location='../php/information_plot.php?id_plot_data=$id_plot&plot_name=$plot_name&slot=$slot'</script>";
 
    }
 } else {

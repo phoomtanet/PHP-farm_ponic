@@ -302,7 +302,7 @@ $result_plot__nursery = mysqli_query($conn, $sql_plot_nursery);
                     <input type="number" name="nursery_amount" id="nursery_amount" oninput="check_amount()" class="form-control" required placeholder="จำนวนต้น">
   
                     <label style="text-align: left; display: block;">วันที่:</label>
-                    <input type="date" name="nursery_date" id="nursery_date" class="form-control" requiredmax="<?php echo date('Y-m-d'); ?>">
+                    <input type="date" name="nursery_date" id="nursery_date" class="form-control" required max="<?php echo date('Y-m-d'); ?>">
 
                              </div>
                  <div class="modal-footer">

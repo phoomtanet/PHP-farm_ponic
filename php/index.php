@@ -253,7 +253,7 @@ $total_pages = ceil($total_records / $perpage);
                         </tr>
                         <tr>
                           <th style="text-align: center;" scope="col">ข้อมูล :
-                            <span class="text-success"> <a href="../php/information_plot.php?id_plot_data=<?= $col['id_plot'] ?>&plot_name=<?= $col['plot_name'] ?>">เพิ่มเติม</a></span>
+                            <span class="text-success"> <a href="../php/information_plot.php?id_plot_data=<?= $col['id_plot'] ?>&plot_name=<?= $col['plot_name'] ?>&slot=<?=$col['row'] * $col['column'] - $total_vegetable_amount?>">เพิ่มเติม</a></span>
                           </th>
 
                         </tr>

@@ -2,10 +2,9 @@
 session_start();
 include '../Connect/conn.php';
 include "../Connect/session.php";
-if (isset($_GET['id_plot_data']) && isset($_GET['plot_name'])) {
     $id_plot_data = $_GET['id_plot_data'];
     $name_plot = $_GET['plot_name'];
-}
+    $slot = $_GET['slot'];
 $sql_plot_plan = "SELECT * FROM `tb_plot` as a 
 INNER JOIN tb_greenhouse as b on a.id_greenhouse = b.id_greenhouse 
 INNER JOIN tb_farm as c on b.id_farm = c.id_farm 
@@ -37,7 +36,7 @@ $result_plan = mysqli_query($conn, $sql_plot_plan);
         <ul class="nav nav-pills flex-column mb-auto pt-4 side_nav_menu">
     </div>
     <div class="pt-5 main-content-div" style=" text-align: center;">
-      
+
         <br>
         <div class="container">
 
@@ -57,22 +56,29 @@ $result_plan = mysqli_query($conn, $sql_plot_plan);
 
 
                     $thaiMonth_harvest  = $thaimonth[date('n', strtotime($date_harvest)) - 1];
+                    $thaiMonth_fer  = $thaimonth[date('n', strtotime($row["planting_date"])) - 1];
+
+                    $fertilizationDate = $row['fertilizationDate'];
+
+                    // แปลงวันที่เป็นวันที่แบบไทย
+                    $thaiDate_fer =date('d', strtotime($fertilizationDate)) . ' ' . $thaimonth[date('n', strtotime($fertilizationDate)) - 1];
+
                 ?>
 
                     <div class="  mx-5 secondary mb-2 ">
                         <table class="border">
                             <tr>
-                            <th class="bg-secondary rounded-start">
+                                <th class="bg-secondary rounded-start">
                                     <div class="d-flex justify-content-start mx-3 my-2 text-light">
-                                <?= $row["vegetable_name"] ?>
-                                </div>
+                                        <?= $row["vegetable_name"] ?>
+                                    </div>
                                 </th>
                                 <th class="bg-secondary rounded-end">
                                     <div class="d-flex justify-content-end">
-                                        <a class="mx-2" style="color: red;" href="../phpsql/sql_planting.php?id_plan=<?= $row['id_planting'] ?>&id_plot=<?= $row['id_plot'] ?>&plot_name=<?= $name_plot  ?>" onclick="Del(this.href);return false;">
+                                        <a class="mx-2" style="color: red;" href="../phpsql/sql_planting.php?id_plan=<?= $row['id_planting'] ?>&id_plot=<?= $row['id_plot'] ?>&plot_name=<?= $name_plot ?>&slot=<?= $slot ?>" onclick="Del(this.href);return false;">
                                             <i class="fa-regular fa-trash-can fa-xl"></i>
                                         </a>
-                                        <a class="mx-2" type="button" class="edit-button" style="color: orange; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#update_data_Modal" data-greenhouse_name="<?= $row["name_greenhouse"] ?>" data-id_greenhouse="<?= $row["id_greenhouse"] ?>"><i class="fa-regular fa-pen-to-square fa-xl"></i></a>
+                                        <a class="mx-2 edit-button" type="button" style="color: orange; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#update_data_Modal" data-vet_name="<?= $row["vegetable_name"] ?>" data-slot="<?= $slot ?> " data-amount="<?= $row["vegetable_amount"] ?>" data-date="<?= $row["planting_date"] ?> " data-date_fer="<?= $row["fertilizationDate"] ?> "><i class="fa-regular fa-pen-to-square fa-xl"></i></a>
                                     </div>
                                 </th>
 
@@ -86,7 +92,7 @@ $result_plan = mysqli_query($conn, $sql_plot_plan);
                                         อายุ <?= $age ?> วัน <br>
                                         จำนวน <?= $row['vegetable_amount'] ?> ต้น <br>
                                         วันที่เพาะ <?= date('d ', strtotime($row["planting_date"])) ?><?= $thaiMonth ?> <br>
-                                        ให้ปุ๋ยล่าสุด <?= date('d ', strtotime($row['fertilizationDate'])) ?><?= $thaiMonth_harvest ?><br>
+                                        ให้ปุ๋ยล่าสุด <?= $thaiDate_fer  ?><br>
                                         วันเก็บเกี่ยว <?= date('d ', strtotime($date_harvest)) ?><?= $thaiMonth_harvest ?>
                                     </p>
                                 </td>
@@ -100,91 +106,90 @@ $result_plan = mysqli_query($conn, $sql_plot_plan);
 
             </div>
         </div>
+
         <div class="d-flex  justify-content-start mx-5">
             <a href="../php/index.php  " class="mx-5">กลับ</a>
         </div>
-        <!-- 
+        <div class="modal fade" id="update_data_Modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border border-dark ">
+                    <div class="modal-header text-center" style="background-color: #212529;">
+                        <h5 class="modal-title mx-auto text-white" style="text-align: center;" id="staticBackdropLabel">แก้ไขการปลูก</h5>
+                    </div>
+                    <div class="modal-body">
+                        <form action="../phpsql/insert_plot.php" method="post" id="insertregister" name="insertregister" enctype="multipart/form-data">
+                            <label style="text-align: left; display: block;">ชื่อผัก:</label>
+                            <input type="text" id="vet_name" name="vet_name" readonly class="form-control">
 
-            <table class="table table-striped table-bordered">
-                <caption class="caption-top">ตารางแสดงข้อมูลแปลง <?php echo "$name_plot" ?> </caption>
-                <thead>
+                            <label style="text-align: left; display: block;">จำนวนช่องว่าง:</label>
+                            <input type="text" readonly id="amount_vet_emp" name="amount_vet_emp" class="form-control">
 
+                            <label style="text-align: left; display: block;">จำนวนต้น:</label>
+                            <input type="text" id="amount_vet" name="amount_vet" class="form-control" oninput="checkslot()">
 
-                    <th style="border: none;"><a href="../php/index.php">กลับ</a></th>
-                    <th style="border: none;"> </th>
-                    <th style="border: none;"> </th>
-                    <th style="border: none; text-align: right;"> </th>
+                            <label style="text-align: left; display: block;">วันที่เพาะ:</label>
+                            <input type="date" id="date_vet" name="date_vet" class="form-control" max="<?php echo date('Y-m-d'); ?>">
 
-
-                </thead>
-                <thead class="table-dark">
-                    <tr>
-                        <th>แปลง</th>
-                        <th colspan="2">ชื่อผัก</th>
-                        <th>จำนวน</th>
-                        <th>อายุผัก</th>
-                        <th>วันที่เพาะ</th>
-                        <th>วันที่เก็บเกี่ยวได้</th>
-
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    foreach ($result_plan as $row) {
-                        $thaimonth = array("ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค.");
-                        $thaiMonth = $thaimonth[date('n', strtotime($row["planting_date"])) - 1];
-
-                        $Date = new DateTime($row['planting_date']);
-                        $currentDate = new DateTime(); // วันที่ปัจจุบัน
-                        $diff = $Date->diff($currentDate);
-                        $age = $diff->format('%a');
-
-                        $planting_date = new DateTime($row['planting_date']);
-                        $vegetable_age = new DateInterval('P' . $row['vegetable_age'] . 'D');
-                        $date_harvest = $planting_date->add($vegetable_age)->format('Y-m-d');
-
-
-                        $thaiMonth_harvest  = $thaimonth[date('n', strtotime($date_harvest)) - 1];
-
-                    ?>
-                        <th style="border: none;"></th>
-                        <th style="border: none;"></th>
-                        <th style="border: none;"></th>
-                        <th style="border: none;"></th>
-                        <th style="border: none;"></th>
-                        <th style="border: none;"></th>
-                        <th style="border: none;"></th>
-                        <tr class="text-center">
-
-                            <td class="text-center"><?= $row["plot_name"] ?></td>
-
-                            <td class="text-center">
-                                <img src="../img/<?php echo $row['img_name'] ?>" style="width: 50px; border-radius: 50px;">
-                            </td>
-
-
-                            <td class="text-center"><?= $row["vegetable_name"] ?></td>
-                            <td><?= $row["vegetable_amount"] ?></td>
-                            <td><?= $age . " วัน" ?></td>
-                            <td><?= date('d ', strtotime($row["planting_date"])) ?><?= $thaiMonth ?></td>
-                            <td><?= date('d ', strtotime($date_harvest)) ?><?= $thaiMonth_harvest ?></td>
-
-
-                        </tr>
-                    <?php
-                    }
-                    // mysqli_close($conn);
-                    ?>
-                </tbody>
-            </table>
-        </div> -->
+                            <label style="text-align: left; display: block;">วันที่ให้ปุ๋ย:</label>
+                            <input type="date" name="date_fer" id="date_fer" class="form-control" required max="<?php echo date('Y-m-d'); ?>">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="cancel()" data-bs-dismiss="modal">ยกเลิก</button>
+                        <input type="submit" name="save" id="save1" class="btn btn-primary" value="ยืนยัน"></input>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
 </body>
 
 </html>
 <script>
-     function Del(mypage) {
+    document.addEventListener('DOMContentLoaded', function() {
+        const moveButtons = document.querySelectorAll('.edit-button');
+
+        moveButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+
+                const vet_name = button.getAttribute('data-vet_name');
+                const edit_vet_name = document.getElementById('vet_name');
+                edit_vet_name.value = vet_name;
+
+
+                const slot = button.getAttribute('data-slot');
+                const slot_var = document.getElementById('amount_vet_emp');
+                slot_var.value = slot
+
+                const vet_date = button.getAttribute('data-date');
+                const edit_vet_date = document.getElementById('date_vet');
+                const trimmed_date = vet_date.trim();
+                edit_vet_date.value = trimmed_date;
+
+                const vet_date_fer = button.getAttribute('data-date_fer');
+                const edit_date_fer = document.getElementById('date_fer');
+                const trimmed_date_fer = vet_date_fer.trim();
+                edit_date_fer.value = trimmed_date_fer;
+
+
+                console.log(vet_date);
+                const vet_amount = button.getAttribute('data-amount');
+                const edit_vet_amount = document.getElementById('amount_vet');
+                edit_vet_amount.value = vet_amount;
+
+                function checkslot() {
+
+
+                }
+
+
+
+            });
+        });
+    });
+
+
+    function Del(mypage) {
         var agree = confirm("คุณต้องการลบข้อมูลหรือไม่");
         if (agree) {
             window.location = mypage;
