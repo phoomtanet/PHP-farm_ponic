@@ -266,8 +266,8 @@ $result_plot__nursery = mysqli_query($conn, $sql_plot_nursery);
             <div class="modal-body">
                 <form action="../phpsql/insert_plotnursery.php" method="post" id="insertregister" name="insertregister" enctype="multipart/form-data">
                     <input type="hidden" name="id_plotnursery2" id="id_plotnursery2" required class="form-control">
-                    <label style="text-align: left; display: block;">ชื่อแปลง:</label><span id="user-availability-status"></span>
-                    <input type="text" name="plotnursery_name2" id="plotnursery_name2" required placeholder="ป้อนชื่อแแปลง" class="form-control">
+                    <label style="text-align: left; display: block;">ชื่อแปลง:</label><span id="span_edit"></span>
+                    <input type="text" name="plotnursery_name2" id="plotnursery_name2" required placeholder="ป้อนชื่อแแปลง" class="form-control" oninput="checknameEdit()">
                     <label style="text-align: left; display: block;">จำนวนแถว:</label>
                     <input type="text" name="row2" id="row2" class="form-control" required placeholder="แถว">
                     <label style="text-align: left; display: block;">จำนวนคอลัมน์:</label>
@@ -351,6 +351,28 @@ $result_plot__nursery = mysqli_query($conn, $sql_plot_nursery);
                     $("#insert_plotnursery").prop("disabled", true);
                 } else {
                     $("#insert_plotnursery").prop("disabled", false);
+               
+                }
+            }
+        });
+    }
+
+    function checknameEdit() {
+        $.ajax({
+            type: "POST",
+            url: "../phpsql/check_availability_vet.php",
+            cache: false,
+            data: {
+                type: 'tb_plot_nursery',
+                input_name: $("#plotnursery_name2").val(),
+                where: 'plotnursery_name',
+            },
+            success: function(data) {
+                $("#span_edit").html(data);
+                if (data.indexOf("ถูกใช้ไปแล้ว") !== -1) {
+                    $("#update_plotnursery").prop("disabled", true);
+                } else {
+                    $("#update_plotnursery").prop("disabled", false);
                
                 }
             }

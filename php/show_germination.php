@@ -348,8 +348,8 @@ $result_traysize = mysqli_query($conn, $name_traysize);
                     } ?>
                     </select> -->
                     <input value="<?php echo htmlspecialchars($greenhouse_name, ENT_QUOTES, 'UTF-8'); ?>" type="text" name="" readonly id="" class="form-control" required placeholder="ป้อนตัวเลข'ด้านกว้าง' ...">
-                    <label style="text-align: left; display: block;">ชื่อไซร์ถาด:</label>
-                    <input type="text" name="name_size2" id="name_size2" class="form-control" required placeholder="ป้อนชื่อไซร์ถาด...">
+                    <label style="text-align: left; display: block;">ชื่อไซร์ถาด:</label><span id="span_edit"></span>
+                    <input type="text" name="name_size2" id="name_size2" class="form-control" required placeholder="ป้อนชื่อไซร์ถาด..." oninput="checknameeEdit()">
                     <label style="text-align: left; display: block;">แถวถาดเพาะ:</label>
                     <input type="number" name="amount_row2" id="amount_row2" class="form-control" required placeholder="ป้อนตัวเลข'ด้านกว้าง' ...">
                     <label style="text-align: left; display: block;">คอลัมน์เพาะเมล็ด:</label>
@@ -402,6 +402,29 @@ $result_traysize = mysqli_query($conn, $name_traysize);
 
                 } else {
                     $("#save2").prop("disabled", false);
+               
+                }
+            }
+        });
+    }
+
+    function checknameeEdit() {
+        $.ajax({
+            type: "POST",
+            url: "../phpsql/check_availability_vet.php",
+            cache: false,
+            data: {
+                type: 'tb_traysize',
+                input_name: $("#name_size2").val(),
+                where: 'size_name',
+            },
+            success: function(data) {
+                $("#span_edit").html(data);
+                if (data.indexOf("ถูกใช้ไปแล้ว") !== -1) {
+                    $("#edit2").prop("disabled", true);
+
+                } else {
+                    $("#edit2").prop("disabled", false);
                
                 }
             }
