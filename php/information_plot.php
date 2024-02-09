@@ -150,6 +150,10 @@ $result_plan = mysqli_query($conn, $sql_plot_plan);
 
 </html>
 <script>
+     function cancel() {
+    // รีเฟรชหน้า
+    window.location.reload();
+  }
     document.addEventListener('DOMContentLoaded', function() {
         const moveButtons = document.querySelectorAll('.edit-button');
 
@@ -188,6 +192,8 @@ $result_plan = mysqli_query($conn, $sql_plot_plan);
                 edit_vet_amount.value = vet_amount;
                 edit_vet_amount_final.value = vet_amount;
 
+                var label_slot = document.getElementById('slot');
+                label_slot.value =  slot;
             });
         });
     });
