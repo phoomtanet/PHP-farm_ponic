@@ -13,6 +13,7 @@ WHERE g.id_greenhouse = '$id_greenhouse_session'
 GROUP BY p.plot_name 
 ORDER BY LENGTH(p.plot_name), p.plot_name";
 
+
 $result_price = $conn->query($sql_price);
 
 $data_price = array();
