@@ -364,8 +364,8 @@ $total_pages = ceil($total_records / $perpage);
       </div>
       <div class="modal-body">
         <form action="../phpsql/insert_plot.php" method="post" id="insertregister" name="insertregister" enctype="multipart/form-data">
-          <label style="text-align: left; display: block;">ชื่อแปลง:</label><span id="user-availability-status"></span>
-          <input type="text" name="nameplot"   class="form-control" placeholder="ป้อนชื่อแปลง.." onBlur="checkAvailability()" onkeyup="check_char(this)">
+          <label style="text-align: left; display: block;" >ชื่อแปลง:</label><span id="ets_plot"></span>
+          <input type="text" name="nameplot"  id="nameplot"  class="form-control" placeholder="ป้อนชื่อแปลง.." oninput="checkname()">
           <label style="text-align: left; display: block;">แถว(ด้านยาว) :</label>
           <input type="number" name="row" class="form-control" placeholder="ป้อนตัวเลข'ด้านยาว' ...">
           <label style="text-align: left; display: block;">คอลัมน์(ด้านกว้าง) :</label>
@@ -380,6 +380,9 @@ $total_pages = ceil($total_records / $perpage);
     </div>
   </div>
 </div>
+
+
+    
 <!-- ฟอร์ม แก้ไชแปลง -->
 
 <div class="modal fade" id="edit_plot" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -392,8 +395,8 @@ $total_pages = ceil($total_records / $perpage);
         <form action="../phpsql/insert_plot.php" method="post" id="insertregister" name="insertregister" enctype="multipart/form-data">
         <input hidden type="text" name="id_edit_plot" id="id_edit_plot" class="form-control">
      
-        <label style="text-align: left; display: block;">ชื่อแปลง:</label><span id="user-availability-status"></span>
-          <input type="text" name="edit_nameplot" id="edit_nameplot" class="form-control" onBlur="checkAvailability()" onkeyup="check_char(this)">
+        <label style="text-align: left; display: block;">ชื่อแปลง:</label><span id="ets_plotEdit"></span>
+          <input type="text" name="edit_nameplot" id="edit_nameplot" class="form-control" oninput="checknameEdit()">
           <label style="text-align: left; display: block;">แถว(ด้านยาว) :</label>
           <input type="number" name="edit_row" id="edit_row" class="form-control"  required>
           <label style="text-align: left; display: block;">คอลัมน์(ด้านกว้าง) :</label>
@@ -402,12 +405,13 @@ $total_pages = ceil($total_records / $perpage);
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" onclick="cancel()" data-bs-dismiss="modal">ยกเลิก</button>
-        <input type="submit" name="editplot"  class="btn btn-primary" value="ยืนยัน"></input>
+        <input type="submit" name="editplot" id="editplot"  class="btn btn-primary" value="ยืนยัน"></input>
       </div>
       </form>
     </div>
   </div>
 </div>
+
 
 <!-- ฟอร์ม เก็บเกี่ยว -->
 <div class="modal fade" id="add_harvest" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -476,7 +480,7 @@ $total_pages = ceil($total_records / $perpage);
   let fertilizationdateInput = document.getElementById("fertilizationdate");
   fertilizationdate.value = today;
   // รีเฟรชหน้า
-  function cancelAndReload() {
+  function cancel() {
     window.location.reload();
   }
 </script>
@@ -570,6 +574,7 @@ $total_pages = ceil($total_records / $perpage);
   });
 </script>
 <script>
+
   function checkValue() {
 
 
@@ -597,6 +602,51 @@ $total_pages = ceil($total_records / $perpage);
         if (agree) {
             window.location = mypage;
         }
+    }
+
+    
+
+    function checkname() {
+        $.ajax({
+            type: "POST",
+            url: "../phpsql/check_availability_vet.php",
+            cache: false,
+            data: {
+                type: 'tb_plot',
+                input_name: $("#nameplot").val(),
+                where: 'plot_name',
+            },
+            success: function(data) {
+                $("#ets_plot").html(data);
+                if (data.indexOf("ถูกใช้ไปแล้ว") !== -1) {
+                    $("#save1").prop("disabled", true);
+                } else {
+                    $("#save1").prop("disabled", false);
+               
+                }
+            }
+        });
+      }
+        function checknameEdit() {
+        $.ajax({
+            type: "POST",
+            url: "../phpsql/check_availability_vet.php",
+            cache: false,
+            data: {
+                type: 'tb_plot',
+                input_name: $("#edit_nameplot").val(),
+                where: 'plot_name',
+            },
+            success: function(data) {
+                $("#ets_plotEdit").html(data);
+                if (data.indexOf("ถูกใช้ไปแล้ว") !== -1) {
+                    $("#editplot").prop("disabled", true);
+                } else {
+                    $("#editplot").prop("disabled", false);
+               
+                }
+            }
+        });
     }
 </script>
 

@@ -308,7 +308,7 @@ $result_plot__nursery = mysqli_query($conn, $sql_plot_nursery);
                  <div class="modal-footer">
                 <!-- <input type="submit" name="del_plotnursery" id="del_plotnursery" class="btn btn-danger" value="ลบแปลง"></input> -->
 
-                <button type="button" class="btn btn-secondary" onclick="cancelAndReload()()" data-bs-dismiss="modal">ยกเลิก</button>
+                <button type="button" class="btn btn-secondary" onclick="cancel()" data-bs-dismiss="modal">ยกเลิก</button>
                 <input type="submit" name="update_nursery" id="update_nursery" class="btn btn-primary" value="ยืนยัน"></input>
             </div>
             </form>
@@ -324,7 +324,7 @@ $result_plot__nursery = mysqli_query($conn, $sql_plot_nursery);
     germinationDateInput.value = today;
 
     // รีเฟรชหน้า
-    function cancelAndReload() {
+    function cancel() {
         window.location.reload();
     }
 
@@ -338,7 +338,7 @@ $result_plot__nursery = mysqli_query($conn, $sql_plot_nursery);
     function checkname() {
         $.ajax({
             type: "POST",
-            url: "../phpsql/check_availability.php",
+            url: "../phpsql/check_availability_vet.php",
             cache: false,
             data: {
                 type: 'tb_plot_nursery',
