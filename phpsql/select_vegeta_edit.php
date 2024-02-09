@@ -115,13 +115,9 @@ $rs3 = mysqli_fetch_array($result3);
       success: function(data) {
         $("#vegeta-availability-status").html(data);
         if (data.indexOf("ถูกใช้ไปแล้ว") !== -1) {
-          $("#edit1").css("display", 'none');
+          $("#edit1").prop("disabled", true);
         } else {
-          $("#edit1").css({
-            "display": 'block',
-            "float": "right",
-            "margin-right": "330px",
-          });
+          $("#edit1").prop("disabled", false);
         }
       }
     });

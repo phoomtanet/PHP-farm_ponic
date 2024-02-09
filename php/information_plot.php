@@ -2,9 +2,9 @@
 session_start();
 include '../Connect/conn.php';
 include "../Connect/session.php";
-    $id_plot_data = $_GET['id_plot_data'];
-    $name_plot = $_GET['plot_name'];
-    $slot = $_GET['slot'];
+$id_plot_data = $_GET['id_plot_data'];
+$name_plot = $_GET['plot_name'];
+$slot = $_GET['slot'];
 $sql_plot_plan = "SELECT * FROM `tb_plot` as a 
 INNER JOIN tb_greenhouse as b on a.id_greenhouse = b.id_greenhouse 
 INNER JOIN tb_farm as c on b.id_farm = c.id_farm 
@@ -61,7 +61,7 @@ $result_plan = mysqli_query($conn, $sql_plot_plan);
                     $fertilizationDate = $row['fertilizationDate'];
 
                     // แปลงวันที่เป็นวันที่แบบไทย
-                    $thaiDate_fer =date('d', strtotime($fertilizationDate)) . ' ' . $thaimonth[date('n', strtotime($fertilizationDate)) - 1];
+                    $thaiDate_fer = date('d', strtotime($fertilizationDate)) . ' ' . $thaimonth[date('n', strtotime($fertilizationDate)) - 1];
 
                 ?>
 
@@ -75,10 +75,10 @@ $result_plan = mysqli_query($conn, $sql_plot_plan);
                                 </th>
                                 <th class="bg-secondary rounded-end">
                                     <div class="d-flex justify-content-end">
-                                        <a class="mx-2" style="color: red;" href="../phpsql/sql_planting.php?id_plan=<?= $row['id_planting'] ?>&id_plot=<?= $row['id_plot'] ?>&plot_name=<?= $name_plot ?>&slot=<?= $slot ?>" onclick="Del(this.href);return false;">
+                                        <a class="mx-2" style="color: red;" href="../phpsql/sql_planting.php?id_plan_del=<?= $row['id_planting'] ?>&id_plot=<?= $row['id_plot'] ?>&plot_name=<?= $name_plot ?>&slot=<?= $slot ?>" onclick="Del(this.href);return false;">
                                             <i class="fa-regular fa-trash-can fa-xl"></i>
                                         </a>
-                                        <a class="mx-2 edit-button" type="button" style="color: orange; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#update_data_Modal" data-vet_name="<?= $row["vegetable_name"] ?>" data-slot="<?= $slot ?> " data-amount="<?= $row["vegetable_amount"] ?>" data-date="<?= $row["planting_date"] ?> " data-date_fer="<?= $row["fertilizationDate"] ?> "><i class="fa-regular fa-pen-to-square fa-xl"></i></a>
+                                        <a class="mx-2 edit-button" type="button" style="color: orange; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#update_data_Modal" data-id_planting="<?= $row["id_planting"] ?>" data-vet_name="<?= $row["vegetable_name"] ?>" data-slot="<?= $slot ?> " data-amount="<?= $row["vegetable_amount"] ?>" data-date="<?= $row["planting_date"] ?> " data-date_fer="<?= $row["fertilizationDate"] ?> "><i class="fa-regular fa-pen-to-square fa-xl"></i></a>
                                     </div>
                                 </th>
 
@@ -117,25 +117,29 @@ $result_plan = mysqli_query($conn, $sql_plot_plan);
                         <h5 class="modal-title mx-auto text-white" style="text-align: center;" id="staticBackdropLabel">แก้ไขการปลูก</h5>
                     </div>
                     <div class="modal-body">
-                        <form action="../phpsql/insert_plot.php" method="post" id="insertregister" name="insertregister" enctype="multipart/form-data">
+                        <form action="../phpsql/sql_planting.php" method="post" id="insertregister" name="insertregister" enctype="multipart/form-data">
                             <label style="text-align: left; display: block;">ชื่อผัก:</label>
                             <input type="text" id="vet_name" name="vet_name" readonly class="form-control">
 
                             <label style="text-align: left; display: block;">จำนวนช่องว่าง:</label>
                             <input type="text" readonly id="amount_vet_emp" name="amount_vet_emp" class="form-control">
 
-                            <label style="text-align: left; display: block;">จำนวนต้น:</label>
-                            <input type="text" id="amount_vet" name="amount_vet" class="form-control" oninput="checkslot()">
-
-                            <label style="text-align: left; display: block;">วันที่เพาะ:</label>
-                            <input type="date" id="date_vet" name="date_vet" class="form-control" max="<?php echo date('Y-m-d'); ?>">
+                            <label style="text-align: left; display: block;" id="l_num">จำนวนต้น:</label>
+                            <input type="number" id="amount_vet" name="amount_vet" class="form-control" oninput="checkslot()">
+                            <input hidden type="text" id="amount_vet_final" name="amount_vet_final" class="form-control">
+                            <input type="text" hidden id="id_planting" name="id_planting" class="form-control">
+                            <input type="text" hidden id="id_plot" name="id_plot"  value= <?=$id_plot_data ?>>
+                            <input type="text" hidden id="plot_name" name="plot_name"  value= <?=$name_plot?>>
+                            <input type="text" hidden id="slot" name="slot"  >
+                             <label style="text-align: left; display: block;">วันที่เพาะ:</label>
+                            <input type="date" id="date_vet" name="date_vet" class="form-control" required max="<?php echo date('Y-m-d'); ?>">
 
                             <label style="text-align: left; display: block;">วันที่ให้ปุ๋ย:</label>
                             <input type="date" name="date_fer" id="date_fer" class="form-control" required max="<?php echo date('Y-m-d'); ?>">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" onclick="cancel()" data-bs-dismiss="modal">ยกเลิก</button>
-                        <input type="submit" name="save" id="save1" class="btn btn-primary" value="ยืนยัน"></input>
+                        <input type="submit" name="edit_plan" id="edit_plan" class="btn btn-primary" value="ยืนยัน"></input>
                     </div>
                     </form>
                 </div>
@@ -151,6 +155,12 @@ $result_plan = mysqli_query($conn, $sql_plot_plan);
 
         moveButtons.forEach(function(button) {
             button.addEventListener('click', function() {
+
+
+
+                const data_id_planting = button.getAttribute('data-id_planting');
+                const id_planting = document.getElementById('id_planting');
+                id_planting.value = data_id_planting;
 
                 const vet_name = button.getAttribute('data-vet_name');
                 const edit_vet_name = document.getElementById('vet_name');
@@ -172,22 +182,39 @@ $result_plan = mysqli_query($conn, $sql_plot_plan);
                 edit_date_fer.value = trimmed_date_fer;
 
 
-                console.log(vet_date);
                 const vet_amount = button.getAttribute('data-amount');
                 const edit_vet_amount = document.getElementById('amount_vet');
+                const edit_vet_amount_final = document.getElementById('amount_vet_final');
                 edit_vet_amount.value = vet_amount;
-
-                function checkslot() {
-
-
-                }
-
-
+                edit_vet_amount_final.value = vet_amount;
 
             });
         });
     });
 
+    function checkslot() {
+
+        var fvet_amount = parseInt(document.getElementById('amount_vet').value);
+        var fvet_amount_final = parseInt(document.getElementById('amount_vet_final').value);
+        const emp_slot = parseInt(document.getElementById('amount_vet_emp').value);
+        var label = document.getElementById('l_num');
+        var edit_planButton = document.getElementById("edit_plan");
+        var label_slot = document.getElementById('slot');
+
+ 
+        if (fvet_amount > fvet_amount_final + emp_slot) {
+            label.innerHTML = '<label style="text-align: left; display: block;" class="text-danger" >จำนวนต้นมากกว่าช่องว่างในแปลง:</label>';
+            console.log(fvet_amount);
+            console.log(fvet_amount_final);
+            edit_planButton.disabled = true;
+        
+
+        } else {
+            label.innerHTML = '<label style="text-align: left; display: block;">จำนวนต้น:</label>';
+            edit_planButton.disabled = false;
+            label_slot.value = fvet_amount_final + emp_slot - fvet_amount 
+        }
+    }
 
     function Del(mypage) {
         var agree = confirm("คุณต้องการลบข้อมูลหรือไม่");

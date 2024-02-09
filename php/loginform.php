@@ -143,13 +143,9 @@ include '../Connect/conn.php';
         success: function(data) {
           $("#user-availability-status").html(data);
           if (data.indexOf("ถูกใช้ไปแล้ว") !== -1) {
-            $("#save1").css("display", 'none');
+            $("#save1").prop("disabled", true);
           } else {
-            $("#save1").css({
-              "display": 'block',
-              "float": "right",
-              // "margin-right": "330px",
-            });
+            $("#save1").prop("disabled", false);
           }
         }
       });

@@ -67,7 +67,7 @@ $rs_vet = mysqli_query($conn, $sql_veg );
   </div>
 
   <!-- ตารางผัก -->
-  <div class="pt-5 main-content-div" style=" text-align: center;">
+  <div class="pt-3 main-content-div" style=" text-align: center;">
 
     <div class="container" style="margin-top: 20px;">
       <table class="table table-striped table-bordered">
@@ -277,7 +277,7 @@ $rs_vet = mysqli_query($conn, $sql_veg );
               <input type="number" name="amount_tree" id="amount_tree" class="form-control" required min="0" placeholder="ป้อนจำนวนต่อน้ำหนัก...">
             </div>
             <div class="col">
-              <label>น้ำหนักผัก : กก. </label>
+              <label>น้ำหนักผัก : กรัม. </label>
               <input type="number" step="any" name="vegetableweight" id="vegetableweight" class="form-control" required min="0" placeholder="ป้อนน้ำหนัก...">
             </div>
           </div>
@@ -308,11 +308,9 @@ $rs_vet = mysqli_query($conn, $sql_veg );
       <div class="modal-body">
 
         <form method="post" action="../phpsql/insert_fertilizer.php" enctype="multipart/form-data">
-          <label class="mb-2">ชื่อฟาร์ม: </label>
-          <input type="text" name="id_farm_fer" id="id_farm_fer" class="form-control mb-2" value="<?php echo $id_farm_session; ?>" readonly hidden>
           <input type="text" class="form-control mb-2" value="<?php echo $_SESSION["farm_name"]; ?>" readonly hidden>
           <label class="mb-2">ชื่อปุ๋ย: </label><span id="fertilizer-availability-status"></span>
-          <input type="text" name="fertilizer_name" id="fertilizer_name" class="form-control" required placeholder="ป้อนชื่อปุ๋ย...">
+          <input type="text" name="fertilizer_name" id="fertilizer_name" class="form-control" oninput="checkFertilizername()" required placeholder="ป้อนชื่อปุ๋ย...">
           <button type="button" class="mt-2 btn btn-secondary" onclick="cancel()" data-bs-dismiss="modal">ยกเลิก</button>
           <button type="submit" name="save2" id="save2" class="mt-2 btn btn-success">บันทึก</button>
         </form>
@@ -353,9 +351,7 @@ $rs_vet = mysqli_query($conn, $sql_veg );
 
         <form method="post" action="../phpsql/update_fertilizer.php" enctype="multipart/form-data">
           <input type="text" name="id_fertilizeredit" id="id_fertilizeredit" class="form-control" hidden>
-          <label class="mb-2">ชื่อฟาร์ม: </label>
-          <input type="text" name="id_farm" id="id_farm" class="form-control mb-2" value="<?php echo $_SESSION["farm_name"]; ?>" readonly>
-          <label class="mb-2">ชื่อปุ๋ย: </label>
+           <label class="mb-2">ชื่อปุ๋ย: </label>
           <input type="text" name="fertilizer_name_edit" id="fertilizer_name_edit" class="form-control" required>
           <button type="button" class="mt-2 btn btn-secondary" onclick="cancel()" data-bs-dismiss="modal">ยกเลิก</button>
           <button type="submit" name="save2" id="save2" class="mt-2 btn btn-success">บันทึก</button>
@@ -382,13 +378,9 @@ $rs_vet = mysqli_query($conn, $sql_veg );
       success: function(data) {
         $("#user-availability-status").html(data);
         if (data.indexOf("ถูกใช้ไปแล้ว") !== -1) {
-          $("#save1").css("display", 'none');
+          $("#save1").prop("disabled", true);
         } else {
-          $("#save1").css({
-            "display": 'block',
-            "float": "right",
-            "margin-right": "310px",
-          });
+          $("#save1").prop("disabled", false);
         }
       }
     });
@@ -407,13 +399,9 @@ $rs_vet = mysqli_query($conn, $sql_veg );
       success: function(data) {
         $("#fertilizer-availability-status").html(data);
         if (data.indexOf("ถูกใช้ไปแล้ว") !== -1) {
-          $("#save2").css("display", 'none');
+          $("#save2").prop("disabled", true);
         } else {
-          $("#save2").css({
-            "display": 'block',
-            "float": "right",
-            "margin-right": "330px",
-          });
+          $("#save2").prop("disabled", false);
         }
       }
     });
@@ -467,16 +455,12 @@ $rs_vet = mysqli_query($conn, $sql_veg );
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    // Get all elements with the class "move-button"
     const moveButtons = document.querySelectorAll('.edit-button');
-    // Add a click event listener to each button
     moveButtons.forEach(function(button) {
       button.addEventListener('click', function() {
-        // Get the values from the data attributes
         const fertilizer_name = button.getAttribute('data-fertilizer_name');
         const id_fertilizeredit = button.getAttribute('data-id_fertilizer');
 
-        // Set the values in the input fields
         const fertilizer_nameField = document.getElementById('fertilizer_name_edit'); // You may need to use a different ID if necessary
         fertilizer_nameField.value = fertilizer_name;
         const id_fertilizereditField = document.getElementById('id_fertilizeredit'); // You may need to use a different ID if necessary

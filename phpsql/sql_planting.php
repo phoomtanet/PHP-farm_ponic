@@ -1,7 +1,7 @@
 <?php 
 include '../Connect/conn.php';
-if (isset($_GET['id_plan'])) {
-    $id_plan = $_GET['id_plan'];
+if (isset($_GET['id_plan_del'])) {
+    $id_plan = $_GET['id_plan_del'];
     $id_plot = $_GET['id_plot'];
     $plot_name = $_GET['plot_name'];
     $slot = $_GET['slot'];
@@ -26,7 +26,26 @@ if (isset($_GET['id_plan'])) {
     echo "<script> window.location='../php/information_plot.php?id_plot_data=$id_plot&plot_name=$plot_name&slot=$slot'</script>";
 
    }
-} else {
-    echo "ID parameter is missing or empty.";
+} 
+
+
+
+if(isset($_POST['edit_plan'])){
+$amount_vet = $_POST['amount_vet'];
+$id_planting  = $_POST['id_planting'];
+$date_vet = $_POST['date_vet'];
+$date_fer = $_POST['date_fer'];
+$plot_name = $_POST['plot_name'];
+$id_plot = $_POST['id_plot'];
+$slot = $_POST['slot'];
+
+
+$sql_editPlanting = "UPDATE `tb_planting` SET `vegetable_amount`= $amount_vet ,`planting_date`='$date_vet'  WHERE id_planting = $id_planting  ";
+$sql_editFer = "UPDATE `tb_fertilizationdate` SET `fertilizationDate`= '$date_fer' WHERE id_plot = $id_plot";
+mysqli_query($conn,$sql_editPlanting);
+mysqli_query($conn, $sql_editFer);
+echo "<script> window.location='../php/information_plot.php?id_plot_data=$id_plot&plot_name=$plot_name&slot=$slot'</script>";
+
+
 }
  ?>

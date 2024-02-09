@@ -49,8 +49,8 @@ $result_plot__nursery = mysqli_query($conn, $sql_plot_nursery);
         <ul class="nav nav-pills flex-column mb-auto pt-4 side_nav_menu"></ul>
     </div>
     <!-- เนื้อหาหลัก -->
-    <div class=" main-content-div  p-1 " style="  text-align: center;  height: 100%;">
-        <div class="pt-5 main-content-div" style="text-align: center; align-items: center;  ">
+    <div class=" main-content-div  " style="  text-align: center;  height: 100%;">
+        <div class="pt-3 main-content-div" style="text-align: center; align-items: center;  ">
             <div class="d-flex flex-nowrap justify-content-around text-center  ">
                 <div>
                 </div>
@@ -348,13 +348,10 @@ $result_plot__nursery = mysqli_query($conn, $sql_plot_nursery);
             success: function(data) {
                 $("#user-availability-status").html(data);
                 if (data.indexOf("ถูกใช้ไปแล้ว") !== -1) {
-                    $("#save2").css("display", 'none');
+                    $("#insert_plotnursery").prop("disabled", true);
                 } else {
-                    $("#save2").css({
-                        "display": 'block',
-                        "float": "right",
-                        "margin-right": "330px",
-                    });
+                    $("#insert_plotnursery").prop("disabled", false);
+               
                 }
             }
         });

@@ -58,7 +58,7 @@ $result_traysize = mysqli_query($conn, $name_traysize);
         <ul class="nav nav-pills flex-column mb-auto pt-4 side_nav_menu"></ul>
     </div>
     <!-- ตารางแปลงเพาะ -->
-    <div class="pt-5 main-content-div" style=" text-align: center;">
+    <div class="pt-3 main-content-div" style=" text-align: center;">
         <div class="container" style="margin-top: 20px;">
             <table class="table table-striped table-bordered">
                 <caption class="caption-top">ตารางแสดงข้อมูลแปลงผักเพาะเม็ด </caption>
@@ -107,7 +107,7 @@ $result_traysize = mysqli_query($conn, $name_traysize);
                         <th style="border: none;"></th>
                         <th style="border: none;"></th>
                         <tr class="text-center">
-                            <td class="text-center">
+                            <td class="text-center text-nowrap">
                                 <img src="../img/<?php echo $row['img_name'] ?>" style="width: 50px; border-radius: 50px;">
                             </td>
                             <td class="text-center"><?= $row["vegetable_name"] ?></td>
@@ -115,9 +115,9 @@ $result_traysize = mysqli_query($conn, $name_traysize);
                             <td class="text-center"><?= $row["size_name"] ?></td>
                             <td><?= $row["Amount_trays"] ?></td>
                             <td><?= date('d/m', strtotime($row["germination_date"])) ?></td>
-                            <td><?= $daysDifference  . ' วัน' ?></td>
+                            <td class="text-nowrap"><?= $daysDifference  . ' วัน' ?></td>
                             <td><?= $row["germination_amount"] ?></td>
-                            <td>
+                            <td class="text-nowrap">
                                 <i class="btn fas fa-edit text-warning edit-button1" data-bs-toggle="modal" data-bs-target="#edit_germination" data-id_seed_germination="<?= $row["id_seed_germination"] ?>" data-name_vegetable="<?= $row["vegetable_name"] ?>" data-id_veg_farm="<?= $row["id_veg_farm"] ?>" data-name_greenhouse="<?= $row['id_greenhouse'] ?>" data-Amount_trays="<?= $row["Amount_trays"] ?>" data-germination_date="<?= $row["germination_date"] ?>" data-name_traysize="<?= $row["size_name"] ?>" data-id_traysize="<?= $row["id_traysize"] ?>"></i>
                                 <a class="btn fa-regular fa-trash-alt text-danger" href="../phpsql/delete_data.php?id=<?= $row["id_seed_germination"] ?>&tb=tb_seed_germination&idtb=id_seed_germination&location=../php/show_germination.php" onclick="Del(this.href);return false;"></a>
                             </td>
@@ -170,7 +170,7 @@ $result_traysize = mysqli_query($conn, $name_traysize);
                             <td><?= $row["size_name"] ?></td>
                             <td><?= $row["row_tray"] ?></td>
                             <td><?= $row["column_tray"] ?></td>
-                            <td>
+                            <td class="text-nowrap">
                                 <i class="btn fas fa-edit text-warning edit-button1" data-bs-toggle="modal" data-id_traysize="<?= $row['id_traysize'] ?>" data-size_name="<?= $row['size_name'] ?>" data-row_tray="<?= $row['row_tray'] ?>" data-column_tray="<?= $row['column_tray'] ?>" data-bs-target="#edit_traysize"></i>
                                 <?php
                                 $idtraysize = $row["id_traysize"];

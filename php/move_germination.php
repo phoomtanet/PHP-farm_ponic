@@ -39,7 +39,7 @@ $space = $_GET['emp_slot'] // จำนวนช่องช่องที่�
     <ul class="nav nav-pills flex-column mb-auto pt-4 side_nav_menu"></ul>
   </div>
   <!-- เนื้อหาหลัก -->
-  <div class="pt-5 main-content-div" style=" text-align: center;">
+  <div class=" main-content-div" style=" text-align: center;">
 
     <div class="container" style="margin-top: 20px;">
       <table class="table table-striped table-bordered">

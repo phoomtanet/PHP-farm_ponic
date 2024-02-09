@@ -47,7 +47,7 @@ $total_slots = $_GET['total_slots'];
     <ul class="nav nav-pills flex-column mb-auto pt-4 side_nav_menu"></ul>
   </div>
   <!-- เนื้อหาหลัก -->
-  <div class="pt-5 main-content-div" style=" text-align: center;">
+  <div class=" main-content-div" style=" text-align: center;">
 
 
 
@@ -71,7 +71,7 @@ $total_slots = $_GET['total_slots'];
                 <th style="border: none;">
 
                     <th style="border: none;">
-                    <th style="border: none;"> <?= $idPlot ?> </th>
+                    <th style="border: none;">  </th>
               
                 </thead>
 
