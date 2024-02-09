@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
             labels: <?php echo json_encode($data_name_plot); ?>,
 
             datasets: [{
-                label: 'Total Price',
+                label: 'จำนวนผัก',
                 data: <?php echo json_encode($data_slot); ?>,
 
                 backgroundColor: 'rgba(255, 99, 132, 1)', // Adjust as needed
