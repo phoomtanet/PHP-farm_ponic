@@ -7,8 +7,7 @@ $age_vegatable = $_POST['age_vegatable'];
 $fertilizer = $_POST['fertilizer'];
 $id_farm = $_POST['id_farm'];
 
-echo $id_farm;
-echo "<script>console.log($id_farm);</script>";
+
 
 // var for insert vegetableprice
 $vegetable_price = $_POST['vegetable_price'];

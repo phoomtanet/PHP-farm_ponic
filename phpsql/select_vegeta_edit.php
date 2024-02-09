@@ -49,7 +49,7 @@ $rs3 = mysqli_fetch_array($result3);
   <div class="row mt-2 mb-2">
     <div class="col">
       <label>ชื่อผัก : </label><span id="vegeta-availability-status"></span>
-      <input type="text" name="vegetable_name" id="vegetable_name" class="form-control" value="<?= $rs1['vegetable_name'] ?>" required oninput="checkDuplicate()" placeholder="ป้อนชื่อผัก...">
+      <input type="text" name="vegetable_name_edit" id="vegetable_name_edit" class="form-control" value="<?= $rs1['vegetable_name'] ?>" required oninput="checkDuplicate()" placeholder="ป้อนชื่อผัก...">
     </div>
     <div class="col">
       <label>อายุผัก : </label>
@@ -102,15 +102,19 @@ $rs3 = mysqli_fetch_array($result3);
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 
 <script type="text/javascript">
+
   function checkDuplicate() {
+    console.log(document.getElementById("vegetable_name_edit").value);
+    console.log(document.getElementById("vegetableweight_edit").value);
     $.ajax({
       type: "POST",
-      url: "../phpsql/check_availability.php",
+      url: "../phpsql/check_availability_vet.php",
       cache: false,
       data: {
         type: 'tb_vegetable',
-        input_name: $("#vegetable_name").val(),
+        input_name: $("#vegetable_name_edit").val(),
         where: 'vegetable_name',
+      
       },
       success: function(data) {
         $("#vegeta-availability-status").html(data);
@@ -122,6 +126,7 @@ $rs3 = mysqli_fetch_array($result3);
       }
     });
   }
+
 
   let photo_edit = document.getElementById('photo_edit');
   let previewImg_edit = document.getElementById('previewImg_edit');

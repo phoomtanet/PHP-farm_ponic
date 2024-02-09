@@ -89,7 +89,7 @@ $result_plan = mysqli_query($conn, $sql_plot_plan);
                                 </td>
                                 <td style="text-align: left; ">
                                     <p class="px-4 text-nowrap">
-                                        อายุ <?= $age ?> วัน <br>
+                                        อายุ<?= $age ?> วัน <br>
                                         จำนวน <?= $row['vegetable_amount'] ?> ต้น <br>
                                         วันที่เพาะ <?= date('d ', strtotime($row["planting_date"])) ?><?= $thaiMonth ?> <br>
                                         ให้ปุ๋ยล่าสุด <?= $thaiDate_fer  ?><br>

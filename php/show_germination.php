@@ -388,7 +388,7 @@ $result_traysize = mysqli_query($conn, $name_traysize);
     function checkname() {
         $.ajax({
             type: "POST",
-            url: "../phpsql/check_availability.php",
+            url: "../phpsql/check_availability_vet.php",
             cache: false,
             data: {
                 type: 'tb_traysize',
@@ -398,13 +398,11 @@ $result_traysize = mysqli_query($conn, $name_traysize);
             success: function(data) {
                 $("#traysize-availability-status").html(data);
                 if (data.indexOf("ถูกใช้ไปแล้ว") !== -1) {
-                    $("#save2").css("display", 'none');
+                    $("#save2").prop("disabled", true);
+
                 } else {
-                    $("#save2").css({
-                        "display": 'block',
-                        "float": "right",
-                        "margin-right": "330px",
-                    });
+                    $("#save2").prop("disabled", false);
+               
                 }
             }
         });

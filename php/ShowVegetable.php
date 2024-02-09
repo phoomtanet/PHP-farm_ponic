@@ -21,7 +21,7 @@ INNER JOIN  tb_vegetableweight AS vw ON vw.id_veg_farm = vf.id_veg_farm
 INNER JOIN  tb_vegetableprice AS vp  ON vp.id_veg_farm = vf.id_veg_farm
 INNER JOIN tb_fertilizer as fl on fl.id_fertilizer = v.id_fertilizer
 WHERE f.id_farm = $id_farm_session";
-$rs_vet = mysqli_query($conn, $sql_veg );
+$rs_vet = mysqli_query($conn, $sql_veg);
 
 ?>
 
@@ -99,7 +99,7 @@ $rs_vet = mysqli_query($conn, $sql_veg );
             <th>ปุ๋ย</th>
             <th>อายุ</th>
             <th>ราคา</th>
-            <th  class="text-nowrap">น้ำหนักเฉลี่ย</th>
+            <th class="text-nowrap">น้ำหนักเฉลี่ย</th>
             <!-- <th>น้ำหนัก</th> -->
             <!-- <th>วันที่บันทึก</th> -->
             <th>ลบ</th>
@@ -108,7 +108,7 @@ $rs_vet = mysqli_query($conn, $sql_veg );
         </thead>
         <tbody>
           <?php while ($row = mysqli_fetch_array($rs_vet)) {
-          
+
           ?>
             <tr>
 
@@ -118,34 +118,32 @@ $rs_vet = mysqli_query($conn, $sql_veg );
               <td><?= $row["fertilizer_name"] ?></td>
               <td class="text-nowrap"><?= $row["vegetable_age"] ?> วัน</td>
 
-                <td class="text-nowrap"><?= $row["price"] ?> บ.</td>
+              <td class="text-nowrap"><?= $row["price"] ?> บ.</td>
 
-                <td class="text-nowrap"><?= number_format($row["vegetableweight"] / $row["amount_tree"], 1) ?>  กรัม</td>
-                <!-- <td><?= $row["vegetableweight"] ?> กก.</td> -->
-                <!-- <td><?= $row["vegetableweightdate"] ?></td> -->
+              <td class="text-nowrap"><?= number_format($row["vegetableweight"] / $row["amount_tree"], 1) ?> กรัม</td>
+              <!-- <td><?= $row["vegetableweight"] ?> กก.</td> -->
+              <!-- <td><?= $row["vegetableweightdate"] ?></td> -->
 
               <?php
-              //แก้
-              $idvegetable = $row["id_veg_farm"];
-              // $del1 = "SELECT id_vegetable FROM tb_planting WHERE id_vegetable = '$idvegetable'";
-              // $nodel1 = mysqli_query($conn, $del1);
-              // $fet_nodel1 = mysqli_fetch_array($nodel1);
 
-              $del2 = "SELECT id_veg_farm FROM tb_seed_germination WHERE id_veg_farm = '$idvegetable'";
-              $nodel2 = mysqli_query($conn, $del2);
-              $fet_nodel2 = mysqli_fetch_array($nodel2);
+              $sql_check_vet = "SELECT v.vegetable_name, pt.id_planting, vn.id_nursery, sg.id_seed_germination
+              FROM `tb_veg_farm` AS vf 
+              INNER JOIN tb_farm AS f ON vf.id_farm = f.id_farm
+              INNER JOIN tb_vegetable AS v ON v.id_vegetable = vf.id_veg_farm
+              LEFT JOIN tb_planting AS pt ON pt.id_veg_farm = vf.id_veg_farm
+              LEFT JOIN tb_vegetable_nursery AS vn ON vn.id_veg_farm = vf.id_veg_farm
+              LEFT JOIN tb_seed_germination AS sg ON sg.id_veg_farm = vf.id_veg_farm
 
-              $new = "SELECT v.vegetable_name , pt.id_planting , vn.id_nursery  , sg.id_seed_germination
-              FROM `tb_veg_farm`  AS vf 
-              INNER JOIN tb_farm as f on vf.id_farm =  f.id_farm
-              INNER JOIN tb_vegetable AS v on v.id_vegetable = vf.id_veg_farm
-              RIGHT JOIN tb_planting as pt ON pt.id_veg_farm = vf.id_veg_farm
-              RIGHT JOIN tb_vegetable_nursery as vn ON vn.id_veg_farm = vf.id_veg_farm
-              RIGHT JOIN tb_seed_germination as sg ON sg.id_veg_farm = vf.id_veg_farm
-              WHERE f.id_farm = 1001";// แก้
+              WHERE f.id_farm = $id_farm_session AND v.vegetable_name = '" . $row['vegetable_name'] . "'
+            AND (pt.id_planting IS NOT NULL OR
+            vn.id_nursery IS NOT NULL OR 
+            sg.id_seed_germination IS NOT NULL)
+           ";
 
+              $result_check_vet = mysqli_query($conn, $sql_check_vet);
+              $numColumns = mysqli_num_rows($result_check_vet);
 
-              if ((isset($fet_nodel2['id_vegetable']))) {
+              if (($numColumns > 0)) {
               ?>
                 <td style="border: none;">
                   <a class="disabled" style="color: gray;"><i class="fa-regular fa-trash-can fa-xl"></i></a>
@@ -351,7 +349,7 @@ $rs_vet = mysqli_query($conn, $sql_veg );
 
         <form method="post" action="../phpsql/update_fertilizer.php" enctype="multipart/form-data">
           <input type="text" name="id_fertilizeredit" id="id_fertilizeredit" class="form-control" hidden>
-           <label class="mb-2">ชื่อปุ๋ย: </label>
+          <label class="mb-2">ชื่อปุ๋ย: </label>
           <input type="text" name="fertilizer_name_edit" id="fertilizer_name_edit" class="form-control" required>
           <button type="button" class="mt-2 btn btn-secondary" onclick="cancel()" data-bs-dismiss="modal">ยกเลิก</button>
           <button type="submit" name="save2" id="save2" class="mt-2 btn btn-success">บันทึก</button>
@@ -366,9 +364,10 @@ $rs_vet = mysqli_query($conn, $sql_veg );
 
 <script type="text/javascript">
   function checkAvailability() {
+    console.log(document.getElementById("vegetable_name").value);
     $.ajax({
       type: "POST",
-      url: "../phpsql/check_availability.php",
+      url: "../phpsql/check_availability_vet.php",
       cache: false,
       data: {
         type: 'tb_vegetable',
@@ -389,7 +388,7 @@ $rs_vet = mysqli_query($conn, $sql_veg );
   function checkFertilizername() {
     $.ajax({
       type: "POST",
-      url: "../phpsql/check_availability.php",
+      url: "../phpsql/check_availability_vet.php",
       cache: false,
       data: {
         type: 'tb_fertilizer',

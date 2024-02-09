@@ -4,7 +4,7 @@ include '../Connect/conn.php';
 // var for update vegetable
 $id_vegetable = $_POST['id_vegetable_edit'];
 $id_veg_farm = $_POST['id_veg_farm'];
-$vegetable_name = $_POST['vegetable_name'];
+$vegetable_name = $_POST['vegetable_name_edit'];
 $age_vegatable_edit = $_POST['age_vegatable_edit'];
 $fertilizer_edit = $_POST['fertilizer_edit'];
 // $id_farm = $_POST['id_farm'];
@@ -44,7 +44,5 @@ WHERE `id_veg_farm` = '$id_veg_farm'";
   mysqli_query($conn, $sql_up3);
 
   echo "<script> window.location='../php/ShowVegetable.php'</script>";
-} else {
-  echo "<script> alert('*ชื่อผักไม่ถูกต้อง*') </script>";
-  echo "<script> window.location='../php/ShowVegetable.php'</script>";
 }
+?>
