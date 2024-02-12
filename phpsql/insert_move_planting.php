@@ -25,7 +25,6 @@ $sql_count_planting = "SELECT b.id_planting FROM tb_planting as b WHERE b.id_plo
 $result_count_planting = $conn->query($sql_count_planting);
 $count_planting = mysqli_num_rows($result_count_planting); // Count the rows returned by the query
 
-echo "แถว $count_planting";
 if ($count_planting == 0) {
     $fertilizationdate = "INSERT INTO `tb_fertilizationdate` (`id_plot`, `fertilizationDate`) 
     VALUES ('$id_plot', '$currentDate')"; // Enclose the date value in single quotes

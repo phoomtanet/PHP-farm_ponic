@@ -34,7 +34,7 @@ $result = mysqli_query($conn, $sql);
                     <input type="text" name="iduser_edit" id="iduser_edit" class="form-control mb-2" value="<?= $row['id_user'] ?>" hidden>
 
                     <label> Username : </label><span id="user-availability-status"></span>
-                    <input type="text" name="username_edit" id="username_edit" class="form-control mb-2" value="<?php echo $_SESSION["user"] ?>" placeholder="ป้อนชื่อบัญชีมากกว่า 6 ตัวออักษร..." oninput="" onkeyup='check_char(this)'>
+                    <input type="text" name="username_edit" id="username_edit" class="form-control mb-2"  oninput="checkAvailabilityUser()" value="<?php echo $_SESSION["user"] ?>" placeholder="ป้อนชื่อบัญชีมากกว่า 6 ตัวออักษร..." oninput="" onkeyup='check_char(this)'>
 
                     <div class="form-group">
                         <label> Password : </label>
@@ -74,6 +74,32 @@ $result = mysqli_query($conn, $sql);
 </body>
 
 <script type="text/javascript">
+     function checkAvailabilityUser() {
+    $.ajax({
+      type: "POST",
+      url: "../phpsql/check_availability_vet.php",
+      cache: false,
+      data: {
+        type: 'tb_user',
+        input_name: $("#username_edit").val(),
+        where: 'user_name',
+      },
+      success: function(data) {
+        $("#user-availability-status").html(data);
+        if (data.indexOf("ถูกใช้ไปแล้ว") !== -1) {
+          $("#edit1").prop("disabled", true);
+
+        } else {
+          $("#edit1").prop("disabled", false);
+        }
+      }
+    });
+  }
+    
+    
+    
+    
+    
     function check_char(elm) {
         if (!elm.value.match(/^[a-z0-9]+$/i) && elm.value.length > 0) {
             alert('ไม่สามารถใช้ตัวอักษรพิเศษและภาษาไทยได้');
