@@ -142,8 +142,8 @@ $re = mysqli_fetch_array($result_sql_id);
           <input type="text" name="farm_name" id="farm_name" class="form-control" required oninput="checkAvailability()">
           <label class="mb-2">ที่อยู่ฟาร์ม : </label><br>
           <input type="text" name="location" id="location" class="form-control" required>
-          <label class="mb-2">โรงเรือนในฟาร์ม : </label><br>
-          <input type="text" name="greenhouse" id="greenhouse" class="form-control" required>
+          <label class="mb-2">โรงเรือนในฟาร์ม : </label><br><span id="user-availability-statusGreen"></span>
+          <input type="text" name="greenhouse" id="greenhouse" class="form-control" oninput="checkAvailabilityGreen()" required>
           <input type="num" name="check_insert" value="1" hidden >
           <br>
           <button type="button" class="btn btn-secondary" onclick="cancel()" data-bs-dismiss="modal">ยกเลิก</button>
@@ -176,8 +176,8 @@ $re = mysqli_fetch_array($result_sql_id);
           </div>
           <input type="text" name="id_user" id="id_user" class="form-control" value="<?= $re['id_user'] ?>" hidden>
           <input type="text" name="id_farm_edit" id="id_farm_edit" class="form-control" hidden>
-          <label class="mb-2">ชื่อฟาร์ม : </label><span id="user-availability-status"></span>
-          <input type="text" name="farm_name_edit" id="farm_name_edit" class="form-control" required oninput="checkAvailability()">
+          <label class="mb-2">ชื่อฟาร์ม : </label><span id="user-availability-statusEdit"></span>
+          <input type="text" name="farm_name_edit" id="farm_name_edit" class="form-control" required oninput="checkAvailabilityedit()">
           <label class="mb-2">ที่อยู่ฟาร์ม : </label><br>
           
           <input type="text" name="location_edit" id="location_edit" class="form-control" required>
@@ -208,19 +208,58 @@ $re = mysqli_fetch_array($result_sql_id);
       success: function(data) {
         $("#user-availability-status").html(data);
         if (data.indexOf("ถูกใช้ไปแล้ว") !== -1) {
-          $("#savefarm").css("display", 'none');
+          $("#savefarm").prop("disabled", true);          
         } else {
-          $("#savefarm").css({
-            "display": 'block',
-            "float": "right",
-            "margin-right": "320px",
-          });
+          $("#savefarm").prop("disabled",false);          
+
         }
       }
     });
   }
 
+  function checkAvailabilityedit() {
+    $.ajax({
+      type: "POST",
+      url: "../phpsql/check_availability.php",
+      cache: false,
+      data: {
+        type: 'tb_farm',
+        input_name: $("#farm_name_edit").val(),
+        where: 'name_farm',
+      },
+      success: function(data) {
+        $("#user-availability-statusEdit").html(data);
+        if (data.indexOf("ถูกใช้ไปแล้ว") !== -1) {
+          $("#save_edit").prop("disabled", true);         
+           
+        } else {
+          $("#save_edit").prop("disabled",false);          
 
+        }
+      }
+    });
+  }
+  function checkAvailabilityGreen() {
+    $.ajax({
+      type: "POST",
+      url: "../phpsql/check_availability_vet.php",
+      cache: false,
+      data: {
+        type: 'tb_greenhouse',
+        input_name: $("#greenhouse").val(),
+        where: 'name_greenhouse',
+      },
+      success: function(data) {
+        $("#user-availability-statusGreen").html(data);
+        if (data.indexOf("ถูกใช้ไปแล้ว") !== -1) {
+          $("#savefarm").prop("disabled", true);
+
+        } else {
+          $("#savefarm").prop("disabled", false);
+        }
+      }
+    });
+  }
   function Del(mypage) {
     var agree = confirm("คุณต้องการลบข้อมูลหรือไม่");
     if (agree) {

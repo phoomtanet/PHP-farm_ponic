@@ -167,10 +167,10 @@ $re = mysqli_fetch_array($result_sql_id);
           <input type="text" name="id_farm" id="id_farm" class="form-control" value="<?= $re['id_farm'] ?>" hidden>
           <input type="text" name="id_greenhouseedit" id="id_greenhouseedit" class="form-control" hidden>
           <br>
-          <label class="mb-2">ชื่อโรงเรือน : </label><span id="user-availability-status"></span>
-          <input type="text" name="greenhouse_name_edit" id="greenhouse_name_edit" class="form-control" required oninput="checkAvailability()">
+          <label class="mb-2">ชื่อโรงเรือน : </label><span id="user-availability-statusEdit"></span>
+          <input type="text" name="greenhouse_name_edit" id="greenhouse_name_edit" class="form-control" required oninput="checkAvailabilityEdit()">
           <br>
-          <button type="submit" id="save1" class="btn btn-warning">แก้ไข</button>
+          <button type="submit" id="edit1" class="btn btn-warning">แก้ไข</button>
           <button type="button" class="btn btn-secondary" onclick="cancel()" data-bs-dismiss="modal">ยกเลิก</button>
         </form>
 
@@ -184,7 +184,7 @@ $re = mysqli_fetch_array($result_sql_id);
   function checkAvailability() {
     $.ajax({
       type: "POST",
-      url: "../phpsql/check_availability.php",
+      url: "../phpsql/check_availability_vet.php",
       cache: false,
       data: {
         type: 'tb_greenhouse',
@@ -194,18 +194,36 @@ $re = mysqli_fetch_array($result_sql_id);
       success: function(data) {
         $("#user-availability-status").html(data);
         if (data.indexOf("ถูกใช้ไปแล้ว") !== -1) {
-          $("#save1").css("display", 'none');
+          $("#save1").prop("disabled", true);
+
         } else {
-          $("#save1").css({
-            "display": 'block',
-            "float": "right",
-            "margin-right": "330px",
-          });
+          $("#save1").prop("disabled", false);
         }
       }
     });
   }
 
+  function checkAvailabilityEdit() {
+    $.ajax({
+      type: "POST",
+      url: "../phpsql/check_availability_vet.php",
+      cache: false,
+      data: {
+        type: 'tb_greenhouse',
+        input_name: $("#greenhouse_name_edit").val(),
+        where: 'name_greenhouse',
+      },
+      success: function(data) {
+        $("#user-availability-statusEdit").html(data);
+        if (data.indexOf("ถูกใช้ไปแล้ว") !== -1) {
+          $("#edit1").prop("disabled", true);
+
+        } else {
+          $("#edit1").prop("disabled", false);
+        }
+      }
+    });
+  }
   function cancel() {
     window.location.reload();
   }
