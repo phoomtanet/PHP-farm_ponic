@@ -153,18 +153,13 @@ $total_slots = $_GET['total_slots'];
 
               echo '<td>' . $col['vegetable_name'] . '</td>';
               echo '<td>' . $col['nursery_date'] . '</td>';
-
-
               $nurseryDate = new DateTime($col['nursery_date']);
               $currentDate = new DateTime(); // วันที่ปัจจุบัน
               $diff = $nurseryDate->diff($currentDate);
               $age = $diff->format('%a'); // คำนวณอายุเป็นจำนวนวัน
-
               echo '<td>' .   $age . ' วัน</td>';
-
               echo '<td>' . $col['nursery_amount'] . '</td>';
               echo '<td>' . $col['name_greenhouse'] . '</td>';
-
               echo '<td >
               <button type="button" class="btn btn-primary move-button" 
               data-bs-toggle="modal" data-bs-target="#add_data_Modal" 
