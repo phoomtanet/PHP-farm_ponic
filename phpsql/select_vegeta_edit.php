@@ -11,9 +11,9 @@ if (isset($_POST['id'])) {
 if (isset($_POST['id_veg_farm'])) {
   $id_veg_farm = $_POST['id_veg_farm'];
 }
+$img= $_POST['img'];
 
-date_default_timezone_set('asia/bangkok');
-$datenow = date("Y-m-d");
+
 
 $sql1 = "SELECT * FROM tb_vegetable 
 INNER JOIN tb_fertilizer ON tb_vegetable.id_fertilizer = tb_fertilizer.id_fertilizer 
@@ -43,7 +43,7 @@ $rs3 = mysqli_fetch_array($result3);
           </div> -->
   <!-- <input type="text" name="id_farm" id="id_farm" class="form-control" value="<?= $re['id_farm'] ?>" hidden> -->
   <input type="text" name="id_vegetable_edit" id="id_vegetable_edit" class="form-control" value="<?= $rs1['id_vegetable'] ?>" hidden>
-  <input type="text" name="id_veg_farm" id="id_veg_farm" class="form-control" value="<?=  $id_veg_farm ?>" hidden>
+  <input type="text" name="id_veg_farm" id="id_veg_farm" class="form-control" value="<?= $id_veg_farm ?>" hidden>
 
 
   <div class="row mt-2 mb-2">
@@ -75,22 +75,24 @@ $rs3 = mysqli_fetch_array($result3);
       <input type="number" name="vegetable_price_edit" id="vegetable_price_edit" class="form-control" value="<?= $rs2['price'] ?>" required placeholder="ป้อนราคาผัก...">
     </div>
     <div class="col">
-      <label>วันที่บันทึก : </label>
-      <input type="date" name="date_edit" id="date_edit" class="form-control" value="<?php echo $datenow ?>" min="<?php echo $datenow ?>" required readonly placeholder="ป้อนวันที่...">
+      <label>น้ำหนักต่อต้น(กรัม) : </label>
+      <input type="text" name="weight-vatEdit" id="weight-vatEdit" class="form-control" readonly>
+
     </div>
   </div>
   <div class="row mt-2 mb-2">
     <div class="col">
       <label>จำนวนต้นต่อน้ำหนัก : </label><span id="user-availability-status"></span>
-      <input type="number" name="amount_tree_edit" id="amount_tree_edit" class="form-control" value="<?= $rs3['amount_tree'] ?>" required min="0" placeholder="ป้อนจำนวนต่อน้ำหนัก...">
+      <input type="number" oninput="avgWeight()" name="amount_tree_edit" id="amount_tree_edit" class="form-control" value="<?= $rs3['amount_tree'] ?>" required min="0" placeholder="ป้อนจำนวนต่อน้ำหนัก...">
     </div>
-    <div class="col">
-      <label>น้ำหนักผัก : กก. </label>
-      <input type="number" step="any" name="vegetableweight_edit" id="vegetableweight_edit" class="form-control" value="<?= $rs3['vegetableweight'] ?>" required min="0" placeholder="ป้อนน้ำหนัก...">
+   <div class="col">
+      <label>น้ำหนักผัก(กรัม) : </label>
+      <input type="number" step="any" oninput="avgWeight()" name="vegetableweight_edit" id="vegetableweight_edit" class="form-control" value="<?= $rs3['vegetableweight'] ?>" required min="0" placeholder="ป้อนน้ำหนัก...">
     </div>
   </div>
   <label class="mb-2">รูปภาพผัก : </label><br>
   <input class="mb-2 form-control" type="file" name="photo_edit" id="photo_edit" required>
+    <small class="text-muted">* Required: Please choose a photo.</small>
   <div class="text-center">
     <img style="object-fit: cover; border-radius: 100px" width="200px" height="200px" name="previewImg_edit" id="previewImg_edit" src="../img/<?= $rs1['img_name'] ?>">
   </div>
@@ -102,7 +104,6 @@ $rs3 = mysqli_fetch_array($result3);
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 
 <script type="text/javascript">
-
   function checkDuplicate() {
     console.log(document.getElementById("vegetable_name_edit").value);
     console.log(document.getElementById("vegetableweight_edit").value);
@@ -114,7 +115,7 @@ $rs3 = mysqli_fetch_array($result3);
         type: 'tb_vegetable',
         input_name: $("#vegetable_name_edit").val(),
         where: 'vegetable_name',
-      
+
       },
       success: function(data) {
         $("#vegeta-availability-status").html(data);
@@ -143,4 +144,13 @@ $rs3 = mysqli_fetch_array($result3);
   function cancel() {
     window.location.reload();
   }
+
+  function avgWeight(){
+
+let countVet = document.getElementById("amount_tree_edit").value; 
+let  weightVet  = document.getElementById("vegetableweight_edit").value; 
+document.getElementById("weight-vatEdit").value = weightVet/countVet;
+
+}
+
 </script>

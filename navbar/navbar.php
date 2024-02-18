@@ -37,7 +37,7 @@ $result_greenhouse = mysqli_query($conn, $sql_greenhouse);
 
       <div class="d-flex justify-content-center align-items-center ">
         <!-- Toggle Button -->
-        <button class="btn menu-btn" type="button" style="display: none;"  onclick=" show_side_menu();toggleChart();">
+        <button class="btn menu-btn" type="button" style="display: none;"  onclick=" show_side_menu(); toggleChart();">
           <span class="navbar-toggler-icon"></span>
         </button>
         <!-- Brand Logo (Home Link) -->

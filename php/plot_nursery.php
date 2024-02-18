@@ -60,7 +60,7 @@ $result_plot__nursery = mysqli_query($conn, $sql_plot_nursery);
                 <table class="table table-hover table-bordered ">
                     <caption class="caption-top">ตารางแสดงข้อมูลการอนุบาล</caption>
                     <thead>
-                        <th style="border: none;"> </th>
+                        <th style="border: none;" class="text-nowrap">  <p class="h5"> โรงเรือน <?php echo "$greenhouse_name" ?> </p></th>
                         <th style="border: none;"> </th>
                         <th style="border: none;"> </th>
                         <th style="border: none;"> </th>
@@ -93,7 +93,7 @@ $result_plot__nursery = mysqli_query($conn, $sql_plot_nursery);
                             // แสดงชื่อแปลง แถวแรก
                             if ($col['plotnursery_name'] !== $currentPlotName) {
                                 echo '<tr >';
-                                echo '<th style="border: none;" ></th>';
+                                echo '<th style="border: none;" > </p></th>';
                                 echo '<th style="border: none;"></th>';
                                 echo '<th style="border: none;"></th>';
                                 echo '<th style="border: none;"></th>';
@@ -114,6 +114,9 @@ $result_plot__nursery = mysqli_query($conn, $sql_plot_nursery);
                                 AND c.id_greenhouse = '$id_greenhouse_session'  
                                 AND  b.plotnursery_name = '$currentPlotName'";
                                 $result_nursery_amount_query = mysqli_query($conn, $nursery_amount_query);
+                                $thaimonth = array("ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค.");
+                                $thaiDate_nur = date('d', strtotime($col['nursery_date'])) . ' ' . $thaimonth[date('n', strtotime($col['nursery_date'])) - 1];
+
                                 if ($result_nursery_amount_query) {
                                     $row_amount = mysqli_fetch_assoc($result_nursery_amount_query);
                                     $total_nursery_amount = $row_amount['total_nursery_amount'];  // จำนวนต้น ในแปลงอนุบาล
@@ -143,12 +146,13 @@ $result_plot__nursery = mysqli_query($conn, $sql_plot_nursery);
                                 if ($col['img_name']) {
                                     echo '<td ><img src="../img/' . $col['img_name'] . '" style="width: 40px; border-radius: 50px;"></td>';
                                     echo '<td>' . $col['vegetable_name'] . '</td>';
-                                    echo '<td>' . date('d/m', strtotime($col['nursery_date'])) . '</td>';
+
+                                    echo '<td class="text-nowrap">' .  $thaiDate_nur . '</td>';
                                     $nurseryDate = new DateTime($col['nursery_date']);
                                     $currentDate = new DateTime(); // วันที่ปัจจุบัน
                                     $diff = $nurseryDate->diff($currentDate);
                                     $age = $diff->format('%a'); // คำนวณอายุเป็นจำนวนวัน
-                                    echo '<td>' . $age . ' วัน</td>';
+                                    echo '<td class="text-nowrap">' . $age . ' วัน</td>';
                                     echo '<td>' . $col['nursery_amount'] . '</td>';
 
                                     echo '<td class="text-nowrap">';
@@ -165,7 +169,7 @@ $result_plot__nursery = mysqli_query($conn, $sql_plot_nursery);
                                     echo '</td>';
                                 } else {
                                     
-                                    echo '<td style="border: none; colspan="2" ">
+                                    echo '<td style="border: none; class="text-nowarp" colspan="2" ">
 
                                      <i  class=" btn fas fa-edit  text-warning edit-button1 text-nowrap" data-bs-toggle="modal" data-bs-target="#edit_plot_nursery" 
                                     data-id_plotnursery="' . $col['id_plotnursery'] . '"
@@ -189,13 +193,13 @@ $result_plot__nursery = mysqli_query($conn, $sql_plot_nursery);
                                 echo '<td></td>';
                                 echo '<td><img src="../img/' . $col['img_name'] . '" style="width: 40px; border-radius: 50px;"></td>';
                                 echo '<td>' . $col['vegetable_name'] . '</td>';
-                                echo '<td>' . date('d/m', strtotime($col['nursery_date'])) . '</td>';
+                                echo '<td class="text-nowrap">' . $thaiDate_nur . '</td>';
                                 $nurseryDate = new DateTime($col['nursery_date']);
                                 $currentDate = new DateTime(); // วันที่ปัจจุบัน
                                 $diff = $nurseryDate->diff($currentDate);
                                 $age = $diff->format('%a'); // คำนวณอายุเป็นจำนวนวัน
 
-                                echo '<td>' .   $age . ' วัน</td>';
+                                echo '<td class="text-nowrap">' .   $age . ' วัน</td>';
 
                                 echo '<td>' . $col['nursery_amount'] . '</td>';
 

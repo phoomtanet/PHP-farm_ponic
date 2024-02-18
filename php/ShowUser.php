@@ -96,7 +96,9 @@ $result = mysqli_query($conn, $sql);
     });
   }
     
-    
+  function cancel() {
+      window.location.reload();
+    }
     
     
     

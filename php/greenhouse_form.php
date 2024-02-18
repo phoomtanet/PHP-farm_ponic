@@ -82,6 +82,7 @@ $re = mysqli_fetch_array($result_sql_id);
       elm.value = '';
     }
   }
+  
 </script>
 
 </html>

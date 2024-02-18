@@ -97,6 +97,10 @@ $result_traysize = mysqli_query($conn, $name_traysize);
                         $dateDifference = date_diff(date_create(date("Y-m-d", $germination_dateDate)), date_create(date("Y-m-d", $currentDate)));
                         $daysDifference = $dateDifference->days;
 
+                        $thaimonth = array("ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค.");
+                        $thaiDate_get = date('d', strtotime($row['germination_date'])) . ' ' . $thaimonth[date('n', strtotime($row['germination_date'])) - 1];
+
+
                     ?>
                         <th style="border: none;"></th>
                         <th style="border: none;"></th>
@@ -114,7 +118,7 @@ $result_traysize = mysqli_query($conn, $name_traysize);
 
                             <td class="text-center"><?= $row["size_name"] ?></td>
                             <td><?= $row["Amount_trays"] ?></td>
-                            <td><?= date('d/m', strtotime($row["germination_date"])) ?></td>
+                            <td class="text-nowrap"><?=$thaiDate_get ?></td>
                             <td class="text-nowrap"><?= $daysDifference  . ' วัน' ?></td>
                             <td><?= $row["germination_amount"] ?></td>
                             <td class="text-nowrap">
@@ -229,6 +233,8 @@ $result_traysize = mysqli_query($conn, $name_traysize);
                             echo '<option value="' . $col_traysize['id_traysize'] . '"   >' . $col_traysize['size_name'] . '</option>';
                         } ?>
                     </select>
+                    <small class="text-muted">* เพิ่มข้อมูลถาดเพาะก่อน.</small>
+
                     <label style="text-align: left; display: block;">จำนวนถาดเพาะ:</label>
                     <input type="number" name="Amount_trays" id="Amount_trays" class="form-control" required placeholder="ป้อนตัวเลข'ด้านกว้าง' ...">
                     <label style="text-align: left; display: block;">วันที่เพาะเมล็ด:</label>
@@ -314,6 +320,7 @@ $result_traysize = mysqli_query($conn, $name_traysize);
                             echo '<option value="' . $col_traysize['id_traysize'] . '"   >' . $col_traysize['size_name'] . '</option>';
                         } ?>
                     </select>
+
                     <label style="text-align: left; display: block;">จำนวนถาดเพาะ:</label>
                     <input type="number" name="Amount_trays2" id="Amount_trays2" class="form-control" required placeholder="ป้อนตัวเลข'ด้านกว้าง' ...">
                     <label style="text-align: left; display: block;">วันที่เพาะเมล็ด:</label>

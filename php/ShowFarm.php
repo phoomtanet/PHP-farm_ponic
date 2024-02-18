@@ -50,6 +50,7 @@ $re = mysqli_fetch_array($result_sql_id);
 
 <body>
   <?php include '../navbar/navbar.php'; ?>
+ 
   <!-- เมนูด้านข้าง ( Side Menu ) -->
   <div class="d-flex flex-column p-3 text-white bg-dark side-menu" style="width: 250px; height: 100vh; position: fixed; left: -250px">
     <ul class="nav nav-pills flex-column mb-auto pt-5 side_nav_menu"></ul>
@@ -63,14 +64,9 @@ $re = mysqli_fetch_array($result_sql_id);
 
 
         <thead>
-          <th style="border: none;">
-            <!-- <a class="btn btn-secondary" href="index.php?">กลับ</a> -->
-          </th>
+        
           <th style="border: none;"></th>
-    
-          <!-- <th style="border: none;"></th> -->
-          <!-- <th style="border: none;"></th> -->
-
+          <th style="border: none;"></th>
           <th style="border: none;">
             <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#add_data_Modal">+ เพิ่มข้อมูล</a>
           </th>
@@ -143,7 +139,7 @@ $re = mysqli_fetch_array($result_sql_id);
           <label class="mb-2">ที่อยู่ฟาร์ม : </label><br>
           <input type="text" name="location" id="location" class="form-control" required>
           <label class="mb-2">โรงเรือนในฟาร์ม : </label><br><span id="user-availability-statusGreen"></span>
-          <input type="text" name="greenhouse" id="greenhouse" class="form-control" oninput="checkAvailabilityGreen()" required>
+          <input type="text" name="greenhouse" id="greenhouse" class="form-control" required>
           <input type="num" name="check_insert" value="1" hidden >
           <br>
           <button type="button" class="btn btn-secondary" onclick="cancel()" data-bs-dismiss="modal">ยกเลิก</button>
@@ -239,27 +235,7 @@ $re = mysqli_fetch_array($result_sql_id);
       }
     });
   }
-  function checkAvailabilityGreen() {
-    $.ajax({
-      type: "POST",
-      url: "../phpsql/check_availability_vet.php",
-      cache: false,
-      data: {
-        type: 'tb_greenhouse',
-        input_name: $("#greenhouse").val(),
-        where: 'name_greenhouse',
-      },
-      success: function(data) {
-        $("#user-availability-statusGreen").html(data);
-        if (data.indexOf("ถูกใช้ไปแล้ว") !== -1) {
-          $("#savefarm").prop("disabled", true);
-
-        } else {
-          $("#savefarm").prop("disabled", false);
-        }
-      }
-    });
-  }
+ 
   function Del(mypage) {
     var agree = confirm("คุณต้องการลบข้อมูลหรือไม่");
     if (agree) {
@@ -289,6 +265,10 @@ $re = mysqli_fetch_array($result_sql_id);
       });
     });
   });
+
+  function cancel() {
+      window.location.reload();
+    }
 </script>
 
 </html>

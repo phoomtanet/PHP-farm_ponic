@@ -149,14 +149,14 @@ $rs_vet = mysqli_query($conn, $sql_veg);
                   <a class="disabled" style="color: gray;"><i class="fa-regular fa-trash-can fa-xl"></i></a>
                 </td>
                 <td style="border: none;">
-                  <a class="update_data" style="color: orange; cursor: pointer;" id="<?= $row['id_vegetable']; ?>" id_veg_farm="<?= $row['id_veg_farm']; ?>" data-bs-toggle="modal" data-bs-target="#update_data_Modal"><i class="fa-regular fa-pen-to-square fa-xl"></i></a>
+                  <a class="update_data" style="color: orange; cursor: pointer;" id="<?= $row['id_vegetable']; ?>" id_veg_farm="<?= $row['id_veg_farm']; ?>" imgName="<?= $row['img_name']; ?>" data-bs-toggle="modal" data-bs-target="#update_data_Modal"><i class="fa-regular fa-pen-to-square fa-xl"></i></a>
                 </td>
               <?php } else { ?>
                 <td style="border: none;">
-                  <a class="" style="color: red;" href="../phpsql/delete_vegetable.php?id=<?= $row['id_vegetable'] ?> && id_veg_farm=<?= $row['id_veg_farm'] ?> " onclick="Del(this.href);return false;"><i class="fa-regular fa-trash-can fa-xl"></i></a>
+                  <a class="" style="color: red;" href="../phpsql/delete_vegetable.php?id=<?= $row['id_vegetable'] ?> && id_veg_farm=<?= $row['id_veg_farm'] ?> "   onclick="Del(this.href);return false;"><i class="fa-regular fa-trash-can fa-xl"></i></a>
                 </td>
                 <td style="border: none;">
-                  <a class="update_data" style="color: orange; cursor: pointer;" id="<?= $row['id_vegetable']; ?>" id_veg_farm="<?= $row['id_veg_farm']; ?>" data-bs-toggle="modal" data-bs-target="#update_data_Modal"><i class="fa-regular fa-pen-to-square fa-xl"></i></a>
+                  <a class="update_data" style="color: orange; cursor: pointer;" id="<?= $row['id_vegetable']; ?>" id_veg_farm="<?= $row['id_veg_farm']; ?>" data-bs-toggle="modal" imgName="<?= $row['img_name']; ?>" data-bs-target="#update_data_Modal"><i class="fa-regular fa-pen-to-square fa-xl"></i></a>
                 </td>
               <?php } ?>
             </tr>
@@ -259,24 +259,25 @@ $rs_vet = mysqli_query($conn, $sql_veg);
               echo '<option value="' . $fer['id_fertilizer'] . '"   >' . $fer['fertilizer_name'] . '</option>';
             } ?>
           </select>
+          <small class="text-muted ">* ต้องมีข้อมูลปุ๋ยก่อน.</small>
           <div class="row mt-2 mb-2">
             <div class="col">
               <label>ราคาผัก :</label>
               <input type="number" name="vegetable_price" id="vegetable_price" class="form-control" required placeholder="ป้อนราคาผัก...">
             </div>
             <div class="col">
-              <label>วันที่บันทึก : </label>
-              <input type="date" name="date" id="date" class="form-control" value="<?php echo $datenow ?>" min="<?php echo $datenow ?>" required readonly placeholder="ป้อนวันที่...">
+              <label>น้ำหนักต่อต้น : </label>
+              <input type="text" name="weight-vat" id="weight-vat" class="form-control" readonly >
             </div>
           </div>
           <div class="row mt-2 mb-2">
             <div class="col">
-              <label>จำนวนต้นต่อน้ำหนัก : </label><span id="user-availability-status"></span>
-              <input type="number" name="amount_tree" id="amount_tree" class="form-control" required min="0" placeholder="ป้อนจำนวนต่อน้ำหนัก...">
+              <label>จำนวนต้นที่ชั่งน้ำหนัก : </label><span id="user-availability-status"></span>
+              <input type="number" name="amount_tree" id="amount_tree" class="form-control" required min="0" oninput="avgWeight()" placeholder="ป้อนจำนวนต่อน้ำหนัก...">
             </div>
             <div class="col">
               <label>น้ำหนักผัก : กรัม. </label>
-              <input type="number" step="any" name="vegetableweight" id="vegetableweight" class="form-control" required min="0" placeholder="ป้อนน้ำหนัก...">
+              <input type="number" step="any" name="vegetableweight" id="vegetableweight" class="form-control" required min="0" oninput="avgWeight()" placeholder="ป้อนน้ำหนัก...">
             </div>
           </div>
           <label class="mb-2">รูปภาพผัก : </label><br>
@@ -312,8 +313,6 @@ $rs_vet = mysqli_query($conn, $sql_veg);
           <button type="button" class="mt-2 btn btn-secondary" onclick="cancel()" data-bs-dismiss="modal">ยกเลิก</button>
           <button type="submit" name="save2" id="save2" class="mt-2 btn btn-success">บันทึก</button>
         </form>
-
-
       </div>
     </div>
   </div>
@@ -363,6 +362,16 @@ $rs_vet = mysqli_query($conn, $sql_veg);
 <!-- End Modal update fertilizer-->
 
 <script type="text/javascript">
+
+function avgWeight(){
+
+ let countVet = document.getElementById("amount_tree").value; 
+ let  weightVet  = document.getElementById("vegetableweight").value; 
+document.getElementById("weight-vat").value = weightVet/countVet;
+
+}
+
+
   function checkAvailability() {
     console.log(document.getElementById("vegetable_name").value);
     $.ajax({
@@ -426,6 +435,8 @@ $rs_vet = mysqli_query($conn, $sql_veg);
     $(document).on('click', '.update_data', function() {
       var id = $(this).attr("id");
       var id_veg_farm = $(this).attr("id_veg_farm");
+      var imgName= $(this).attr("imgName");
+      console.log( imgName);
 
       $.ajax({
         url: "../phpsql/select_vegeta_edit.php",
@@ -433,7 +444,8 @@ $rs_vet = mysqli_query($conn, $sql_veg);
         cache: false,
         data: {
           id: id,
-          id_veg_farm: id_veg_farm // Corrected syntax here
+          id_veg_farm: id_veg_farm ,// Corrected syntax here
+          img: imgName
         },
         success: function(data) {
           $('#info_update5').html(data);
@@ -468,6 +480,11 @@ $rs_vet = mysqli_query($conn, $sql_veg);
       });
     });
   });
+
+
+  function cancel() {
+      window.location.reload();
+    }
 </script>
 
 

@@ -77,20 +77,21 @@ $formattedPrice = number_format($allprice);
 
 <body>
     <!-- สร้าง Top เมนู -->
-    <?php include '../navbar/navbar.php'; ?>
+    <?php   include '../navbar/navbar.php'; 
+            include '../grapnew/chart_plot_price.php';
+            include '../grapnew/dchart_har.php';
+            include '../grapnew/dchart_c_veg.php';
+            include '../grapnew/dchar_c_nur.php';
+            include '../grapnew/chart_plot_slot.php';
+    ?>
 
     <!-- เมนูด้านข้าง ( Side Menu ) -->
     <div class="d-flex flex-column p-3 text-white bg-dark side-menu" style="width: 250px; height: 100vh; position: fixed; left: -250px">
-
-
         <ul class="nav nav-pills flex-column mb-auto pt-4 side_nav_menu">
-
     </div>
     <!-- เนื้อหาหลัก -->
     <div class="pt-5 main-content-div" style="text-align: center;">
-
         <div class="d-flex justify-content-around  m-2">
-
             <div class="text-center py-2  px-4" style="text-align: center;" id="result">
                 <table>
                     <tr>
@@ -129,15 +130,7 @@ $formattedPrice = number_format($allprice);
 
 
             </div>
-            <?php
-            include '../grapnew/chart_plot_price.php';
-            include '../grapnew/dchart_har.php';
-            include '../grapnew/dchart_c_veg.php';
-            include '../grapnew/dchar_c_nur.php';
-            include '../grapnew/chart_plot_slot.php';
-
-
-            ?>
+      
 </body>
 
 
