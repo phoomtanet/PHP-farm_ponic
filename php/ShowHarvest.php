@@ -51,7 +51,7 @@ $result_harvest = mysqli_query($conn, $sql_harvest);
         <ul class="nav nav-pills flex-column mb-auto pt-4 side_nav_menu">
 
     </div>
-    <div class="pt-5 main-content-div" style=" text-align: center;">
+    <div class="pt-5 main-content-div  pt-5 mt-3" style=" text-align: center;">
         <div class="container" style="margin-top: 20px;">
             <table class="table table-striped table-bordered">
                 <caption class="caption-top">ตารางแสดงข้อมูลการเก็บเกี่ยวย้อนหลัง 30 วัน </caption>

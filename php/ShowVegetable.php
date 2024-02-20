@@ -67,7 +67,7 @@ $rs_vet = mysqli_query($conn, $sql_veg);
   </div>
 
   <!-- ตารางผัก -->
-  <div class="pt-3 main-content-div" style=" text-align: center;">
+  <div class="pt-3 main-content-div  pt-5 mt-3" style=" text-align: center;">
 
     <div class="container" style="margin-top: 20px;">
       <table class="table table-striped table-bordered">

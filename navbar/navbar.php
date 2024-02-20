@@ -5,19 +5,18 @@ include '../Connect/conn.php';
 include '../Connect/session.php';
 
 $sql_farm = "SELECT * FROM `tb_farm` as a INNER JOIN `tb_user` AS b ON a.id_user = b.id_user
-WHERE b.user_name = '$user';";
+WHERE b.id_user = '$id_user_session';";
 
 $sql_greenhouse = "SELECT a.name_greenhouse 
 FROM `tb_greenhouse` as a
 INNER JOIN `tb_farm` AS b ON a.id_farm  = b.id_farm 
 INNER JOIN `tb_user` AS c ON b.id_user = c.id_user
-WHERE c.user_name = '$user' AND b.name_farm = '$farm_name';";
+WHERE c.id_user = '$id_user_session' AND b.id_farm = '$id_farm_session';";
 
 $result_farm = mysqli_query($conn, $sql_farm);
 $result_greenhouse = mysqli_query($conn, $sql_greenhouse);
 
 ?>
-้้้้
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,7 +32,7 @@ $result_greenhouse = mysqli_query($conn, $sql_greenhouse);
 <body>
 
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top border  d-flex flex-wrap">
-    <div class="container-fluid   mx-3 ">
+    <div class="container-fluid   mx-2">
 
       <div class="d-flex justify-content-center align-items-center ">
         <!-- Toggle Button -->
@@ -110,11 +109,11 @@ $result_greenhouse = mysqli_query($conn, $sql_greenhouse);
         <a class="nav-link top_nav_menu" href="../php/ShowVegetable.php">ข้อมูลผัก</a>
       </li>
       
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="top_nav_menu" href="../grap/grap_status.php">ภาพรวม</a>
-      </li>
+      </li> -->
       <li class="nav-item">
-        <a class="top_nav_menu" href="../grapnew/dashboard.php">ภาพรวมใหม่</a>
+        <a class="top_nav_menu" href="../grapnew/dashboard.php">ภาพรวม</a>
       </li>
 
 

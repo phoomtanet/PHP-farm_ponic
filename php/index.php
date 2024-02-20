@@ -3,14 +3,12 @@ session_start();
 include '../Connect/conn.php';
 include "../Connect/session.php";
 
-
-
 $sql_plot = "SELECT *
 FROM `tb_plot` as a 
 INNER JOIN tb_greenhouse as b on a.id_greenhouse = b.id_greenhouse 
 INNER JOIN tb_farm as c on b.id_farm = c.id_farm 
 INNER JOIN tb_user as d on c.id_user = d.id_user 
-WHERE d.user_name = '$user' AND c.name_farm = '$farm_name' AND b.name_greenhouse = '$greenhouse_name'
+WHERE a.id_greenhouse = $id_greenhouse_session
 ORDER BY LENGTH(a.plot_name), a.plot_name";
 $result_plot = mysqli_query($conn, $sql_plot);
 
@@ -32,7 +30,7 @@ LEFT JOIN tb_user as d on c.id_user = d.id_user
 LEFT JOIN tb_planting as e on e.id_plot = a.id_plot 
 LEFT JOIN tb_veg_farm as vf on vf.id_veg_farm = e.id_veg_farm   
 
-WHERE b.name_greenhouse = '$greenhouse_name';";
+WHERE b.id_greenhouse = '$id_greenhouse_session';";
 
 $total_records_result = mysqli_query($conn, $total_records_query);
 $total_records = mysqli_fetch_assoc($total_records_result)['total_records'];
@@ -70,9 +68,9 @@ $total_pages = ceil($total_records / $perpage);
   </div>
   <!-- เนื้อหาหลัก -->
 
-  <div class=" main-content-div  p-1 " style="  text-align: center;  height: 100%;">
+  <div class=" main-content-div  p-1   pt-5 mt-3" style="  text-align: center;  height: 100%;">
     <!-- <img src="../img/hidro.jpg" alt="รูปผัก" style="max-width: 100%; height: auto;"> -->
-    <div class="pt-5 main-content-div" style="text-align: center; align-items: center;  ">
+    <div class=" main-content-div" style="text-align: center; align-items: center;  ">
       <div class="d-flex flex-nowrap justify-content-between text-center px-5  ">
         <div class="d-flex flex-nowrap justify-content-between text-center  ">
 

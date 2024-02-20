@@ -90,7 +90,7 @@ $formattedPrice = number_format($allprice);
         <ul class="nav nav-pills flex-column mb-auto pt-4 side_nav_menu">
     </div>
     <!-- เนื้อหาหลัก -->
-    <div class="pt-5 main-content-div" style="text-align: center;">
+    <div class="pt-5 main-content-div  pt-5 mt-3" style="text-align: center;">
         <div class="d-flex justify-content-around  m-2">
             <div class="text-center py-2  px-4" style="text-align: center;" id="result">
                 <table>

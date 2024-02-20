@@ -40,7 +40,7 @@ if (isset($_POST['farm_name'])) {
                 $_SESSION["greenhouse_name"] = $row_greenhouse['first_greenhouse'];
 
                 // อาจจะมี popup แจ้งเตือนให้กดยืนยันก่อนเปลี่ยนฟาร์ม
-                echo $_SESSION["greenhouse_name"];
+                // echo $_SESSION["greenhouse_name"];
             } else {
                 echo "<script>window.location = '../php/greenhouse_form.php'; </script>";
             }

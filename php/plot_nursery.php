@@ -49,8 +49,8 @@ $result_plot__nursery = mysqli_query($conn, $sql_plot_nursery);
         <ul class="nav nav-pills flex-column mb-auto pt-4 side_nav_menu"></ul>
     </div>
     <!-- เนื้อหาหลัก -->
-    <div class=" main-content-div  " style="  text-align: center;  height: 100%;">
-        <div class="pt-3 main-content-div" style="text-align: center; align-items: center;  ">
+    <div class=" main-content-div pt-5 mt-3" style="  text-align: center;  height: 100%;">
+        <div class=" main-content-div" style="text-align: center; align-items: center;  ">
             <div class="d-flex flex-nowrap justify-content-around text-center  ">
                 <div>
                 </div>

@@ -35,7 +35,10 @@ $total_slots = $_GET['total_slots'];
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- เรียกใช้ ฺBootstrap 5 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
+
   <title>Bootstrap 5</title>
 </head>
 
@@ -111,7 +114,7 @@ $total_slots = $_GET['total_slots'];
               echo '<tr class="table-light"" >';
               echo '<td >                               
                                 <a " style="text-decoration: none; color: black;">
-                                <i class="fa fa-plus">   <b> '   . $currentPlotName . '</b></i> 
+                                  <b> '   . $currentPlotName . '</b>
                          
                                 </a>       
                                 </td>';
@@ -137,7 +140,7 @@ $total_slots = $_GET['total_slots'];
                                 data-bs-toggle="modal" data-bs-target="#add_data_Modal" 
                                 data-nursery-amount="' . $col["nursery_amount"] . '" data-id-nursery="' . $col["id_nursery"] . '" 
                                 data-id-vegetable="' . $col["id_veg_farm"] . '"  data-name-vegetable="' . $col["vegetable_name"] . '" data-date="' . $col["nursery_date"] . '"  >
-                                ย้าย</button>
+                                <i class="fas fa-sign-out-alt"></i></button>
                                 </td>';
               } else {
                 echo '<td  colspan="7" >ไม่การอนุบาล</th>';
@@ -165,7 +168,8 @@ $total_slots = $_GET['total_slots'];
               <button type="button" class="btn btn-primary move-button" 
               data-bs-toggle="modal" data-bs-target="#add_data_Modal" 
               data-nursery-amount="' . $col["nursery_amount"] . '" data-id-nursery="' . $col["id_nursery"] . '" 
-              data-id-vegetable="' . $col["id_veg_farm"] . '"  data-name-vegetable="' . $col["vegetable_name"] . '" data-date="' . $col["nursery_date"] . '"  >ย้าย</button>
+              data-id-vegetable="' . $col["id_veg_farm"] . '"  data-name-vegetable="' . $col["vegetable_name"] . '" data-date="' . $col["nursery_date"] . '"  >
+              <i class="fas fa-sign-out-alt"></i></button>
               </td>';
 
               echo '</tr>';

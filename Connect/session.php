@@ -13,11 +13,16 @@ if (isset($_SESSION['user'])) {
 
 if (isset($_SESSION["farm_name"])) {
     $farm_name =  $_SESSION["farm_name"];
-    $sql_farm_session = "SELECT a.id_farm FROM `tb_farm` as a WHERE a.id_user = '$id_user_session'AND a.name_farm = '$farm_name';";
+    $sql_farm_session = "SELECT a.id_farm FROM `tb_farm` as a WHERE a.id_user = '$id_user_session' and a.name_farm = '$farm_name'";
     $resultd_farm_session = mysqli_query($conn, $sql_farm_session);
     if ($resultd_farm_session) {
         $row_farm_session = mysqli_fetch_assoc($resultd_farm_session);
         $id_farm_session  = $row_farm_session['id_farm'];
+        // echo "<script>console.log(' " ."ชื่อฟาร์ม".   $farm_name .  "');</script>";
+        // echo "<script>console.log(' " ."IDฟาร์ม".  $id_farm_session.  "');</script>";
+        // echo "<script>console.log(' " ."IDuser".  $id_user_session.  "');</script>";
+      
+
     }
 }
 
@@ -30,6 +35,7 @@ if (isset($_SESSION["greenhouse_name"])) {
     if ($resultd_greenhouse_session) {
         $row_greenhouse_session = mysqli_fetch_assoc($resultd_greenhouse_session);
         $id_greenhouse_session  = $row_greenhouse_session['id_greenhouse'];
+        // echo "<script>console.log(' " ." $greenhouse_name " . "');</script>";
     }
 }
 if (isset($_SESSION["photo_name"])) {
@@ -44,7 +50,7 @@ if (isset($_SESSION["f_name"])) {
 
 if (!isset($_SESSION['user'])) {
 
-    echo "<script>window.location = '../php/loginform.php'</script>";
+    // echo "<script>window.location = '../php/loginform.php'</script>";
 
 
   }

@@ -29,10 +29,16 @@ $space = $_GET['emp_slot'] // จำนวนช่องช่องที่�
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- เรียกใช้ ฺBootstrap 5 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
+
   <title>Bootstrap 5</title>
 </head>
+<style>
 
+
+</style>
 <body>
   <!-- เมนูด้านข้าง ( Side Menu ) -->
   <div class="d-flex flex-column p-3 text-white bg-dark side-menu" style="width: 250px; height: 100vh; position: fixed; left: -250px">
@@ -100,7 +106,8 @@ $space = $_GET['emp_slot'] // จำนวนช่องช่องที่�
               <td> <?= $row["name_greenhouse"] ?></td>
               <td style="border: none;">
                 <button type="button" class="btn btn-primary move-button" data-bs-toggle="modal" data-bs-target="#move_to_nursery"
-                id-veg_farm="<?= $row["id_veg_farm"] ?>"    id-plot_nursery="<?= $id_plotnursery ?>" data-name-vegetable="<?= $row["vegetable_name"] ?>" data-date="<?= $row["germination_date"] ?>" data-germination-amount="<?= $row["germination_amount"]  ?>" data-id_seed_germination="<?= $row["id_seed_germination"] ?>">ย้าย </button>
+                id-veg_farm="<?= $row["id_veg_farm"] ?>"    id-plot_nursery="<?= $id_plotnursery ?>" data-name-vegetable="<?= $row["vegetable_name"] ?>" data-date="<?= $row["germination_date"] ?>" data-germination-amount="<?= $row["germination_amount"]  ?>" data-id_seed_germination="<?= $row["id_seed_germination"] ?>">
+                <i class="fas fa-sign-out-alt"></i> </button>
               </td>
             </tr>
           <?php

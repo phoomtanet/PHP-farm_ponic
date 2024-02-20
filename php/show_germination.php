@@ -58,7 +58,7 @@ $result_traysize = mysqli_query($conn, $name_traysize);
         <ul class="nav nav-pills flex-column mb-auto pt-4 side_nav_menu"></ul>
     </div>
     <!-- ตารางแปลงเพาะ -->
-    <div class="pt-3 main-content-div" style=" text-align: center;">
+    <div class="pt-3 main-content-div  pt-5 mt-3" style=" text-align: center;">
         <div class="container" style="margin-top: 20px;">
             <table class="table table-striped table-bordered">
                 <caption class="caption-top">ตารางแสดงข้อมูลแปลงผักเพาะเม็ด </caption>

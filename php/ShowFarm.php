@@ -5,13 +5,10 @@ include '../Connect/session.php';
 
 $sql = "SELECT * FROM `tb_farm`
 INNER JOIN `tb_user` ON tb_farm.id_user = tb_user.id_user
-
-WHERE tb_user.user_name = '$user'";
+WHERE tb_user.id_user = '$id_user_session'";
 $result = mysqli_query($conn, $sql);
 
-$sql_id = "SELECT id_user FROM `tb_user` WHERE user_name = '$user'";
-$result_sql_id = mysqli_query($conn, $sql_id);
-$re = mysqli_fetch_array($result_sql_id);
+;
 ?>
 
 <!doctype html>
