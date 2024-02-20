@@ -34,6 +34,16 @@ if(isset($_POST['check_edit'])){
     
     $sql = "UPDATE `tb_farm` SET `name_farm`='$namefarm',`location`='$location' WHERE id_farm = '$id_farm'";
     mysqli_query($conn,$sql);
+
+    $sql_farm_session = "SELECT a.id_farm FROM `tb_farm` as a WHERE a.id_user = '$id_user_session'AND a.name_farm = '$namefarm';";
+    $resultd_farm_session = mysqli_query($conn, $sql_farm_session);
+    if ($resultd_farm_session) {
+        $row_farm_session = mysqli_fetch_assoc($resultd_farm_session);
+        $id_farm_session  = $row_farm_session['id_farm'];
+        
+    }
+
+
     
     echo "<script> alert('*แก้โรงเรือนสำเร็จ*'); </script>";
     // echo $_SESSION["farm_name"];

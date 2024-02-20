@@ -8,15 +8,20 @@ if (!isset($_SESSION['user'])) {
 include '../Connect/conn.php';
 include '../Connect/session.php';
 
-$sql_harvest = "SELECT p.plot_name, v.vegetable_name,v.img_name ,h.harvestdate, h.harvest_amount , f.name_farm
-FROM `tb_harvest` AS h  
-INNER JOIN tb_plot AS p ON p.id_plot = h.id_plot
-INNER JOIN tb_veg_farm AS vf ON vf.id_veg_farm = h.id_veg_farm
-INNER JOIN tb_vegetable AS v ON v.id_vegetable = vf.id_vegetable
-INNER JOIN tb_farm AS f ON f.id_farm = vf.id_farm
-INNER JOIN tb_greenhouse as g on g.id_greenhouse = p.id_greenhouse
-WHERE g.id_greenhouse = $id_greenhouse_session
-  AND h.harvestdate BETWEEN DATE_SUB(CURDATE(), INTERVAL 30 DAY) AND CURDATE();";
+$sql_harvest = "
+    SELECT p.plot_name, v.vegetable_name, v.img_name, h.harvestdate, h.harvest_amount, f.name_farm
+    FROM `tb_harvest` AS h  
+    INNER JOIN tb_plot AS p ON p.id_plot = h.id_plot
+    INNER JOIN tb_veg_farm AS vf ON vf.id_veg_farm = h.id_veg_farm
+    INNER JOIN tb_vegetable AS v ON v.id_vegetable = vf.id_vegetable
+    INNER JOIN tb_farm AS f ON f.id_farm = vf.id_farm
+    INNER JOIN tb_greenhouse as g ON g.id_greenhouse = p.id_greenhouse
+    WHERE g.id_greenhouse = $id_greenhouse_session
+        AND h.harvestdate BETWEEN DATE_SUB(CURDATE(), INTERVAL 30 DAY) AND CURDATE()
+    ORDER BY h.id_harvest DESC;
+";
+
+
 $result_harvest = mysqli_query($conn, $sql_harvest);
 
 
@@ -74,8 +79,10 @@ $result_harvest = mysqli_query($conn, $sql_harvest);
                     <?php
                        foreach ($result_harvest  as $row) {
 
+                        $thaimonth = array("ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค.");
                
-                     
+                        $thaiDate_har = date('d', strtotime($row['harvestdate'])) . ' ' . $thaimonth[date('n', strtotime($row['harvestdate'])) - 1];
+
                     ?>
                         <th style="border: none;"></th>
                         <th style="border: none;"></th>
@@ -94,7 +101,7 @@ $result_harvest = mysqli_query($conn, $sql_harvest);
 
                             <td class="text-center"><?= $row["vegetable_name"] ?></td>
                             <td><?= $row["harvest_amount"] ?></td>
-                            <td><?= date('d / m', strtotime($row["harvestdate"])) ?></td>
+                            <td><?= $thaiDate_har  ?></td>
 
 
 

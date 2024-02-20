@@ -11,7 +11,7 @@ $datenow = date("Y-m-d");
 $sql_fer = "SELECT * FROM `tb_fertilizer` as a 
 INNER JOIN tb_farm as b ON b.id_farm = a.id_farm 
 INNER JOIN tb_user as c ON c.id_user = b.id_user 
-WHERE b.name_farm = '$farm_name' AND c.user_name = '$user';";
+WHERE b.id_farm=$id_farm_session";
 $result_sql_fer = mysqli_query($conn, $sql_fer);
 
 $sql_veg = "SELECT * FROM `tb_vegetable` AS v

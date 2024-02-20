@@ -93,7 +93,7 @@ $total_pages = ceil($total_records / $perpage);
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_data_Modal">+ เพิ่มแปลง</button>
           </div>
         </div>
-        <div>
+        <!-- <div>
           <ul class="pagination justify-content-center">
             <li class="page-item">
               <a class="page-link" href="../php/index.php?page=1 " aria-label="Previous">
@@ -109,7 +109,8 @@ $total_pages = ceil($total_records / $perpage);
               </a>
             </li>
           </ul>
-        </div>
+     
+        </div> -->
       </div>
 
 

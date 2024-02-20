@@ -36,7 +36,9 @@ $result_plan = mysqli_query($conn, $sql_plot_plan);
         <ul class="nav nav-pills flex-column mb-auto pt-4 side_nav_menu">
     </div>
     <div class="pt-5 main-content-div" style=" text-align: center;">
-
+    <div class="d-flex  justify-content-start mx-5">
+            <a href="../php/index.php  " class="mx-5 btn btn-primary">กลับ</a>
+        </div>
         <br>
         <div class="container">
 
@@ -63,6 +65,8 @@ $result_plan = mysqli_query($conn, $sql_plot_plan);
                     // แปลงวันที่เป็นวันที่แบบไทย
                     $thaiDate_fer = date('d', strtotime($fertilizationDate)) . ' ' . $thaimonth[date('n', strtotime($fertilizationDate)) - 1];
 
+
+                    
                 ?>
 
                     <div class="  mx-5 secondary mb-2 ">
@@ -107,9 +111,7 @@ $result_plan = mysqli_query($conn, $sql_plot_plan);
             </div>
         </div>
 
-        <div class="d-flex  justify-content-start mx-5">
-            <a href="../php/index.php  " class="mx-5">กลับ</a>
-        </div>
+      
         <div class="modal fade" id="update_data_Modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content border border-dark ">

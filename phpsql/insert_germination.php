@@ -31,10 +31,10 @@ if (isset($_POST["save"])) {
     // echo  "จำนวนถาด $Amount_trays";
     // echo  "วันที่ $germination_date ";
 
-    $slq_seed_germination = "INSERT INTO `tb_seed_germination`(`id_seed_germination`, `id_veg_farm`, `id_greenhouse`, `id_traysize`, `Amount_trays`, `germination_amount`, `germination_date`) 
-    VALUES ('','$id_vegetable','$id_greenhouse1','$id_traysize','$Amount_trays',$columne__tray*$row__tray*$Amount_trays,'$germination_date')";
+    $slq_seed_germination = "INSERT INTO `tb_seed_germination`( `id_veg_farm`, `id_greenhouse`, `id_traysize`, `Amount_trays`, `germination_amount`, `germination_date`) 
+    VALUES ('$id_vegetable','$id_greenhouse1','$id_traysize','$Amount_trays',$columne__tray*$row__tray*$Amount_trays,'$germination_date')";
     mysqli_query($conn, $slq_seed_germination);
-    echo "<script> alert('*เพิ่มแปลงเพาะสำเร็จ*'); </script>";
+    echo "<script> alert('*เพิ่งการเพาะสำเร็จ*'); </script>";
     echo "<script>window.location = '../php/show_germination.php'</script>";
 }
 
@@ -44,8 +44,8 @@ if (isset($_POST['save2'])) {
     $amount_row = $_POST['amount_row'];
     $amount_column = $_POST['amount_column'];
 
-    $sql_tray = "INSERT INTO `tb_traysize`(`id_farm`, `id_traysize`, `size_name`, `row_tray`, `column_tray`) 
-    VALUES ('$id_farm ','','$name_size','$amount_row','$amount_column')";
+    $sql_tray = "INSERT INTO `tb_traysize`(`id_farm`, `size_name`, `row_tray`, `column_tray`) 
+    VALUES ('$id_farm ','$name_size','$amount_row','$amount_column')";
     mysqli_query($conn, $sql_tray);
     echo "<script> alert('*เพิ่มถาดเพาะใหม่สำเร็จ*'); </script>";
     echo "<script>window.location = '../php/show_germination.php'</script>";
@@ -74,7 +74,7 @@ if (isset($_POST["edit"])) {
     SET `id_veg_farm`='$id_vegetable',`id_greenhouse`='$name_greenhouse',`id_traysize`='$id_traysize',`Amount_trays`='$Amount_trays',`germination_amount`=$columne__tray*$row__tray*$Amount_trays,`germination_date`='$germination_date' 
     WHERE `id_seed_germination`='$id_seed_germination' ";
     mysqli_query($conn, $sql_edit_seed);
-    echo "<script> alert('*แก้ไขแปลงเพาะสำเร็จ*'); </script>";
+    echo "<script> alert('*แก้ไขการเพาะสำเร็จ*'); </script>";
     echo "<script>window.location = '../php/show_germination.php'</script>";
 }
 

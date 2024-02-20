@@ -31,7 +31,7 @@ if (isset($_POST['farm_name'])) {
         INNER JOIN `tb_user` AS c ON b.id_user = c.id_user
         WHERE c.user_name = '$user' AND b.name_farm = '$namefarm' 
         LIMIT 1;";
-$_SESSION["greenhouse_name"] = $row_greenhouse['first_greenhouse'];
+        $_SESSION["greenhouse_name"] = $row_greenhouse['first_greenhouse'];
 
         $result_greenhouse  = $conn->query($greenhouse_first);
         if ($result_greenhouse) {

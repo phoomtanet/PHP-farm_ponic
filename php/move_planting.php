@@ -136,7 +136,8 @@ $total_slots = $_GET['total_slots'];
                                 <button type="button" class="btn btn-primary move-button" 
                                 data-bs-toggle="modal" data-bs-target="#add_data_Modal" 
                                 data-nursery-amount="' . $col["nursery_amount"] . '" data-id-nursery="' . $col["id_nursery"] . '" 
-                                data-id-vegetable="' . $col["id_veg_farm"] . '"  data-name-vegetable="' . $col["vegetable_name"] . '" data-date="' . $col["nursery_date"] . '"  >ย้าย</button>
+                                data-id-vegetable="' . $col["id_veg_farm"] . '"  data-name-vegetable="' . $col["vegetable_name"] . '" data-date="' . $col["nursery_date"] . '"  >
+                                ย้าย</button>
                                 </td>';
               } else {
                 echo '<td  colspan="7" >ไม่การอนุบาล</th>';

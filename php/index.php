@@ -76,17 +76,16 @@ $total_pages = ceil($total_records / $perpage);
       <div class="d-flex flex-nowrap justify-content-between text-center px-5  ">
         <div class="d-flex flex-nowrap justify-content-between text-center  ">
 
-          <div class="mx-2">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_plot" title="เพิ่มแปลงปลูก">
-              <i class="fas fa-plus"> </i>
-              <i class="fas fa-inbox"> </i>
+          <div >
+          <img src="../img/coler.png" alt="" width="240px">
+          
 
             </button>
           </div>
 
         </div>
-        <div>
-          <ul class="pagination justify-content-center">
+        <div class="mx-2">
+          <!-- <ul class="pagination justify-content-center">
             <li class="page-item">
               <a class="page-link" href="../php/index.php?page=1 " aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
@@ -100,7 +99,10 @@ $total_pages = ceil($total_records / $perpage);
                 <span aria-hidden="true">&raquo;</span>
               </a>
             </li>
-          </ul>
+          </ul> -->
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_plot" title="เพิ่มแปลงปลูก">
+              <i class="fas fa-plus"> </i>
+              <i class="fas fa-inbox"> </i>
         </div>
       </div>
 

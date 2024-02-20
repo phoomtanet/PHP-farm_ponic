@@ -11,7 +11,7 @@ $fertilizer_edit = $_POST['fertilizer_edit'];
 
 // var for update vegetableprice
 $vegetable_price_edit = $_POST['vegetable_price_edit'];
-$date_edit = $_POST['date_edit'];
+$date_edit =  date('d F Y');
 
 // var for update vegetableweight
 $amount_tree_edit = $_POST['amount_tree_edit'];
