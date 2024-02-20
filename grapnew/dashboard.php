@@ -124,13 +124,8 @@ $formattedPrice = number_format($allprice);
                 </div>
                 <div class="border px-4 mx-3">
                     <canvas id="priceChart" width="400" height="300"></canvas>
-
-
                 </div>
-
-
             </div>
-      
 </body>
 
 

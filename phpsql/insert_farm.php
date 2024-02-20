@@ -1,7 +1,7 @@
 <?php 
 session_start();
 include '../Connect/conn.php';
-
+include '../Connect/session.php';
 
 if(isset($_POST['check_insert']) || isset($_POST['check_edit']) ){
 
@@ -39,7 +39,26 @@ if(isset($_POST['check_edit'])){
   
     $_SESSION["farm_name"] = $namefarm;
         
-    
+    $greenhouse_first = "SELECT a.name_greenhouse as first_greenhouse
+    FROM `tb_greenhouse` as a
+    INNER JOIN `tb_farm` AS b ON a.id_farm  = b.id_farm 
+    INNER JOIN `tb_user` AS c ON b.id_user = c.id_user
+    WHERE c.user_name = '$user' AND b.name_farm = '$namefarm' 
+    LIMIT 1;";
+   
+   $result_greenhouse  = $conn->query($greenhouse_first);
+   if ($result_greenhouse) {
+       $row_greenhouse = $result_greenhouse->fetch_assoc();
+       if ($row_greenhouse) {
+           $_SESSION["greenhouse_name"] = $row_greenhouse['first_greenhouse'];
+
+           // อาจจะมี popup แจ้งเตือนให้กดยืนยันก่อนเปลี่ยนฟาร์ม
+           // echo $_SESSION["greenhouse_name"];
+       } else {
+        //    echo "<script>window.location = '../php/greenhouse_form.php'; </script>";
+       }
+       $result_greenhouse->free();
+   }
 
 
     
