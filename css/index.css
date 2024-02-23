@@ -1,0 +1,27 @@
+.bg-emp{
+
+    background:  rgb(105, 103, 103) 37%;
+    
+}
+
+.bg-add{
+
+    background:  rgba(23, 127, 42, 0.898) 50%;
+    
+}
+
+.bg-fer{
+
+    background:  rgba(49, 125, 231, 0.941) 50%;
+    
+}
+.bg-har{
+
+    background:  rgb(221, 55, 4) 50%;
+    
+}
+.tx-edit{
+
+
+    color:darkgoldenrod;
+}

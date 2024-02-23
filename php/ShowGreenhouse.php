@@ -89,6 +89,13 @@ $re = mysqli_fetch_array($result_sql_id);
         <tbody>
           <?php
           while ($row = mysqli_fetch_array($result)) {
+
+        //   $sql_check_del = "SELECT * FROM `tb_greenhouse` as gh 
+        //   LEFT JOIN tb_plot as p ON gh.id_greenhouse =p.id_greenhouse
+        //   LEFT JOIN tb_plot_nursery as pn on gh.id_greenhouse = pn.id_greenhouse
+        //   LEFT JOIN tb_seed_germination as sg on gh.id_greenhouse = sg.id_greenhouse
+        //  INNER JOIN tb_farm as f on f.id_farm = gh.id_farm
+        //  WHERE f.id_farm = '$id_farm_session' ";
           ?>
             <tr>
               <!-- <td><?= $row["id_greenhouse"] ?></td> -->

@@ -74,7 +74,6 @@ include '../Connect/conn.php';
     <div class="modal-content border-dark border-4">
       <div class="modal-header text-center">
         <h5 class="modal-title mx-auto" style="text-align: center;" id="staticBackdropLabel">การสมัครสมาชิก</h5>
-        <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
       </div>
       <div class="modal-body">
         <?php if (isset($_SESSION['error_user'])) { ?>
@@ -164,15 +163,7 @@ include '../Connect/conn.php';
       }
     }
 
-    function check_char(elm) {
-      if (!elm.value.match(/^[a-z0-9]+$/i) && elm.value.length > 0) {
-        alert('ไม่สามารถใช้ตัวอักษรพิเศษและภาษาไทยได้');
-        elm.value = '';
-        // } else if (elm.value.length > 0) {
-        //   alert('Username ต้องมีมากกว่า 6 ตัวอักษร');
-        //   elm.value = '';
-      }
-    }
+
 
     function cancel() {
       window.location.reload();

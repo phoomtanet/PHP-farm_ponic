@@ -46,7 +46,7 @@ $result_greenhouse = mysqli_query($conn, $sql_greenhouse);
 
         <form class="d-flex " method="post" action="../phpsql/sreach_farm.php">
           <div class="dropdown mx-3">
-            <button class="btn  btn-success  dropdown-toggle" type="button" id="farmDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <button class="btn  btn-secondary  dropdown-toggle" type="button" id="farmDropdown" data-bs-toggle="dropdown" aria-expanded="false">
               <?php echo 'ฟาร์ม : ' . $farm_name; ?>
             </button>
 
@@ -65,7 +65,7 @@ $result_greenhouse = mysqli_query($conn, $sql_greenhouse);
 
         <form class="d-flex" method="post" action="../phpsql/sreach_greenhouse.php">
           <div class="dropdown mx-3">
-            <button class="btn btn-success dropdown-toggle" type="button" id="greenhouseDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="greenhouseDropdown" data-bs-toggle="dropdown" aria-expanded="false">
               <?php echo 'โรงเรือน : ' . $greenhouse_name; ?>
             </button>
             <ul class="dropdown-menu" aria-labelledby="greenhouseDropdown">
@@ -93,14 +93,15 @@ $result_greenhouse = mysqli_query($conn, $sql_greenhouse);
   <div class="collapse navbar-collapse">
     <ul class="navbar-nav  menu-top">
       <li class="nav-item">
-        <a class="navbar-brand top_nav_menu" href="../php/index.php">การปลูกผัก</a>
       </li>
+      <a class="nav-link top_nav_menu" href="../php/show_germination.php">การเพาะเมล็ด</a>
     
       <li class="nav-item">
         <a class="nav-link top_nav_menu" href="../php/plot_nursery.php">การอนุบาลผัก</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link top_nav_menu" href="../php/show_germination.php">การเพาะเมล็ด</a>
+        <a class="navbar-brand top_nav_menu" href="../php/index.php">การปลูกผัก</a>
+
       </li>
       <li class="nav-item">
         <a class="nav-link top_nav_menu" href="../php/ShowHarvest.php">การเก็บเกี่ยว</a>

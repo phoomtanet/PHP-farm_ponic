@@ -44,7 +44,9 @@ $result_plan = mysqli_query($conn, $sql_plot_plan);
 
             <div class="d-flex  flex-wrap justify-content-evenly">
                 <?php foreach ($result_plan as $row) {
+                    
                     $thaimonth = array("ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค.");
+                  
                     $thaiMonth = $thaimonth[date('n', strtotime($row["planting_date"])) - 1];
 
                     $Date = new DateTime($row['planting_date']);
@@ -64,7 +66,6 @@ $result_plan = mysqli_query($conn, $sql_plot_plan);
 
                     // แปลงวันที่เป็นวันที่แบบไทย
                     $thaiDate_fer = date('d', strtotime($fertilizationDate)) . ' ' . $thaimonth[date('n', strtotime($fertilizationDate)) - 1];
-
 
                     
                 ?>

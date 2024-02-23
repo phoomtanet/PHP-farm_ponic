@@ -262,7 +262,7 @@ $rs_vet = mysqli_query($conn, $sql_veg);
           <small class="text-muted ">* ต้องมีข้อมูลปุ๋ยก่อน.</small>
           <div class="row mt-2 mb-2">
             <div class="col">
-              <label>ราคาผัก :</label>
+              <label>ราคาผัก/กิโลกรัม :</label>
               <input type="number" name="vegetable_price" id="vegetable_price" class="form-control" required placeholder="ป้อนราคาผัก...">
             </div>
             <div class="col">

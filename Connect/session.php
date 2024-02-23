@@ -50,7 +50,7 @@ if (isset($_SESSION["f_name"])) {
 
 if (!isset($_SESSION['user'])) {
 
-    // echo "<script>window.location = '../php/loginform.php'</script>";
+    echo "<script>window.location = '../php/loginform.php'</script>";
 
 
   }

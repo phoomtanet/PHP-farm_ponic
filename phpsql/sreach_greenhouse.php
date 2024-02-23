@@ -4,8 +4,6 @@ ob_start();
 include '../Connect/conn.php';
 include '../Connect/session.php';
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 
 $namegreenhouse  = $_POST['greenhouse_name'];
 $referer = $_SERVER['HTTP_REFERER'];

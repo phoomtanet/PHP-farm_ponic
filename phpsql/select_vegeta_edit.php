@@ -71,7 +71,7 @@ $rs3 = mysqli_fetch_array($result3);
   </select>
   <div class="row mt-2 mb-2">
     <div class="col">
-      <label>ราคาผัก :</label>
+      <label>ราคาผัก/กิโลกรัม  :</label>
       <input type="number" name="vegetable_price_edit" id="vegetable_price_edit" class="form-control" value="<?= $rs2['price'] ?>" required placeholder="ป้อนราคาผัก...">
     </div>
     <div class="col">

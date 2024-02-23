@@ -12,7 +12,7 @@ $location = $_POST['location'];
 $greenhouse = $_POST['greenhouse'];
 
 $sql = "INSERT INTO `tb_farm`(`id_user`, `name_farm`, `location`) 
-VALUES ('$id_user','$namefarm','$location')";
+VALUES ('$id_user_session','$namefarm','$location') ";
 mysqli_query($conn,$sql);
 
 
@@ -20,7 +20,7 @@ $last_id_farm = mysqli_insert_id($conn); // id ล่าสุดที่ถู
   
 
 $sql_gh = "INSERT INTO `tb_greenhouse`( `id_farm`, `name_greenhouse`) 
-VALUES ('$last_id_farm','$greenhouse')";
+VALUES ('$last_id_farm','$greenhouse') ";
 mysqli_query($conn,$sql_gh);
 
 echo "<script> alert('*เพิ่มฟาร์มสำเร็จ*'); </script>";
@@ -54,8 +54,6 @@ if(isset($_POST['check_edit'])){
 
            // อาจจะมี popup แจ้งเตือนให้กดยืนยันก่อนเปลี่ยนฟาร์ม
            // echo $_SESSION["greenhouse_name"];
-       } else {
-        //    echo "<script>window.location = '../php/greenhouse_form.php'; </script>";
        }
        $result_greenhouse->free();
    }

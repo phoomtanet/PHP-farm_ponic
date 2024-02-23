@@ -13,7 +13,7 @@ INNER JOIN tb_user as d on c.id_user = d.id_user
 LEFT JOIN tb_veg_farm as vf on vf.id_veg_farm = e.id_veg_farm   
 
 LEFT JOIN tb_vegetable as f on f.id_vegetable = vf.id_vegetable   
-WHERE d.user_name = '$user' AND c.name_farm = '$farm_name' 
+WHERE c.id_farm = '$id_farm_session' 
 ORDER BY LENGTH(a.plotnursery_name) ,b.name_greenhouse , a.plotnursery_name ";
 
 $result_plot__nursery = mysqli_query($conn, $sql);
@@ -190,7 +190,7 @@ $total_slots = $_GET['total_slots'];
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content border border-dark ">
       <div class="modal-header text-center" style="background-color: #212529;">
-        <h5 class="modal-title mx-auto text-white" style="text-align: center;" id="staticBackdropLabel">เพิ่มแปลง</h5>
+        <h5 class="modal-title mx-auto text-white" style="text-align: center;" id="staticBackdropLabel">ย้ายการอนุบาลไปยังแปลงปลูก</h5>
       </div>
       <div class="modal-body">
         <form action="../phpsql/insert_move_planting.php" method="post" id="insertregister" name="insertregister" enctype="multipart/form-data">

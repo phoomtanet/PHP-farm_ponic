@@ -1,5 +1,7 @@
 <?php
+session_start();
 include '../Connect/conn.php';
+include '../Connect/session.php';
 
 $id_farm = $_POST['id_farm'];
 $name_greenhouse = $_POST['greenhouse_name'];
