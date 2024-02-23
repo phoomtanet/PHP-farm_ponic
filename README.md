@@ -1,4 +1,6 @@
-![image](https://github.com/phoomtanet/farm_ponic/assets/143348885/2614496a-a238-43ef-b2ed-c12b29729772)
+
+![image](https://github.com/phoomtanet/PHP-farm_ponic/assets/143348885/eb90c888-061a-4b73-9213-1cb5c4034a18)
+
 ![image](https://github.com/phoomtanet/PHP-farm_ponic/assets/143348885/ab62d8d9-553c-41f2-9a7f-4f8a717709f0)
 
 ![redoak](https://github.com/phoomtanet/farm_ponic/assets/143348885/3a52c1ce-64c2-4e6a-940e-8561f6d1af74)
