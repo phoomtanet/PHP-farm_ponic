@@ -22,13 +22,12 @@
                             <tr style="text-align: center;">
                                 <th scope="row">ช่องว่าง :
                                     <b class="text-danger"> <?php echo  ' ' . $col['row'] * $col['column'] - $total_vegetable_amount;    ?></b><span> ช่อง</span>
-
                                 </th>
                             </tr>
                             <td style="padding-top:100px; "> </td>
                             <tr>
                                 <td scope="col" style="text-align: center;">
-                                    <i class=" edit_plot btn fas fa-edit text-warning  " style='font-size:20px' data-bs-toggle="modal" data-bs-target="#edit_plot" title="แก้ไขแปลงปลูก" data-edit_plot_name="<?= $col['plot_name'] ?>" data-edit_plot_col="<?= $col['column'] ?>" data-edit_plot_row="<?= $col['row'] ?>" data-id_edit_plot="<?= $col['id_plot'] ?>"> </i>
+                                    <i class=" edit_plot btn fas fa-edit text-warning  " style='font-size:20px' data-bs-toggle="modal" data-bs-target="#edit_plot" title="แก้ไขแปลงปลูก" data-edit_plot_name="<?= $col['plot_name'] ?>" data-edit_plot_col="<?= $col['column'] ?>" data-edit_plot_row="<?= $col['row'] ?>" data-id_edit_plot="<?= $col['id_plot'] ?>" data-id_edit_fer="<?= $col['id_fertilizer'] ?>" data-name_edit_fer="<?= $col['fertilizer_name'] ?>"> </i>
                                     <a class="btn fa-regular fa-trash-alt text-danger " style='font-size:20px' href="../phpsql/insert_plot.php?id_plot_del=<?= $col['id_plot'] ?>" onclick="Del(this.href);return false;"> </a>
                                 </td>
                             </tr>
@@ -44,11 +43,7 @@
                                         <img src="../img/emp.jpg" class="m-1 " style="width: 60px;   border-radius: 50px; ">
                                 </td>
                             <?php } ?>
-
-
-
                         </tr>
-
                     </table>
                 </div>
                 </a>

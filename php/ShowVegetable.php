@@ -19,7 +19,6 @@ INNER JOIN  tb_veg_farm AS vf on v.id_vegetable = vf.id_vegetable
 INNER JOIN tb_farm AS f on f.id_farm = vf.id_farm
 INNER JOIN  tb_vegetableweight AS vw ON vw.id_veg_farm = vf.id_veg_farm
 INNER JOIN  tb_vegetableprice AS vp  ON vp.id_veg_farm = vf.id_veg_farm
-INNER JOIN tb_fertilizer as fl on fl.id_fertilizer = v.id_fertilizer
 WHERE f.id_farm = $id_farm_session";
 $rs_vet = mysqli_query($conn, $sql_veg);
 
@@ -56,11 +55,19 @@ $rs_vet = mysqli_query($conn, $sql_veg);
     margin-bottom: 0;
     padding: 0.5rem 0.5rem;
   }
+
+  input::placeholder {
+
+    font-size: 15px;
+
+  }
 </style>
 
 
 <body>
   <?php include '../navbar/navbar.php'; ?>
+  <script src="../script/check.js"></script>
+
   <!-- เมนูด้านข้าง ( Side Menu ) -->
   <div class="d-flex flex-column p-3 text-white bg-dark side-menu" style="width: 250px; height: 100vh; position: fixed; left: -250px">
     <ul class="nav nav-pills flex-column mb-auto pt-4 side_nav_menu"></ul>
@@ -83,7 +90,6 @@ $rs_vet = mysqli_query($conn, $sql_veg);
           <th style="border: none;"></th>
           <th style="border: none;"></th>
           <th style="border: none;"></th>
-          <th style="border: none;"></th>
           <!-- <th style="border: none;"></th> -->
           <!-- <th style="border: none;"></th> -->
           <th style="border: none; text-align: right;">
@@ -96,7 +102,6 @@ $rs_vet = mysqli_query($conn, $sql_veg);
           <tr>
             <!-- <th>รหัสผัก</th> -->
             <th colspan="2">ชื่อผัก</th>
-            <th>ปุ๋ย</th>
             <th>อายุ</th>
             <th>ราคา</th>
             <th class="text-nowrap">น้ำหนักเฉลี่ย</th>
@@ -115,7 +120,6 @@ $rs_vet = mysqli_query($conn, $sql_veg);
               <td><img src="../img/<?= $row['img_name'] ?>" style="width: 50px; border-radius: 50px;"></td>
 
               <td><?= $row["vegetable_name"] ?></td>
-              <td><?= $row["fertilizer_name"] ?></td>
               <td class="text-nowrap"><?= $row["vegetable_age"] ?> วัน</td>
 
               <td class="text-nowrap"><?= $row["price"] ?> บ.</td>
@@ -153,7 +157,7 @@ $rs_vet = mysqli_query($conn, $sql_veg);
                 </td>
               <?php } else { ?>
                 <td style="border: none;">
-                  <a class="" style="color: red;" href="../phpsql/delete_vegetable.php?id=<?= $row['id_vegetable'] ?> && id_veg_farm=<?= $row['id_veg_farm'] ?> "   onclick="Del(this.href);return false;"><i class="fa-regular fa-trash-can fa-xl"></i></a>
+                  <a class="" style="color: red;" href="../phpsql/delete_vegetable.php?id=<?= $row['id_vegetable'] ?> && id_veg_farm=<?= $row['id_veg_farm'] ?> " onclick="Del(this.href);return false;"><i class="fa-regular fa-trash-can fa-xl"></i></a>
                 </td>
                 <td style="border: none;">
                   <a class="update_data" style="color: orange; cursor: pointer;" id="<?= $row['id_vegetable']; ?>" id_veg_farm="<?= $row['id_veg_farm']; ?>" data-bs-toggle="modal" imgName="<?= $row['img_name']; ?>" data-bs-target="#update_data_Modal"><i class="fa-regular fa-pen-to-square fa-xl"></i></a>
@@ -197,7 +201,7 @@ $rs_vet = mysqli_query($conn, $sql_veg);
 
               <?php
               $idfertilizer = $row_fer["id_fertilizer"];
-              $del_fer = "SELECT id_fertilizer FROM tb_vegetable WHERE id_fertilizer = '$idfertilizer'";
+              $del_fer = "SELECT id_fertilizer FROM tb_plot WHERE id_fertilizer = '$idfertilizer'";
               $del_fer = mysqli_query($conn, $del_fer);
               $fet_del_fer = mysqli_fetch_array($del_fer);
               if (isset($fet_del_fer['id_fertilizer'])) {
@@ -232,11 +236,11 @@ $rs_vet = mysqli_query($conn, $sql_veg);
 
 <!-- Modal insert vegetable-->
 <div class="modal fade" id="add_data_Modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable">
-    <div class="modal-content border-dark border-4">
-      <div class="modal-header text-center">
-        <h5 class="modal-title mx-auto" style="text-align: center;" id="staticBackdropLabel">เพิ่มข้อมูลผัก</h5>
-        <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-dark">
+        <h5 class="modal-title text-light">เพิ่มแปลง</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
 
@@ -245,51 +249,45 @@ $rs_vet = mysqli_query($conn, $sql_veg);
           <div class="row mt-2 mb-2">
             <div class="col">
               <label>ชื่อผัก : </label><span id="user-availability-status"></span>
-              <input type="text" name="vegetable_name" id="vegetable_name" class="form-control" required oninput="checkAvailability()" placeholder="ป้อนชื่อผัก...">
+              <input type="text" name="vegetable_name" id="vegetable_name" class="form-control" required oninput="checkAvailability()" onkeyup="checkInputvet(this)" placeholder="ข้อมูลไม่เกิน 20 อักษร">
             </div>
             <div class="col">
               <label>อายุผัก : </label>
-              <input type="number" name="age_vegatable" id="age_vegatable" class="form-control" required min="0" placeholder="ป้อนจำนวนวัน...">
+              <input type="number" name="age_vegatable" id="age_vegatable" class="form-control" min="1" max="999999" required placeholder="ป้อนจำนวนวัน...">
             </div>
           </div>
-          <label>ปุ๋ย : </label>
-          <select class="form-select mb-2" name="fertilizer" id="fertilizer" required>
-            <option value=""> -- เลือกปุ๋ย ▼ -- </option>
-            <?php foreach ($result_sql_fer as $fer) {
-              echo '<option value="' . $fer['id_fertilizer'] . '"   >' . $fer['fertilizer_name'] . '</option>';
-            } ?>
-          </select>
-          <small class="text-muted ">* ต้องมีข้อมูลปุ๋ยก่อน.</small>
+
           <div class="row mt-2 mb-2">
             <div class="col">
               <label>ราคาผัก/กิโลกรัม :</label>
-              <input type="number" name="vegetable_price" id="vegetable_price" class="form-control" required placeholder="ป้อนราคาผัก...">
+              <input type="number" name="vegetable_price" id="vegetable_price" min="1" max="999999" class="form-control" required placeholder="ป้อนราคาผัก...">
             </div>
             <div class="col">
-              <label>น้ำหนักต่อต้น : </label>
-              <input type="text" name="weight-vat" id="weight-vat" class="form-control" readonly >
+              <label>น้ำหนักต่อต้น(กรัม) : </label>
+              <input type="text" name="weight-vat" id="weight-vat" class="form-control" readonly>
             </div>
           </div>
           <div class="row mt-2 mb-2">
             <div class="col">
               <label>จำนวนต้นที่ชั่งน้ำหนัก : </label><span id="user-availability-status"></span>
-              <input type="number" name="amount_tree" id="amount_tree" class="form-control" required min="0" oninput="avgWeight()" placeholder="ป้อนจำนวนต่อน้ำหนัก...">
+              <input type="number" name="amount_tree" id="amount_tree" min="1" max="99999" class="form-control" required min="0" oninput="avgWeight()" placeholder="ป้อนจำนวนต่อน้ำหนัก...">
             </div>
             <div class="col">
-              <label>น้ำหนักผัก : กรัม. </label>
-              <input type="number" step="any" name="vegetableweight" id="vegetableweight" class="form-control" required min="0" oninput="avgWeight()" placeholder="ป้อนน้ำหนัก...">
+              <label>น้ำหนักผัก(กรัม) : </label>
+              <input type="number" step="any" name="vegetableweight" min="1" max="999999" id="vegetableweight" class="form-control" required min="0" oninput="avgWeight()" placeholder="ป้อนน้ำหนัก...">
             </div>
           </div>
           <label class="mb-2">รูปภาพผัก : </label><br>
           <input class="mb-2 form-control" type="file" name="photo" id="photo" required>
           <div class="text-center">
             <img style="object-fit: cover; border-radius: 100px" width="200px" height="200px" id="previewImg" src="../img/emp.jpg">
-          </div>
+          </div >
+          <div class="modal-footer">
           <button type="button" class="mt-2 btn btn-secondary" onclick="cancel()" data-bs-dismiss="modal">ยกเลิก</button>
           <button type="submit" name="save1" id="save1" class="mt-2 btn btn-success">บันทึก</button>
         </form>
 
-
+        </div>
       </div>
     </div>
   </div>
@@ -298,20 +296,22 @@ $rs_vet = mysqli_query($conn, $sql_veg);
 
 <!-- Modal insert fertilizer-->
 <div class="modal fade" id="add_fertilizer_Modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable">
-    <div class="modal-content border-dark border-4">
-      <div class="modal-header text-center">
-        <h5 class="modal-title mx-auto" style="text-align: center;" id="staticBackdropLabel">เพิ่มข้อมูลปุ๋ย</h5>
-        <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+<div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-dark">
+        <h5 class="modal-title text-light">เพิ่มแปลง</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
 
         <form method="post" action="../phpsql/insert_fertilizer.php" enctype="multipart/form-data">
           <input type="text" class="form-control mb-2" value="<?php echo $_SESSION["farm_name"]; ?>" readonly hidden>
           <label class="mb-2">ชื่อปุ๋ย: </label><span id="fertilizer-availability-status"></span>
-          <input type="text" name="fertilizer_name" id="fertilizer_name" class="form-control" oninput="checkFertilizername()" required placeholder="ป้อนชื่อปุ๋ย...">
+          <input type="text" name="fertilizer_name" id="fertilizer_name" class="form-control" oninput="checkFertilizername()" onkeyup="checkInputvet(this)" required placeholder="ป้อนชื่อปุ๋ย...">
+          <div class="modal-footer">
           <button type="button" class="mt-2 btn btn-secondary" onclick="cancel()" data-bs-dismiss="modal">ยกเลิก</button>
           <button type="submit" name="save2" id="save2" class="mt-2 btn btn-success">บันทึก</button>
+          </div>
         </form>
       </div>
     </div>
@@ -321,18 +321,19 @@ $rs_vet = mysqli_query($conn, $sql_veg);
 
 <!-- Modal update vegetable-->
 <div class="modal fade" id="update_data_Modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content border-dark border-4">
-      <div class="modal-header text-center">
-        <h5 class="modal-title mx-auto" style="text-align: center;" id="staticBackdropLabel">แก้ไขข้อมูลผัก</h5>
+<div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-dark">
+        <h5 class="modal-title text-light">เพิ่มแปลง</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body" id="info_update5">
 
         <? include '../phpsql/select_vegeta_edit.php' ?>
-
       </div>
     </div>
   </div>
+</div>
 </div>
 <!-- End Modal update vegetable-->
 
@@ -342,14 +343,13 @@ $rs_vet = mysqli_query($conn, $sql_veg);
     <div class="modal-content border-dark border-4">
       <div class="modal-header text-center">
         <h5 class="modal-title mx-auto" style="text-align: center;" id="staticBackdropLabel">เพิ่มข้อมูลปุ๋ย</h5>
-        <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
       </div>
       <div class="modal-body">
 
         <form method="post" action="../phpsql/update_fertilizer.php" enctype="multipart/form-data">
           <input type="text" name="id_fertilizeredit" id="id_fertilizeredit" class="form-control" hidden>
           <label class="mb-2">ชื่อปุ๋ย: </label>
-          <input type="text" name="fertilizer_name_edit" id="fertilizer_name_edit" class="form-control" required>
+          <input type="text" name="fertilizer_name_edit" id="fertilizer_name_edit" onkeyup="checkInputvet(this)" class="form-control" required>
           <button type="button" class="mt-2 btn btn-secondary" onclick="cancel()" data-bs-dismiss="modal">ยกเลิก</button>
           <button type="submit" name="save2" id="save2" class="mt-2 btn btn-success">บันทึก</button>
         </form>
@@ -362,14 +362,13 @@ $rs_vet = mysqli_query($conn, $sql_veg);
 <!-- End Modal update fertilizer-->
 
 <script type="text/javascript">
+  function avgWeight() {
 
-function avgWeight(){
+    let countVet = document.getElementById("amount_tree").value;
+    let weightVet = document.getElementById("vegetableweight").value;
+    document.getElementById("weight-vat").value = weightVet / countVet;
 
- let countVet = document.getElementById("amount_tree").value; 
- let  weightVet  = document.getElementById("vegetableweight").value; 
-document.getElementById("weight-vat").value = weightVet/countVet;
-
-}
+  }
 
 
   function checkAvailability() {
@@ -435,8 +434,8 @@ document.getElementById("weight-vat").value = weightVet/countVet;
     $(document).on('click', '.update_data', function() {
       var id = $(this).attr("id");
       var id_veg_farm = $(this).attr("id_veg_farm");
-      var imgName= $(this).attr("imgName");
-      console.log( imgName);
+      var imgName = $(this).attr("imgName");
+      console.log(imgName);
 
       $.ajax({
         url: "../phpsql/select_vegeta_edit.php",
@@ -444,7 +443,7 @@ document.getElementById("weight-vat").value = weightVet/countVet;
         cache: false,
         data: {
           id: id,
-          id_veg_farm: id_veg_farm ,// Corrected syntax here
+          id_veg_farm: id_veg_farm, // Corrected syntax here
           img: imgName
         },
         success: function(data) {
@@ -477,14 +476,17 @@ document.getElementById("weight-vat").value = weightVet/countVet;
         const id_fertilizereditField = document.getElementById('id_fertilizeredit'); // You may need to use a different ID if necessary
         id_fertilizereditField.value = id_fertilizeredit;
 
+
+
+
       });
     });
   });
 
 
   function cancel() {
-      window.location.reload();
-    }
+    window.location.reload();
+  }
 </script>
 
 

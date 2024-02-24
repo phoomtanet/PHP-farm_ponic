@@ -20,9 +20,14 @@ if (isset($_GET['id_plan_del'])) {
        mysqli_query($conn, $update);
        $sql_del_fert = "DELETE FROM `tb_fertilizationdate` WHERE id_plot = '$id_plot'";
        mysqli_query($conn, $sql_del_fert);
+echo "<script> alert('*ลบข้อมูลสำเร็จ แปลงนี้ไม่มีการปลูกแล้ว*'); </script>";
+
     echo "<script> window.location='../php/index.php'</script>";
 
+
    }else{
+echo "<script> alert('*ลบข้อมูลสำเร็จ*'); </script>";
+
     echo "<script> window.location='../php/information_plot.php?id_plot_data=$id_plot&plot_name=$plot_name&slot=$slot'</script>";
 
    }
@@ -44,6 +49,8 @@ $sql_editPlanting = "UPDATE `tb_planting` SET `vegetable_amount`= $amount_vet ,`
 $sql_editFer = "UPDATE `tb_fertilizationdate` SET `fertilizationDate`= '$date_fer' WHERE id_plot = $id_plot";
 mysqli_query($conn,$sql_editPlanting);
 mysqli_query($conn, $sql_editFer);
+echo "<script> alert('*แก้ไขข้อมูลสำเร็จ*'); </script>";
+
 echo "<script> window.location='../php/information_plot.php?id_plot_data=$id_plot&plot_name=$plot_name&slot=$slot'</script>";
 
 

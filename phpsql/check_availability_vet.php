@@ -84,9 +84,6 @@ if ($_POST['where'] == 'fertilizer_name'  ) {
     $input_name = mysqli_real_escape_string($conn, $_POST['input_name']);
     $type = mysqli_real_escape_string($conn, $_POST['type']);
     $where = mysqli_real_escape_string($conn, $_POST['where']);
-
-
-
     $query = "SELECT * FROM " . $type . " 
     WHERE " . $where . " = '" . $input_name . "' AND id_farm = $id_farm_session";
   

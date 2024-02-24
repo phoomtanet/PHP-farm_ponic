@@ -14,6 +14,7 @@ FROM `tb_plot` as a
 INNER JOIN tb_greenhouse as b on a.id_greenhouse = b.id_greenhouse 
 INNER JOIN tb_farm as c on b.id_farm = c.id_farm 
 INNER JOIN tb_user as d on c.id_user = d.id_user 
+INNER JOIN tb_fertilizer as f on f.id_fertilizer = a.id_fertilizer
 WHERE a.id_greenhouse = $id_greenhouse_session
 ORDER BY LENGTH(a.plot_name), a.plot_name
 LIMIT $itemsPerPage OFFSET $offset";
@@ -65,17 +66,8 @@ $totalPages = ceil($totalRows / $itemsPerPage);
             <i class="text-white fas fa-inbox"> </i>
           </button>
         </div>
-        <div class=" ">
-          <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center">
-              <?php for ($page = 1; $page <= $totalPages; $page++) : ?>
-                <li class="page-item <?php echo ($currentpage == $page) ? 'active' : ''; ?>">
-                  <a class="page-link" href="?page=<?php echo $page; ?>"><?php echo $page; ?></a>
-                </li>
-              <?php endfor; ?>
-            </ul>
-          </nav>
-
+        <div >
+      <img src="../img/coler.png" alt="" width="240px">
         </div>
 
 
@@ -86,9 +78,16 @@ $totalPages = ceil($totalRows / $itemsPerPage);
       <?php include '../php/gui_plot.php'; ?>
 
     </div>
-    <div class=" mt-5 d-flex justify-content-center ">
-      <img src="../img/coler.png" alt="" width="240px">
-
+    <div class=" mt-5 d-flex justify-content-center ">      
+      <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+              <?php for ($page = 1; $page <= $totalPages; $page++) : ?>
+                <li class="page-item <?php echo ($currentpage == $page) ? 'active' : ''; ?>">
+                  <a class="page-link" href="?page=<?php echo $page; ?>"><?php echo $page; ?></a>
+                </li>
+              <?php endfor; ?>
+            </ul>
+          </nav>
     </div>
 
   </div>
@@ -112,6 +111,13 @@ $totalPages = ceil($totalRows / $itemsPerPage);
 
 
 <!-- ฟอร์ม เพิ่มแปลง -->
+<?php
+$sql_fer = "SELECT * FROM `tb_fertilizer` as a 
+INNER JOIN tb_farm as b ON b.id_farm = a.id_farm 
+INNER JOIN tb_user as c ON c.id_user = b.id_user 
+WHERE b.id_farm=$id_farm_session";
+$result_sql_fer = mysqli_query($conn, $sql_fer);
+?>
 <div class="modal fade" id="add_plot" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
@@ -122,12 +128,20 @@ $totalPages = ceil($totalRows / $itemsPerPage);
       <div class="modal-body">
         <form action="../phpsql/insert_plot.php" method="post" id="insertregister" name="insertregister" enctype="multipart/form-data">
           <label style="text-align: left; display: block;">ชื่อแปลง:<span id="ets_plot"></span></label>
-          <input type="text" name="nameplot" id="nameplot" class="form-control" required placeholder="พิมพ์ภาษาอังกฤษและตัวเลข ไม่เกิน 10 ตัวอักษร" oninput="checkname() " onkeyup="checkInput(this)">
-          <label style="text-align: left; display: block;">แถว(ด้านยาว) :</label>
-          <input type="number" name="row" min="1" max="9999" class="form-control" placeholder="ป้อนตัวเลข'ด้านยาว' ...">
-          <label style="text-align: left; display: block;">คอลัมน์(ด้านกว้าง) :</label>
-          <input type="number" name="columne" class="form-control" min="1" max="9999" placeholder="ป้อนตัวเลข'ด้านกว้าง' ..." required>
-          <!-- Other form fields -->
+          <input type="text" name="nameplot" id="nameplot" class="form-control" required placeholder="ข้อมูลไม่เกิน 10 ตัวอักษร" oninput="checkname() " onkeyup="checkInput(this)">
+          <label style="text-align: left; display: block;">ปุ๋ยที่ใช้ในแปลง :</label>
+          <select class="form-select mb-2" name="fertilizer" id="fertilizer" required>
+            <option value=""> -- เลือกปุ๋ย ▼ -- </option>
+            <?php foreach ($result_sql_fer as $fer) {
+              echo '<option value="' . $fer['id_fertilizer'] . '"   >' . $fer['fertilizer_name'] . '</option>';
+            } ?>
+          </select>
+          <small class="text-muted ">* ต้องมีข้อมูลปุ๋ยก่อน.</small>
+
+          <label style="text-align: left; display: block;">แถว(ด้านกว้าง) :</label>
+          <input type="number" name="row" min="1" max="9999" class="form-control" placeholder="ป้อนตัวเลข'ด้านกว้าง' ...">
+          <label style="text-align: left; display: block;">คอลัมน์(ด้านยาว) :</label>
+          <input type="number" name="columne" class="form-control" min="1" max="9999" placeholder="ป้อนตัวเลข'ด้านยาว' ..." required>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" onclick="cancel()" data-bs-dismiss="modal">ยกเลิก</button>
@@ -155,6 +169,12 @@ $totalPages = ceil($totalRows / $itemsPerPage);
 
           <label style="text-align: left; display: block;">ชื่อแปลง(ไม่เกิน 10 ตัวอักษร):<span id="ets_plotEdit"></span></label>
           <input type="text" name="edit_nameplot" width="100px" id="edit_nameplot" required class="form-control" oninput="checknameEdit()" onkeyup="checkInput(this)">
+          <label style="text-align: left; display: block;">ปุ๋ยที่ใช้ในแปลง :</label>
+          <select class="form-select mb-2" name="edit_fer" id="edit_fer" required>
+            <?php foreach ($result_sql_fer as $fer) {
+              echo '<option value="' . $fer['id_fertilizer'] . '">' . $fer['fertilizer_name'] . '</option>';
+            } ?>
+          </select>
           <label style="text-align: left; display: block;">แถว(ด้านยาว) :</label>
           <input type="number" name="edit_row" id="edit_row" min="1" max="999" class="form-control" required>
           <label style="text-align: left; display: block;">คอลัมน์(ด้านกว้าง) :</label>
@@ -223,6 +243,7 @@ $totalPages = ceil($totalRows / $itemsPerPage);
           <input type="text" name="plot_fertilization" id="plot_fertilization" class="form-control" readonly onBlur="checkAvailability()" onkeyup="check_char(this)">
           <label style="text-align: left; display: block;">วันที่ให้ปุ๋ย:</label>
           <input type="date" name="fertilizationdate" id="fertilizationdate" class="form-control" required placeholder="วันที่เพาะเมล็ด" max="<?php echo date('Y-m-d'); ?>">
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" onclick="cancel()" data-bs-dismiss="modal">ยกเลิก</button>
@@ -270,8 +291,19 @@ $totalPages = ceil($totalRows / $itemsPerPage);
         const id_edit_plot = document.getElementById('id_edit_plot');
         id_edit_plot.value = data_id_edit_plot;
 
+        const data_id_edit_fer = button.getAttribute('data-id_edit_fer');
+        const data_name_edit_fer = button.getAttribute('data-name_edit_fer');
+
+        const editFerSelect = document.getElementById('edit_fer');
 
 
+        for (let i = 0; i < editFerSelect.options.length; i++) {
+          if (editFerSelect.options[i].value === data_id_edit_fer) {
+            editFerSelect.selectedIndex = i;
+            break;
+          }
+        }
+        console.log(data_id_edit_fer + 'ชื่อ' + data_name_edit_fer);
 
       });
     });

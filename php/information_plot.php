@@ -66,8 +66,7 @@ $result_plan = mysqli_query($conn, $sql_plot_plan);
 
                     // แปลงวันที่เป็นวันที่แบบไทย
                     $thaiDate_fer = date('d', strtotime($fertilizationDate)) . ' ' . $thaimonth[date('n', strtotime($fertilizationDate)) - 1];
-
-                    
+        
                 ?>
 
                     <div class="  mx-5 secondary mb-2 ">

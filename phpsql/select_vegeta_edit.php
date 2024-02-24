@@ -16,7 +16,6 @@ $img= $_POST['img'];
 
 
 $sql1 = "SELECT * FROM tb_vegetable 
-INNER JOIN tb_fertilizer ON tb_vegetable.id_fertilizer = tb_fertilizer.id_fertilizer 
 WHERE id_vegetable = '$id' ";
 $result1 = mysqli_query($conn, $sql1);
 $rs1 = mysqli_fetch_array($result1);
@@ -37,57 +36,40 @@ $rs3 = mysqli_fetch_array($result3);
 ?>
 
 <form method="post" action="../phpsql/update_vegetable.php" enctype="multipart/form-data">
-  <!-- <label class="mb-2">ชื่อฟาร์ม: </label>
-          <div class="alert alert-secondary" role="alert">
-            <?php echo $_SESSION["farm_name"]; ?>
-          </div> -->
-  <!-- <input type="text" name="id_farm" id="id_farm" class="form-control" value="<?= $re['id_farm'] ?>" hidden> -->
-  <input type="text" name="id_vegetable_edit" id="id_vegetable_edit" class="form-control" value="<?= $rs1['id_vegetable'] ?>" hidden>
+ <input type="text" name="id_vegetable_edit" id="id_vegetable_edit" class="form-control" value="<?= $rs1['id_vegetable'] ?>" hidden>
   <input type="text" name="id_veg_farm" id="id_veg_farm" class="form-control" value="<?= $id_veg_farm ?>" hidden>
 
 
   <div class="row mt-2 mb-2">
     <div class="col">
       <label>ชื่อผัก : </label><span id="vegeta-availability-status"></span>
-      <input type="text" name="vegetable_name_edit" id="vegetable_name_edit" class="form-control" value="<?= $rs1['vegetable_name'] ?>" required oninput="checkDuplicate()" placeholder="ป้อนชื่อผัก...">
+      <input type="text" name="vegetable_name_edit" id="vegetable_name_edit"   class="form-control" value="<?= $rs1['vegetable_name'] ?>" required oninput="checkDuplicate()" onkeyup="checkInputvet(this)" placeholder="อักษรไม่เกิน 20 อักษร">
     </div>
     <div class="col">
       <label>อายุผัก : </label>
-      <input type="number" name="age_vegatable_edit" id="age_vegatable_edit" class="form-control" value="<?= $rs1['vegetable_age'] ?>" required min="0" placeholder="ป้อนจำนวนวัน...">
+      <input type="number" name="age_vegatable_edit" id="age_vegatable_edit" class="form-control" value="<?= $rs1['vegetable_age'] ?>" required m min="1"  max="999999" placeholder="ป้อนจำนวนวัน...">
     </div>
   </div>
-  <label>ปุ๋ย : </label>
-  <select class="form-select mb-2" name="fertilizer_edit" id="fertilizer_edit" required>
-    <option value="<?= $rs1['id_fertilizer'] ?>"><?= $rs1['fertilizer_name'] ?></option>
-    <?php
-    $sql_fer = "SELECT * FROM tb_fertilizer ORDER BY 	fertilizer_name";
-    $result_fer = mysqli_query($conn, $sql_fer);
-    while ($row_fer = mysqli_fetch_array($result_fer)) {
-    ?>
-      <option value="<?= $row_fer['id_fertilizer'] ?>"><?= $row_fer['fertilizer_name'] ?></option>
-    <?php
-    }
-    ?>
-  </select>
+ 
   <div class="row mt-2 mb-2">
     <div class="col">
       <label>ราคาผัก/กิโลกรัม  :</label>
-      <input type="number" name="vegetable_price_edit" id="vegetable_price_edit" class="form-control" value="<?= $rs2['price'] ?>" required placeholder="ป้อนราคาผัก...">
+      <input type="number" name="vegetable_price_edit" id="vegetable_price_edit"  min="1"  max="999999" class="form-control" value="<?= $rs2['price'] ?>" required placeholder="ป้อนราคาผัก...">
     </div>
     <div class="col">
       <label>น้ำหนักต่อต้น(กรัม) : </label>
-      <input type="text" name="weight-vatEdit" id="weight-vatEdit" class="form-control" readonly>
+      <input type="text" name="weight-vatEdit" id="weight-vatEdit"  min="1"  max="999999" class="form-control" readonly>
 
     </div>
   </div>
   <div class="row mt-2 mb-2">
     <div class="col">
       <label>จำนวนต้นต่อน้ำหนัก : </label><span id="user-availability-status"></span>
-      <input type="number" oninput="avgWeight()" name="amount_tree_edit" id="amount_tree_edit" class="form-control" value="<?= $rs3['amount_tree'] ?>" required min="0" placeholder="ป้อนจำนวนต่อน้ำหนัก...">
+      <input type="number" oninput="avgWeight()" name="amount_tree_edit" id="amount_tree_edit" class="form-control" value="<?= $rs3['amount_tree'] ?>" required  min="1"  max="999999" placeholder="ป้อนจำนวนต่อน้ำหนัก...">
     </div>
    <div class="col">
       <label>น้ำหนักผัก(กรัม) : </label>
-      <input type="number" step="any" oninput="avgWeight()" name="vegetableweight_edit" id="vegetableweight_edit" class="form-control" value="<?= $rs3['vegetableweight'] ?>" required min="0" placeholder="ป้อนน้ำหนัก...">
+      <input type="number" step="any" oninput="avgWeight()" name="vegetableweight_edit" id="vegetableweight_edit" class="form-control" value="<?= $rs3['vegetableweight'] ?>" required  min="1"  max="999999" placeholder="ป้อนน้ำหนัก...">
     </div>
   </div>
   <label class="mb-2">รูปภาพผัก : </label><br>
@@ -95,7 +77,8 @@ $rs3 = mysqli_fetch_array($result3);
     <small class="text-muted">* Required: Please choose a photo.</small>
   <div class="text-center">
     <img style="object-fit: cover; border-radius: 100px" width="200px" height="200px" name="previewImg_edit" id="previewImg_edit" src="../img/<?= $rs1['img_name'] ?>">
-  </div>
+    </div >
+    <div class="modal-footer">
   <button type="button" class="mt-2 btn btn-secondary" onclick="cancel()" data-bs-dismiss="modal">ยกเลิก</button>
   <button type="submit" name="edit1" id="edit1" class="mt-2 btn btn-success">บันทึก</button>
 </form>

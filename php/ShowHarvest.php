@@ -141,7 +141,7 @@ GROUP BY v.vegetable_name";
                 <input type="date" id="frontDate" name="frontDate" style="width: 130px; height: 32px;" class="mx-2 " value="<?= $frontDate ?>" max="<?php echo date('Y-m-d') ?>"> <span>ถึง</span>
                 <input type="date" id="backDate" name="backDate" style="width: 130px; height: 32px;" class="mx-2" value="<?= $backDate ?>" max="<?php echo date('Y-m-d') ?>">
                 <!-- <input type="submit" class="glyphicon glyphicon-search " value="ค้นหา"> -->
-                <span><button id="bt_date" class="btn btn btn-outline-primary btn-sm"> <i class="fas fa-search "></i></button></span>
+                <span><button id="bt_date" class="btn btn btn-outline-dark btn-sm"> <i class="fas fa-search "></i></button></span>
 
             </form>
         </div>
@@ -180,7 +180,7 @@ GROUP BY v.vegetable_name";
 
 
 
-                    
+
                 ?>
                     <th style="border: none;"></th>
                     <th style="border: none;"></th>
@@ -213,14 +213,33 @@ GROUP BY v.vegetable_name";
 
 
     <script>
+        window.onload = function() {
+
+            f_date = document.getElementById("frontDate").value;
+            b_date = document.getElementById("backDate").value;
+            var myButton = document.getElementById("bt_date");
+            console.log(f_date);
+            console.log(b_date);
+            if(f_date == '' && b_date == ''){
+                myButton.disabled = true;
+
+            }else{
+                myButton.disabled = false;
+            }
+
+        };
+
+
+
         document.addEventListener('DOMContentLoaded', function() {
             var frontDateInput = document.getElementById('frontDate');
             var backDateInput = document.getElementById('backDate');
             var errSpan = document.getElementById("err");
             var myButton = document.getElementById("bt_date");
             frontDateInput.addEventListener('input', function() {
-                if (frontDateInput.value > backDateInput.value  && frontDateInput.value > 0) {
+                if (frontDateInput.value > backDateInput.value && frontDateInput.value > 0) {
                     errSpan.innerHTML = "โปรดป้อน วันที่เริ่มต้นให้น้อยกว่าวันที่สิ้นสุด";
+                    errSpan.style.color = 'red';
                     myButton.disabled = true;
                 } else {
                     myButton.disabled = false;
@@ -230,9 +249,10 @@ GROUP BY v.vegetable_name";
             backDateInput.addEventListener('input', function() {
                 if (frontDateInput.value > backDateInput.value) {
                     errSpan.innerHTML = "โปรดป้อน วันที่เริ่มต้นให้น้อยกว่าวันที่สิ้นสุด";
+                    errSpan.style.color = 'red';
                     myButton.disabled = true;
 
-;
+                    
                 } else {
                     myButton.disabled = false;
                     errSpan.innerHTML = '';

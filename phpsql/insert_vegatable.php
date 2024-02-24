@@ -4,14 +4,13 @@ include '../Connect/conn.php';
 // var for insert vegetable
 $vegetable_name = $_POST['vegetable_name'];
 $age_vegatable = $_POST['age_vegatable'];
-$fertilizer = $_POST['fertilizer'];
 $id_farm = $_POST['id_farm'];
 
 
 
 // var for insert vegetableprice
 $vegetable_price = $_POST['vegetable_price'];
-$date = $_POST['date'];
+$date = $date = date('Y-m-d');
 
 // var for insert vegetableweight
 $amount_tree = $_POST['amount_tree'];
@@ -26,8 +25,8 @@ if (is_uploaded_file($_FILES['photo']['tmp_name'])) {
   $new_image_name = "";
 }
 
-$sql = "INSERT INTO `tb_vegetable`(`id_fertilizer`, `vegetable_name`, `vegetable_age`, `img_name`) 
-VALUES ('$fertilizer','$vegetable_name','$age_vegatable','$new_image_name')";
+$sql = "INSERT INTO `tb_vegetable`(`vegetable_name`, `vegetable_age`, `img_name`) 
+VALUES ('$vegetable_name','$age_vegatable','$new_image_name')";
 
 
 if(mysqli_query($conn, $sql) === TRUE){

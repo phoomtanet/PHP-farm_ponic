@@ -4,7 +4,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$table = "fs_test4";//ชื่อไฟล์
+$table = "farm_system";//ชื่อไฟล์
 // Create connection
 $conn= mysqli_connect($servername, $username, $password,$table);   
 $conn->set_charset("utf8");

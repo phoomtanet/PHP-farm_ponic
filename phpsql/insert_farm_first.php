@@ -16,6 +16,6 @@ mysqli_query($conn,$sql);
   $_SESSION["farm_name"] = $namefarm;
 // }
 
-echo "<script> alert('*เพิ่มโรงเรือนสำเร็จ*'); </script>";
+echo "<script> alert('*เพิ่มฟาร์มสำเร็จ*'); </script>";
 // echo $_SESSION["farm_name"];
 echo "<script> window.location='../php/greenhouse_form.php'</script>";

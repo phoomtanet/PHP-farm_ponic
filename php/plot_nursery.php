@@ -34,15 +34,15 @@ $result_plot__nursery = mysqli_query($conn, $sql_plot_nursery);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../css/plot_nur.css">
 
-    <!-- Ajax -->
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <title>Plot Nursery</title>
 </head>
 
-<body style=" background: #e5e5e7;">
+<body>
     <?php include '../navbar/navbar.php'; ?>
     <!-- เมนูด้านข้าง ( Side Menu ) -->
     <div class="d-flex flex-column p-3 text-white bg-dark side-menu" style="width: 250px; height: 100vh; position: fixed; left: -250px">
@@ -51,40 +51,28 @@ $result_plot__nursery = mysqli_query($conn, $sql_plot_nursery);
     <!-- เนื้อหาหลัก -->
     <div class=" main-content-div pt-5 mt-3" style="  text-align: center;  height: 100%;">
         <div class=" main-content-div" style="text-align: center; align-items: center;  ">
-            <div class="d-flex flex-nowrap justify-content-around text-center  ">
-                <div>
+
+
+            <div class="container">
+                <div class="d-flex flex-nowrap justify-content-start mt-5 text-center">
+                    <div>
+                        <button type="button" class="btn btn-dark " title="เพิ่มแปลงอนุบาล" data-bs-toggle="modal" data-bs-target="#add_plot_nursury">
+                            <i class="fas fa-plus"></i> <i class="fas fa-inbox "></i>
+                        </button>
+
+                    </div>
                 </div>
-            </div>
-
-            <div class="container" style="margin-top: 20px;">
-                <table class="table table-hover table-bordered ">
+                <table>
                     <caption class="caption-top">ตารางแสดงข้อมูลการอนุบาล</caption>
-                    <thead>
-                        <th style="border: none;" class="text-nowrap">  <p class="h5"> โรงเรือน <?php echo "$greenhouse_name" ?> </p></th>
-                        <th style="border: none;"> </th>
-                        <th style="border: none;"> </th>
-                        <th style="border: none;"> </th>
-                        <th style="border: none;"> </th>
-                        <th style="border: none;">
-                        </th>
-                        <th style="border: none; text-align: right;">
 
-                            <button type="button" class="btn btn-primary" title="เพิ่มแปลงอนุบาล" data-bs-toggle="modal" data-bs-target="#add_plot_nursury">
-                                <i class="fas fa-plus"></i> <i class="fas fa-inbox "></i>
-                            </button>
-
-                        </th>
-                    </thead>
-                    <thead class="table-dark">
-                        <tr>
-                            <th>ชื่อแปลง</th>
-                            <th colspan="2">ผักอนุบาล</th>
-                            <th>วันที่เพาะ</th>
-                            <th>อายุผัก</th>
-                            <th>จำนวนต้น</th>
-                            <th class="text-nowrap">แก้ไข / ลบ</th>
-                        </tr>
-                    </thead>
+                    <tr>
+                        <th>แปลง</th>
+                        <th colspan="2">ผักอนุบาล</th>
+                        <th>วันที่เพาะ</th>
+                        <th>อายุผัก</th>
+                        <th>จำนวนต้น</th>
+                        <th class="text-nowrap">แก้ไข / ลบ</th>
+                    </tr>
                     <tbody>
                         <?php
                         $currentPlotName = null;
@@ -92,15 +80,11 @@ $result_plot__nursery = mysqli_query($conn, $sql_plot_nursery);
 
                             // แสดงชื่อแปลง แถวแรก
                             if ($col['plotnursery_name'] !== $currentPlotName) {
-                                echo '<tr >';
-                                echo '<th style="border: none;" > </p></th>';
-                                echo '<th style="border: none;"></th>';
-                                echo '<th style="border: none;"></th>';
-                                echo '<th style="border: none;"></th>';
-                                echo '<th style="border: none;"></th>';
-                                echo '<th style="border: none;"></th>';
-                                echo '<th style="border: none;"></th>';
-                                echo ' </tr>';
+                                echo '<tr>';
+                                echo '<td class="br_tb"  colspan="8" ';
+
+
+                                echo '</tr>';
                                 // แสดงชื่อแปลงใหม่
                                 $currentPlotName = $col['plotnursery_name'];
 
@@ -115,7 +99,7 @@ $result_plot__nursery = mysqli_query($conn, $sql_plot_nursery);
                                 AND  b.plotnursery_name = '$currentPlotName'";
                                 $result_nursery_amount_query = mysqli_query($conn, $nursery_amount_query);
                                 $thaimonth = array("ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค.");
-                                $thaiDate_nur = date('d', strtotime($col['nursery_date'])) . ' ' . $thaimonth[date('n', strtotime($col['nursery_date'])) - 1];
+                                $thaiDate_nur = date('d', strtotime($col['nursery_date'])) . ' ' . $thaimonth[date('n', strtotime($col['nursery_date'])) - 1] . ' ' . date('Y', strtotime($col['nursery_date']));
 
                                 if ($result_nursery_amount_query) {
                                     $row_amount = mysqli_fetch_assoc($result_nursery_amount_query);
@@ -126,50 +110,51 @@ $result_plot__nursery = mysqli_query($conn, $sql_plot_nursery);
                                 //จำนวนช่องที่ว่าง
                                 $emp_slot = ($col['row'] * $col['column']) - $total_nursery_amount;
 
-                                echo '<tr class="table-light"" >';
+                                echo '<tr >';
                                 if ($emp_slot > 0) {
-                                    echo '<td style="border: none;">
+                                    echo '<td class="bd-bt border-top">
                                 <a href="../php/move_germination.php?id_plotnursery=' . $col['id_plotnursery'] . '&emp_slot=' . $emp_slot  . '&plotnursery_name=' . $col['plotnursery_name'] . '" style="text-decoration: none; color: green;">
-                                <button class="btn btn-success btn-sm">
+                                <button class=" btn btn-success btn-sm">
                                 <i class="text-nowrap">   <b>+'   . $currentPlotName  . '</button>
                                 <br>
                                 </a>
                          <span class="text-success" style="font-size: 13px;">' .  $emp_slot . 'ช่อง</span ></b></i> 
                                 </td>';
                                 } else {
-                                    echo '<td ><button class="btn btn-danger btn-sm">
+                                    echo '<td class="bd-bt  border-top"><button class="btn btn-danger btn-sm">
                                     <i class="text-nowrap">   <b>'   . $currentPlotName . '</button>
                                     <br>
                                     <span class="text-danger" style="font-size: 13px;">ช่องเต็ม</span ></b></i> 
                                     </td>';
                                 }
                                 if ($col['img_name']) {
-                                    echo '<td ><img src="../img/' . $col['img_name'] . '" style="width: 40px; border-radius: 50px;"></td>';
-                                    echo '<td>' . $col['vegetable_name'] . '</td>';
+                                    echo '<td class="bl border-top "><img src="../img/' . $col['img_name'] . '" style="width: 50px; border-radius: 50px;"></td>';
+                                    echo '<td class="bl border-top">' . $col['vegetable_name'] . '</td>';
 
-                                    echo '<td class="text-nowrap">' .  $thaiDate_nur . '</td>';
+                                    echo '<td class="bl border-top text-nowrap">' .  $thaiDate_nur . '</td>';
                                     $nurseryDate = new DateTime($col['nursery_date']);
                                     $currentDate = new DateTime(); // วันที่ปัจจุบัน
                                     $diff = $nurseryDate->diff($currentDate);
                                     $age = $diff->format('%a'); // คำนวณอายุเป็นจำนวนวัน
-                                    echo '<td class="text-nowrap">' . $age . ' วัน</td>';
-                                    echo '<td>' . $col['nursery_amount'] . '</td>';
+                                    echo '<td class="bl border-top text-nowrap">' . $age . ' วัน</td>';
+                                    echo '<td class="bl border-top">' . $col['nursery_amount'] . '</td>';
 
-                                    echo '<td class="text-nowrap">';
-                                echo'<i class="btn fas fa-edit edit-button2 text-warning" data-bs-toggle="modal" data-bs-target="#edit_nursery" 
+                                    echo '<td class="bl border-top text-nowrap">';
+                                    echo '<i class="btn fas fa-edit edit-button2 text-warning" data-bs-toggle="modal" data-bs-target="#edit_nursery" 
                                 data-id_nursery="' . $col['id_nursery'] . '"
                                 data-vegetable_name="' . $col['vegetable_name'] . '"
                                 data-nursery_date="' . $col['nursery_date'] . '"
                                 data-nursery_amount="' . $col['nursery_amount'] . '"
-                                data-emp_slot="' . $emp_slot+ $col['nursery_amount'] . '" >
+                                data-emp_slot="' . $emp_slot + $col['nursery_amount'] . '" >
                                 </i>';
 
                                     echo '<a class="btn fa-regular fa-trash-alt text-danger " name="del_plotnursery" id="del_plotnursery" href="../phpsql/insert_plotnursery.php?id_nur=' . $col['id_nursery'] . '" onclick="Del(this.href); return false;"></a>                                 ';
 
                                     echo '</td>';
                                 } else {
-                                    
-                                    echo '<td style="border: none; class="text-nowarp" colspan="2" ">
+                                    echo '<td class="bl border-top text-nowrap"  colspan="5">ไม่มีการอนุบาล</td>';
+
+                                    echo '<td  class=" bl border-top text-nowrap " colspan="2" ">
 
                                      <i  class=" btn fas fa-edit  text-warning edit-button1 text-nowrap" data-bs-toggle="modal" data-bs-target="#edit_plot_nursery" 
                                     data-id_plotnursery="' . $col['id_plotnursery'] . '"
@@ -178,49 +163,53 @@ $result_plot__nursery = mysqli_query($conn, $sql_plot_nursery);
                                     data-column="' . $col['column'] . '">
                                     </i>
                                     <a class="btn fa-regular fa-trash-alt text-danger" name="del_plotnursery" id="del_plotnursery" href="../phpsql/insert_plotnursery.php?id_plot_nur=' . $col['id_plotnursery'] . '" onclick="Del(this.href); return false;"></a>
-                                
+                                   <p><small>  แก้ไขแปลงอนุบาล</small> </p>
                                     </td>';
-                                    
-                                    echo '<td  colspan="5" style="border: none;">ไม่มีการอนุบาล</th>';
-                                    
-                                    
+
+                                   
+
                                     echo '</tr>';
                                 }
 
                                 echo '</tr>';
                             } else {
-                                echo '<tr class="table-light"">';
-                                echo '<td></td>';
-                                echo '<td><img src="../img/' . $col['img_name'] . '" style="width: 40px; border-radius: 50px;"></td>';
-                                echo '<td>' . $col['vegetable_name'] . '</td>';
-                                echo '<td class="text-nowrap">' . $thaiDate_nur . '</td>';
+                                echo '<tr ">';
+                                echo '<td class="bd-non "></td>';
+                                echo '<td class="bl border-top "><img src="../img/' . $col['img_name'] . '" style="width: 50px; border-radius: 50px;"></td>';
+                                echo '<td class="bl border-top">' . $col['vegetable_name'] . '</td>';
+                                echo '<td class="text-nowrap bl border-top">' . $thaiDate_nur . '</td>';
                                 $nurseryDate = new DateTime($col['nursery_date']);
                                 $currentDate = new DateTime(); // วันที่ปัจจุบัน
                                 $diff = $nurseryDate->diff($currentDate);
                                 $age = $diff->format('%a'); // คำนวณอายุเป็นจำนวนวัน
 
-                                echo '<td class="text-nowrap">' .   $age . ' วัน</td>';
+                                echo '<td class="text-nowrap bl border-top">' .   $age . ' วัน</td>';
 
-                                echo '<td>' . $col['nursery_amount'] . '</td>';
+                                echo '<td class="text-nowrap bl border-top">' . $col['nursery_amount'] . '</td>';
 
-                                echo '<td>';
-                                
-                              
-                                echo'<i class="btn fas fa-edit edit-button2 text-warning" data-bs-toggle="modal" data-bs-target="#edit_nursery" 
+                                echo '<td class="text-nowrap bl border-top">';
+
+
+                                echo '<i class="btn fas fa-edit edit-button2 text-warning" data-bs-toggle="modal" data-bs-target="#edit_nursery" 
                                 data-id_nursery="' . $col['id_nursery'] . '"
                                 data-vegetable_name="' . $col['vegetable_name'] . '"
                                 data-nursery_date="' . $col['nursery_date'] . '"
                                 data-nursery_amount="' . $col['nursery_amount'] . '"
-                                data-emp_slot="' . $emp_slot+ $col['nursery_amount'] . '"
+                                data-emp_slot="' . $emp_slot + $col['nursery_amount'] . '"
                                 ></i>';
 
-                                 echo '<a class="btn fa-regular fa-trash-alt text-danger" name="del_plotnursery" id="del_plotnursery" href="../phpsql/insert_plotnursery.php?id_nur=' . $col['id_nursery'] . '" onclick="Del(this.href); return false;"></a>                                 ';
+                                echo '<a class="btn fa-regular fa-trash-alt text-danger" name="del_plotnursery" id="del_plotnursery" href="../phpsql/insert_plotnursery.php?id_nur=' . $col['id_nursery'] . '" onclick="Del(this.href); return false;"></a>                                 ';
                                 echo '</td>';
 
                                 echo '</tr>';
                             }
                         }
                         ?>
+                        <tr>
+                            <td class="br_tb2 border-top" colspan="8"></td>
+
+
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -296,20 +285,20 @@ $result_plot__nursery = mysqli_query($conn, $sql_plot_nursery);
             </div>
             <div class="modal-body">
                 <form action="../phpsql/insert_plotnursery.php" method="post" id="insertregister" name="insertregister" enctype="multipart/form-data">
-                   
-                <input type="hidden" name="id_nursery" id="id_nursery" required class="form-control">
+
+                    <input type="hidden" name="id_nursery" id="id_nursery" required class="form-control">
                     <label style="text-align: left; display: block;">ชื่อผัก:</label><span id="user-availability-status"></span>
-                  <input type="text" name="veg_name" id="veg_name"  readonly class="form-control">
-                  <label style="text-align: left; display: block;">จำนวนช่องว่าง:</label>             
-                  <input type="text" name="emp_slot" id="emp_slot" required readonly class="form-control">
-                  <label  name="label_nursery_amount" id="label_nursery_amount" style="text-align: left; display: block;">จำนวนต้น:<span id="warning-message"></label>
+                    <input type="text" name="veg_name" id="veg_name" readonly class="form-control">
+                    <label style="text-align: left; display: block;">จำนวนช่องว่าง:</label>
+                    <input type="text" name="emp_slot" id="emp_slot" required readonly class="form-control">
+                    <label name="label_nursery_amount" id="label_nursery_amount" style="text-align: left; display: block;">จำนวนต้น:<span id="warning-message"></label>
                     <input type="number" name="nursery_amount" id="nursery_amount" oninput="check_amount()" class="form-control" required placeholder="จำนวนต้น">
-  
+
                     <label style="text-align: left; display: block;">วันที่:</label>
                     <input type="date" name="nursery_date" id="nursery_date" class="form-control" required max="<?php echo date('Y-m-d'); ?>">
 
-                             </div>
-                 <div class="modal-footer">
+            </div>
+            <div class="modal-footer">
                 <!-- <input type="submit" name="del_plotnursery" id="del_plotnursery" class="btn btn-danger" value="ลบแปลง"></input> -->
 
                 <button type="button" class="btn btn-secondary" onclick="cancel()" data-bs-dismiss="modal">ยกเลิก</button>
@@ -355,7 +344,7 @@ $result_plot__nursery = mysqli_query($conn, $sql_plot_nursery);
                     $("#insert_plotnursery").prop("disabled", true);
                 } else {
                     $("#insert_plotnursery").prop("disabled", false);
-               
+
                 }
             }
         });
@@ -377,7 +366,7 @@ $result_plot__nursery = mysqli_query($conn, $sql_plot_nursery);
                     $("#update_plotnursery").prop("disabled", true);
                 } else {
                     $("#update_plotnursery").prop("disabled", false);
-               
+
                 }
             }
         });
@@ -395,19 +384,19 @@ $result_plot__nursery = mysqli_query($conn, $sql_plot_nursery);
 
 
                 const id_plotnursery = button.getAttribute('data-id_plotnursery');
-                const id_plotnurseryField = document.getElementById('id_plotnursery2'); 
+                const id_plotnurseryField = document.getElementById('id_plotnursery2');
                 id_plotnurseryField.value = id_plotnursery;
 
                 const plotnursery_name = button.getAttribute('data-plotnursery_name');
-                const plotnursery_nameField = document.getElementById('plotnursery_name2'); 
+                const plotnursery_nameField = document.getElementById('plotnursery_name2');
                 plotnursery_nameField.value = plotnursery_name;
 
                 const row = button.getAttribute('data-row');
-                const rowField = document.getElementById('row2'); 
+                const rowField = document.getElementById('row2');
                 rowField.value = row;
 
                 const column = button.getAttribute('data-column');
-                const columnField = document.getElementById('column2'); 
+                const columnField = document.getElementById('column2');
                 columnField.value = column;
             });
         });
@@ -420,53 +409,52 @@ $result_plot__nursery = mysqli_query($conn, $sql_plot_nursery);
             button.addEventListener('click', function() {
 
                 const veg_name = button.getAttribute('data-vegetable_name');
-                const veg_nameField = document.getElementById('veg_name'); 
+                const veg_nameField = document.getElementById('veg_name');
                 veg_nameField.value = veg_name;
 
                 const id_nursery = button.getAttribute('data-id_nursery');
-                const id_nurseryField = document.getElementById('id_nursery'); 
+                const id_nurseryField = document.getElementById('id_nursery');
                 id_nurseryField.value = id_nursery;
 
                 const nursery_date = button.getAttribute('data-nursery_date');
-                const nursery_dateField = document.getElementById('nursery_date'); 
-                nursery_dateField.value = nursery_date ;
+                const nursery_dateField = document.getElementById('nursery_date');
+                nursery_dateField.value = nursery_date;
 
 
                 const nursery_amount = button.getAttribute('data-nursery_amount');
-                const nursery_amountField = document.getElementById('nursery_amount'); 
-                nursery_amountField.value = nursery_amount ;
+                const nursery_amountField = document.getElementById('nursery_amount');
+                nursery_amountField.value = nursery_amount;
 
                 const emp_slot = button.getAttribute('data-emp_slot');
-                const emp_slotField = document.getElementById('emp_slot'); 
-                emp_slotField.value = emp_slot ;
-             
+                const emp_slotField = document.getElementById('emp_slot');
+                emp_slotField.value = emp_slot;
+
             });
         });
     });
 
 
     function check_amount() {
- 
-    var nursery_amount = parseInt(document.getElementById('nursery_amount').value);
-    var space = parseInt(document.getElementById('emp_slot').value);
-    var warningMessage = document.getElementById('warning-message');
-    var label = document.getElementById('label_nursery_amount');
+
+        var nursery_amount = parseInt(document.getElementById('nursery_amount').value);
+        var space = parseInt(document.getElementById('emp_slot').value);
+        var warningMessage = document.getElementById('warning-message');
+        var label = document.getElementById('label_nursery_amount');
 
 
-    if (nursery_amount > space) {
-      label.innerHTML = '<label id="label_nursery_amount" class="text-danger" style="text-align: left; display: block;">"จำนวนที่แก้ไขเกินจำนวนช่องว่าง!!!" </label';
-      document.getElementById('update_nursery').style.display = 'none';
-      // ซ่อนปุ่ม submit
-    } else if(nursery_amount <= 0){
-        label.innerHTML = '<label id="label_nursery_amount" class="text-danger" style="text-align: left; display: block;">"ข้อมูลไม่ถูกต้อง!!!" </label';
-      document.getElementById('update_nursery').style.display = 'none';
- 
+        if (nursery_amount > space) {
+            label.innerHTML = '<label id="label_nursery_amount" class="text-danger" style="text-align: left; display: block;">"จำนวนที่แก้ไขเกินจำนวนช่องว่าง!!!" </label';
+            document.getElementById('update_nursery').style.display = 'none';
+            // ซ่อนปุ่ม submit
+        } else if (nursery_amount <= 0) {
+            label.innerHTML = '<label id="label_nursery_amount" class="text-danger" style="text-align: left; display: block;">"ข้อมูลไม่ถูกต้อง!!!" </label';
+            document.getElementById('update_nursery').style.display = 'none';
+
+        } else {
+            document.getElementById('update_nursery').style.display = 'block'; // แสดงปุ่ม submit
+            label.innerHTML = '<label  name="label_nursery_amount" id="label_nursery_amount" style="text-align: left; display: block;">จำนวนต้น:<span id="warning-message"></label>';
+        }
     }
-    else {
-      document.getElementById('update_nursery').style.display = 'block'; // แสดงปุ่ม submit
-      label.innerHTML = '<label  name="label_nursery_amount" id="label_nursery_amount" style="text-align: left; display: block;">จำนวนต้น:<span id="warning-message"></label>';
-    }
-  }
 </script>
 
 </html>

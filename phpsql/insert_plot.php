@@ -8,8 +8,10 @@ if (isset($_POST['save'])) {
     $nameplot = $_POST['nameplot'];
     $rowplot  = $_POST['row'];
     $columneplot  = $_POST['columne'];
+    $fertilizerplot  = $_POST['fertilizer'];
+    
     $sql_check_duplicate = "SELECT COUNT(*) AS count FROM `tb_plot` WHERE `id_greenhouse` = (
-    SELECT `id_greenhouse` FROM `tb_greenhouse` WHERE `name_greenhouse` = '$greenhouse_name'
+    SELECT `id_greenhouse` FROM `tb_greenhouse` WHERE `id_greenhouse` = '$id_greenhouse_session'
 ) AND `plot_name` = '$nameplot'";
 
     $result = mysqli_query($conn, $sql_check_duplicate);
@@ -23,8 +25,8 @@ if (isset($_POST['save'])) {
             echo "<script>window.location='../php/index.php'</script>";
         } else {
             // Insert the record since it doesn't exist in the database
-           $sql_insert = "INSERT INTO `tb_plot`(`id_greenhouse`, `plot_name`, `row`, `column`, `status`)
-               VALUES ((SELECT `id_greenhouse` FROM `tb_greenhouse` WHERE `name_greenhouse` = '$greenhouse_name'), '$nameplot', '$rowplot ', '$columneplot ', 0)";
+           $sql_insert = "INSERT INTO `tb_plot`(`id_greenhouse`,`id_fertilizer`, `plot_name`, `row`, `column` ,`status`)
+               VALUES ((SELECT `id_greenhouse` FROM `tb_greenhouse` WHERE `id_greenhouse` = '$id_greenhouse_session'), '$fertilizerplot', '$nameplot', '$rowplot ','$columneplot ', 0)";
 
 
             if (mysqli_query($conn, $sql_insert)) {
@@ -45,9 +47,9 @@ if (isset($_POST['editplot'])) {
     $rowplot  = $_POST['edit_row'];
     $columnplot  = $_POST['edit_col'];
     $id_plot =  $_POST['id_edit_plot'];
-
+    $id_fer =  $_POST['edit_fer'];
     $sql_edit_plot = "UPDATE `tb_plot`
-     SET`plot_name`= '$nameplot' ,`row`=$rowplot,`column`='$columnplot' WHERE id_plot = $id_plot ";
+     SET`plot_name`= '$nameplot' ,`id_fertilizer`='$id_fer' ,`row`=$rowplot,`column`='$columnplot'  WHERE id_plot = $id_plot ";
 
     if (mysqli_query($conn, $sql_edit_plot)) {
 
@@ -78,6 +80,4 @@ if (isset($_GET['id_plot_del'])) {
      
     }
 }
-} else {
-    echo "<script>alert('*ไม่มีข้อมูล*');</script>";
 }

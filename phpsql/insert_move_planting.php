@@ -41,7 +41,6 @@ mysqli_query($conn, $nursery_amount);
 
 if ($num_nursery - $num_planting == 0) {
     $delete_nursery = "DELETE FROM `tb_vegetable_nursery` WHERE id_nursery = $id_nursery ";
-    echo "<script> alert('*ลบข้อมูลการอนุบาล เนื่องจากไม่มีจำนวนการอนุบาลแล้ว*'); </script>";
     mysqli_query($conn, $delete_nursery);
 }
 
@@ -50,6 +49,7 @@ $sql_insert = "INSERT INTO `tb_planting`(`id_plot`, `id_veg_farm`, `vegetable_am
     VALUES ('$id_plot', '$id_veg_farm', '$num_planting', '$date', '$num_fertilizing'  )";
 $result_sql_insert = mysqli_query($conn, $sql_insert);
 
+echo "<script> alert('*ย้ายการอนุบาล มาแปลงปลูก $name_plot สำเร็จ*'); </script>";
 
 echo "<script>window.location = '../php/index.php'</script>";
 

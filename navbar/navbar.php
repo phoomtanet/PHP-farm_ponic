@@ -90,7 +90,7 @@ $result_greenhouse = mysqli_query($conn, $sql_greenhouse);
 
   
 
-  <div class="collapse navbar-collapse">
+  <div class="collapse navbar-collapse ">
     <ul class="navbar-nav  menu-top">
       <li class="nav-item">
       </li>
