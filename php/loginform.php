@@ -35,7 +35,9 @@ include '../Connect/conn.php';
 </style>
 
 <body>
-  <div class="d-flex flex-wrap justify-content-center text-center  align-self-center  vh-100 p-3">
+<script src="../script/check.js"></script>
+ 
+<div class="d-flex flex-wrap justify-content-center text-center  align-self-center  vh-100 p-3">
     <main class="form-signin">
       <form method="post" action="../phpsql/login_check.php" onsubmit="return login()">
         <img class="mb-4" src="../img/salad.jpg" alt="" height="400px">
@@ -88,24 +90,24 @@ include '../Connect/conn.php';
 
           <div class="form-group" id="checkusername">
             <label> Username : </label><span id="user-availability-status"></span>
-            <input type="text" name="username2" id="username2" class="form-control" minlength="6" required placeholder="ป้อนชื่อบัญชีมากกว่า 6 ตัวออักษร..." oninput="checkAvailability()" onkeyup='check_char(this)' </div>
+            <input type="text" name="username2" id="username2" class="form-control" onkeyup="checkInputUser(this)" minlength="6" required placeholder="ป้อนชื่อบัญชีมากกว่า 6 ตัวออักษร..." oninput="checkAvailability()" onkeyup='check_char(this)' </div>
 
             <div class="form-group">
               <label> Password : </label>
-              <input type="password" name="password2" id="password2" class="form-control" minlength="6" required placeholder="ป้อนรหัสผ่านมากกว่า 6 ตัวอักษร...">
+              <input type="password" name="password2" id="password2" class="form-control" onkeyup="checkInputUser(this)" minlength="6" required placeholder="ป้อนรหัสผ่านมากกว่า 6 ตัวอักษร...">
             </div>
 
             <div class="row mt-2 mb-2">
               <div class="col">
                 <div class="form-group">
                   <label> ชื่อ : </label>
-                  <input type="text" name="firstname" id="firstname" class="form-control" required placeholder="ป้อนชื่อ...">
+                  <input type="text" name="firstname" id="firstname" onkeyup="checkInputvet(this)" class="form-control" required placeholder="ป้อนชื่อ...">
                 </div>
               </div>
               <div class="col">
                 <div class="form-group">
                   <label> นามสกุล : </label>
-                  <input type="text" name="lastname" id="lastname" class="form-control" required placeholder="ป้อนนามสกุล...">
+                  <input type="text" name="lastname" id="lastname" onkeyup="checkInputvet(this)" class="form-control" required placeholder="ป้อนนามสกุล...">
                 </div>
               </div>
             </div>

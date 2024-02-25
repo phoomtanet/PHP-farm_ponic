@@ -22,6 +22,28 @@ function checkInput(elm) {
     }
   }
 
+  function checkInputUser(elm) {
+    if (!elm.value.match(/^[a-zA-Z0-9 ]+$/i) && elm.value.length > 0  ) {
+      alert('ไม่สามารถใช้ตัวอักษรพิเศษได้');
+      elm.value = '';
+      } else if (elm.value.length > 15) {
+        alert('ตัวอักษรไม่เกิน 15 ตัวอักษร');
+        elm.value = '';
+
+    }
+  }
+
+  function checkInputName(elm) {
+    if (!elm.value.match(/^[a-zA-Z0-9ก-๙ ]+$/i) && elm.value.length > 0  ) {
+      alert('ไม่สามารถใช้ตัวอักษรพิเศษได้');
+      elm.value = '';
+      } else if (elm.value.length > 15) {
+        alert('ตัวอักษรไม่เกิน 15 ตัวอักษร');
+        elm.value = '';
+
+    }
+  }
+
   function checkInputvet(elm) {
     if (!elm.value.match(/^[a-zA-Z0-9ก-๙ ]+$/i) && elm.value.length > 0  ) {
       alert('ไม่สามารถใช้ตัวอักษรพิเศษได้');

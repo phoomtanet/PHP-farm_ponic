@@ -24,7 +24,7 @@ $re = mysqli_fetch_array($result_sql_id);
 </head>
 <style>
   body {
-    background: #9198e5;
+    background: gray;
   }
 
   .container {
@@ -40,6 +40,8 @@ $re = mysqli_fetch_array($result_sql_id);
 </style>
 
 <body>
+<script src="../script/check.js"></script>
+
   <div class="container mt-5">
     <div class="alert alert-primary h4 text-center mb-4 mt-4 " role="alert">
       เพิ่มโรงเรือน
@@ -55,7 +57,7 @@ $re = mysqli_fetch_array($result_sql_id);
       <input type="text" name="id_farm" id="id_farm" class="form-control" value="<?= $re['id_farm'] ?>" hidden>
       <br>
       <label class="mb-2">ชื่อโรงเรือน : </label>
-      <input type="text" name="greenhoues_name" id="greenhoues_name" class="form-control" required>
+      <input type="text" name="greenhoues_name" id="greenhoues_name" onkeyup="checkInputName(this)" class="form-control" required>
       <br>
       <button type="submit" class="btn btn-success">บันทึก</button>
       <!-- <input class="btn btn-outline-warning" type="reset" value="Reset"> -->

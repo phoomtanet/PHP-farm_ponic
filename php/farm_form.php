@@ -25,7 +25,7 @@ $re = mysqli_fetch_array($result_sql_id);
 </head>
 <style>
   body {
-    background: #9198e5;
+    background: gray;
   }
 
   .container {
@@ -41,6 +41,8 @@ $re = mysqli_fetch_array($result_sql_id);
 </style>
 
 <body>
+<script src="../script/check.js"></script>
+
   <div class="container mt-5">
     <div class="alert alert-primary h4 text-center mb-4 mt-4 " role="alert">
       เพิ่มฟาร์ม
@@ -56,10 +58,10 @@ $re = mysqli_fetch_array($result_sql_id);
       <input type="text" name="id_user" id="id_user" class="form-control" value="<?=$re['id_user']?>" hidden>
       <br>
       <label class="mb-2">ชื่อฟาร์ม : </label>
-      <input type="text" name="farm_name" id="farm_name" class="form-control" required >
+      <input type="text" name="farm_name" id="farm_name" class="form-control" onkeyup="checkInputName(this)" required >
       <br> 
       <label class="mb-2">ที่อยู่ฟาร์ม : </label><br>
-      <input type="text" name="location" id="location" class="form-control" required >
+      <input type="text" name="location" id="location" class="form-control" onkeyup="checkInputName(this)" required >
       <br>
       <p style="color: red; font-size: 13px;">*เนื่องจากคุณไม่มีโรงเรียนในระบบ กด 'ต่อไป' เพื่อเพิ่มโรงเรือน*</p>
       
