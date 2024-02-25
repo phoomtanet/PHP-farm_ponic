@@ -42,8 +42,7 @@ GROUP BY v.vegetable_name";
         $data_ch_veg[] = $row_h_veg['vegetable_name'];
     }
 } else {
-    // $frontDate = '2024-02-08';
-    // $backDate = '2024-02-16';
+
 
     $frontDate = $_GET['frontDate'];
     $backDate = $_GET['backDate'];
@@ -89,11 +88,6 @@ GROUP BY v.vegetable_name";
 }
 
 
-
-
-
-
-
 ?>
 
 <!DOCTYPE html>
@@ -107,7 +101,7 @@ GROUP BY v.vegetable_name";
     <script src="https://www.gstatic.com/charts/loader.js"></script>
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="../css/move_planting.css">
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -128,7 +122,7 @@ GROUP BY v.vegetable_name";
         <ul class="nav nav-pills flex-column mb-auto pt-4 side_nav_menu">
 
     </div>
-    <div class="pt-5  main-content-div  pt-5 mt-3 justify-content-center " style=" text-align: center;">
+    <div class="pt-5  main-content-div  pt-5 mt-3 justify-content-end " style=" text-align: center;">
 
 
         <div class="d-flex justify-content-center mx-5 my-2 ">
@@ -148,20 +142,18 @@ GROUP BY v.vegetable_name";
         <div><span id="err"></span></div>
     </div>
     <div class="container mt-1">
-        <table class="table table-striped table-bordered">
+        <table >
             <caption class="caption-top">ตารางแสดงข้อมูลการเก็บเกี่ยว <b><?= $thaiDate_front . '' . $thaiDate_back ?></b> </caption>
             <thead>
-                <th colspan="3" style="border: none;  text-align: left;">
-                    <p class="h5"> โรงเรือน <?php echo "$greenhouse_name" ?> </p>
-                </th>
+               
 
                 <th style="border: none;"></th>
                 <th style="border: none; text-align: right;"></th>
 
                 </th>
             </thead>
-            <thead class="table-dark table-header-center">
-                <tr>
+            <thead class=" table-header-center">
+                <tr class="bg-dark">
                     <th>แปลง</th>
                     <th colspan="2">ชื่อผัก</th>
                     <th>จำนวน</th>
@@ -173,32 +165,18 @@ GROUP BY v.vegetable_name";
             <tbody>
                 <?php
                 foreach ($result_harvest  as $row) {
-
                     $thaimonth = array("ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค.");
-
                     $thaiDate_har = date('d', strtotime($row['harvestdate'])) . ' ' . $thaimonth[date('n', strtotime($row['harvestdate'])) - 1] . ' ' . date('Y', strtotime($row['harvestdate']));
 
-
-
-
                 ?>
-                    <th style="border: none;"></th>
-                    <th style="border: none;"></th>
-                    <th style="border: none;"></th>
-                    <th style="border: none;"></th>
-                    <th style="border: none;"></th>
-
                     <tr class="text-center">
-                        <td class="text-center"><?= $row["plot_name"] ?></td>
-                        <td class="text-center">
+                        <td class="text-center border"><?= $row["plot_name"] ?></td>
+                        <td class="text-center border">
                             <img src="../img/<?php echo $row['img_name'] ?>" style="width: 50px; border-radius: 50px;">
                         </td>
-                        <td class="text-center"><?= $row["vegetable_name"] ?></td>
-                        <td><?= $row["harvest_amount"] ?></td>
-                        <td><?= $thaiDate_har  ?></td>
-
-
-
+                        <td class="text-center border"><?= $row["vegetable_name"] ?></td>
+                        <td class="border";><?= $row["harvest_amount"] ?></td>
+                        <td class="border"><?= $thaiDate_har  ?></td>
                     </tr>
                 <?php
                 }
@@ -237,7 +215,7 @@ GROUP BY v.vegetable_name";
             var errSpan = document.getElementById("err");
             var myButton = document.getElementById("bt_date");
             frontDateInput.addEventListener('input', function() {
-                if (frontDateInput.value > backDateInput.value && frontDateInput.value > 0) {
+                if (  backDateInput.value < backDate ) {
                     errSpan.innerHTML = "โปรดป้อน วันที่เริ่มต้นให้น้อยกว่าวันที่สิ้นสุด";
                     errSpan.style.color = 'red';
                     myButton.disabled = true;

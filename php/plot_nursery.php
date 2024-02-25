@@ -20,7 +20,7 @@ LEFT JOIN tb_vegetable_nursery as e on a.id_plotnursery = e.id_plotnursery
 LEFT JOIN tb_veg_farm as vt on vt.id_veg_farm = e.id_veg_farm   
 LEFT JOIN tb_vegetable as f on f.id_vegetable = vt.id_vegetable   
 
-WHERE d.user_name = '$user' AND c.name_farm = '$farm_name' AND b.name_greenhouse = '$greenhouse_name'
+WHERE  b.id_greenhouse = '$id_greenhouse_session'
 ORDER BY LENGTH(a.plotnursery_name), a.plotnursery_name";
 
 $result_plot__nursery = mysqli_query($conn, $sql_plot_nursery);
@@ -58,15 +58,17 @@ $result_plot__nursery = mysqli_query($conn, $sql_plot_nursery);
             <div class="container">
                 <div class="d-flex flex-nowrap justify-content-end mt-3 text-center">
                     <div>
-                        <button type="button" class="btn btn-primary" title="เพิ่มแปลงอนุบาล" data-bs-toggle="modal" data-bs-target="#add_plot_nursury">
-                            <i class="fas fa-plus"></i> <i class="fas fa-inbox "></i>
-                        </button>
+
 
                     </div>
                 </div>
                 <table>
                     <caption class="caption-top">ตารางแสดงข้อมูลการอนุบาล</caption>
-
+                    <th colspan="8" class="bg-white" style="border: none; text-align: right;">
+                        <button type="button" class="btn btn-primary" title="เพิ่มแปลงอนุบาล" data-bs-toggle="modal" data-bs-target="#add_plot_nursury">
+                            <i class="fas fa-plus"></i> <i class="fas fa-inbox "></i>
+                        </button>
+                    </th>
                     <tr>
                         <th>แปลง</th>
                         <th colspan="2">ผักอนุบาล</th>
@@ -83,7 +85,7 @@ $result_plot__nursery = mysqli_query($conn, $sql_plot_nursery);
                             // แสดงชื่อแปลง แถวแรก
                             if ($col['plotnursery_name'] !== $currentPlotName) {
                                 echo '<tr>';
-                                echo '<td class="br_tb"  colspan="8" ';
+                                echo '<td class="br_tb "  colspan="8" ';
 
 
                                 echo '</tr>';

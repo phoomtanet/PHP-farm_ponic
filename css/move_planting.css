@@ -76,7 +76,17 @@ tr:hover {
     
 }
 
+.bd-sg{
 
+border:1px solid #e2e2e2;
+
+}
+
+.br_tb {
+
+    background-color: #01042e27; 
+
+}
 .move-button{
 
 color:rgba(255, 153, 0, 0.931);

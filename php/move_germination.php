@@ -4,6 +4,13 @@ session_start();
 include '../Connect/session.php';
 include '../Connect/conn.php';
 
+if (isset($_GET['greenhouse'])) {
+  // ดึงค่า ID ที่ถูกส่งมา
+  $selectedGreenhouseId = $_GET['greenhouse'];
+} else {
+  $selectedGreenhouseId = $id_greenhouse_session;
+}
+
 $sql = "SELECT * FROM `tb_seed_germination` AS a 
 INNER JOIN `tb_greenhouse` AS c ON c.id_greenhouse = a.id_greenhouse
 INNER JOIN tb_farm as d ON  d.id_farm = c.id_farm
@@ -11,14 +18,20 @@ INNER JOIN tb_user as e on e.id_user = d.id_user
 INNER JOIN tb_traysize AS f ON f.id_traysize = a.id_traysize
 INNER JOIN  tb_veg_farm as g on g.id_veg_farm = a.id_veg_farm
 INNER JOIN  tb_vegetable as v on v.id_vegetable = g.id_vegetable
-
-WHERE d.id_farm = '$id_farm_session' AND e.user_name = '$user' 
+WHERE c.id_greenhouse = '$selectedGreenhouseId'
  ORDER BY c.id_greenhouse  , a.id_seed_germination   ASC";
-$result = mysqli_query($conn, $sql);//ตารางการเพาะ
+$result = mysqli_query($conn, $sql); //ตารางการเพาะ
 
 
 $plotnursery_name = $_GET['plotnursery_name'];
-$space = $_GET['emp_slot'] // จำนวนช่องช่องที่ว่าง  อนุบาล
+$space = $_GET['emp_slot']; // จำนวนช่องช่องที่ว่าง  อนุบาล
+
+$sql_green = "SELECT *
+FROM tb_greenhouse as b 
+INNER JOIN tb_farm as c on b.id_farm = c.id_farm 
+WHERE c.id_farm = '$id_farm_session' 
+GROUP BY b.id_greenhouse ";
+$result_green = mysqli_query($conn, $sql_green);
 ?>
 
 <!doctype html>
@@ -28,10 +41,12 @@ $space = $_GET['emp_slot'] // จำนวนช่องช่องที่�
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- เรียกใช้ ฺBootstrap 5 -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="../css/plot_nur.css">
 
   <title>Bootstrap 5</title>
 </head>
@@ -39,6 +54,7 @@ $space = $_GET['emp_slot'] // จำนวนช่องช่องที่�
 
 
 </style>
+
 <body>
   <!-- เมนูด้านข้าง ( Side Menu ) -->
   <div class="d-flex flex-column p-3 text-white bg-dark side-menu" style="width: 250px; height: 100vh; position: fixed; left: -250px">
@@ -46,79 +62,105 @@ $space = $_GET['emp_slot'] // จำนวนช่องช่องที่�
   </div>
   <!-- เนื้อหาหลัก -->
   <div class=" main-content-div" style=" text-align: center;">
+    <div class="container " >
 
-    <div class="container" style="margin-top: 20px;">
-      <table class="table table-striped table-bordered">
-        <caption class="caption-top"><b> ย้ายไปแปลง อนุบาล <?= $plotnursery_name ?></b></caption>
-        <thead>
-          <th style="border: none;">
-            <a href="plot_nursery.php">กลับ</a>
+      <div >
+
+        <div class="d-flex justify-content-between mt-5">
+          <div>
+            <a href="../php/plot_nursery.php" id="back" class="back">
+              <i class="fas fa-arrow-left me-2"></i> กลับ
+            </a>
+          </div>
+          <div class="d-flex justify-content-evenly">
+            <div>
+              <form method="GET" action="move_germination.php">
+                <select class=" mb-2" style="padding: 4px;" name="greenhouse" id="greenhouse" required>
+                  <option value="">เลือกโรงเรือน</option>
+                  <?php foreach ($result_green as $row) {
+                    
+                    echo '<option  value="' . $row['id_greenhouse'] . '">' . $row['name_greenhouse'] . '</option>';
+                  } ?>
+                  <input hidden type="text" value="<?= $plotnursery_name  ?>" name="plotnursery_name">
+                  <input hidden type="text" value="<?= $space   ?>" name="emp_slot">
+
+                </select>
+            </div>
+            <div> <button type="submit" id="bt_date" style="padding: 4px;" class="btn btn-outline-dark px-2  mx-2">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+
+    <table class=" ">
+      <caption class="caption-top"><b> ย้ายไปแปลง อนุบาล <?= $plotnursery_name ?></b></caption>
+
+      <thead class="table-dark">
+        <tr>
+          <th colspan="2">ชื่อผัก</th>
+          <th>ขนาดถาดเพาะ</th>
+          <th>จำนวนถาด</th>
+          <th>วันที่เพาะ</th>
+          <th>อายุผัก</th>
+          <th>จำนวนที่เพาะ</th>
+          <th>โรงเรือน</th>
+          <th>ย้าย</th>
           </th>
-          <th style="border: none;"> <?= '' ?> </th>
-          <th style="border: none;"> <?= '' ?>  </th>
-          <th style="border: none;">
-          <th style="border: none;">
-          <th style="border: none;">
-          <th style="border: none;">
-          <th style="border: none;"></th>
-        </thead>
-        <thead class="table-dark">
+        </tr>
+      </thead>
+      <tbody>
+        <?php
+        foreach ($result as $row) {
+          $germination_dateDate = strtotime($row["germination_date"]);
+          $currentDate = strtotime(date("Y-m-d"));
+          $dateDifference = date_diff(date_create(date("Y-m-d", $germination_dateDate)), date_create(date("Y-m-d", $currentDate)));
+          $daysDifference = $dateDifference->days;    //คำนวนอายุผัก
+
+
+          $thaimonth = array("ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค.");
+          $thai_sg = date('d', strtotime($row["germination_date"])) . ' ' . $thaimonth[date('n', strtotime($row["germination_date"])) - 1] . ' ' .  date('Y', strtotime($row["germination_date"]));
+       
+       
+        ?>
+
           <tr>
-            <th colspan="2">ชื่อผัก</th>
-            <th>ขนาดถาดเพาะ</th>
-            <th>จำนวนถาด</th>
-            <th>วันที่เพาะ</th>
-            <th>อายุผัก</th>
-            <th>จำนวนที่เพาะ</th>
-            <th>โรงเรือน</th>
-            <th>ย้าย</th>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php
-         foreach ($result as $row) {
-            $germination_dateDate = strtotime($row["germination_date"]);
-            $currentDate = strtotime(date("Y-m-d"));
-            $dateDifference = date_diff(date_create(date("Y-m-d", $germination_dateDate)), date_create(date("Y-m-d", $currentDate)));
-            $daysDifference = $dateDifference->days;    //คำนวนอายุผัก
-          ?>
-            <th style="border: none;"></th>
-            <th style="border: none;"></th>
-            <th style="border: none;"></th>
-            <th style="border: none;"></th>
-            <th style="border: none;"></th>
-            <th style="border: none;"></th>
-            <th style="border: none;"></th>
-            <th style="border: none;"></th>
-            <th style="border: none;"></th>
-            <tr>
-              <td>
-                <img src="../img/<?php echo $row['img_name']  ?>" style="width: 50px; border-radius: 50px;">
-              </td>
-              </td>
-              <td><?= $row["vegetable_name"] ?></td>
-              <td><?= $row["size_name"] ?></td>
-              <td><?= $row["Amount_trays"] ?></td>
-              <td><?= $row["germination_date"] ?></td>
-              <td><?= $daysDifference  . ' วัน' ?></td>
-              <td><?= $row["germination_amount"] ?></td>
-              <td> <?= $row["name_greenhouse"] ?></td>
-              <td style="border: none;">
-                <button type="button" class="btn btn-primary move-button" data-bs-toggle="modal" data-bs-target="#move_to_nursery"
-                id-veg_farm="<?= $row["id_veg_farm"] ?>"    id-plot_nursery="<?= $id_plotnursery ?>" data-name-vegetable="<?= $row["vegetable_name"] ?>" data-date="<?= $row["germination_date"] ?>" data-germination-amount="<?= $row["germination_amount"]  ?>" data-id_seed_germination="<?= $row["id_seed_germination"] ?>">
+            <td class="border">
+              <img src="../img/<?php echo $row['img_name']  ?>" style="width: 50px; border-radius: 50px;">
+            </td>
+            </td>
+            <td class="border"><?= $row["vegetable_name"] ?></td>
+            <td class="border"><?= $row["size_name"] ?></td>
+            <td class="border"><?= $row["Amount_trays"] ?></td>
+            <td class="border"><?= $thai_sg  ?></td>
+            <td class="border"><?= $daysDifference  . ' วัน' ?></td>
+            <td class="border"><?= $row["germination_amount"] ?></td>
+            <td class="border"> <?= $row["name_greenhouse"] ?></td>
+            <td class="border" style="border: none;">
+              <button type="button" class="btn  move-button" data-bs-toggle="modal" data-bs-target="#move_to_nursery" id-veg_farm="<?= $row["id_veg_farm"] ?>" id-plot_nursery="<?= $id_plotnursery ?>" data-name-vegetable="<?= $row["vegetable_name"] ?>" data-date="<?= $row["germination_date"] ?>" data-germination-amount="<?= $row["germination_amount"]  ?>" data-id_seed_germination="<?= $row["id_seed_germination"] ?>">
                 <i class="fas fa-sign-out-alt"></i> </button>
-              </td>
-            </tr>
-          <?php
-          }
-          mysqli_close($conn);
-          ?>
-        </tbody>
-      </table>
-    </div>
+            </td>
+          </tr>
+        <?php
+        }
+        mysqli_close($conn);
+        ?>
+      </tbody>
+    </table>
   </div>
   </div>
+  </div>
+  </div>
+
   <script src="../navbar/navbar.js"></script>
 </body>
 
@@ -142,7 +184,7 @@ $space = $_GET['emp_slot'] // จำนวนช่องช่องที่�
           <label style="text-align: left; display: block;">จำนวนในแปลงเพาะ</label>
           <input type="number" name="germination_amount" id="germination_amount" class="form-control" readonly>
           <label style="text-align: left; display: block;">ช่องว่างในแปลงอนุบาล</label>
-          
+
           <input type="text" name="space" id="space" class="form-control" value="<?php echo $space ?>" readonly>
           <label id="label_num_nursery" class="text-dark" style="text-align: left; display: block;">จำนวนที่ย้าย <span id="warning-message"></span></label>
           <input type="number" name="num_nursery" id="num_nursery" class="form-control" required placeholder="จำนวนที่ย้าย" oninput="checkPlanting()" onclick="clearValue()">
@@ -156,7 +198,7 @@ $space = $_GET['emp_slot'] // จำนวนช่องช่องที่�
   </div>
 
 
-  
+
 
 
 </html>
@@ -168,7 +210,7 @@ $space = $_GET['emp_slot'] // จำนวนช่องช่องที่�
     moveButtons.forEach(function(button) {
       button.addEventListener('click', function() {
 
-          var space = parseInt(document.getElementById('space').value);//ช่องว่าง
+          var space = parseInt(document.getElementById('space').value); //ช่องว่าง
 
           const id_veg_farm = button.getAttribute('id-veg_farm');
           const id_veg_Field = document.getElementById('id_veg_farm');
@@ -185,7 +227,7 @@ $space = $_GET['emp_slot'] // จำนวนช่องช่องที่�
           const germination_amount = button.getAttribute('data-germination-amount');
           const germination_amount_Field = document.getElementById('germination_amount');
           germination_amount_Field.value = germination_amount;
-          
+
           const date = button.getAttribute('data-date');
           const date_Field = document.getElementById('date');
           date_Field.value = date;
@@ -233,18 +275,18 @@ $space = $_GET['emp_slot'] // จำนวนช่องช่องที่�
 
     if (space == 0) {
       label.innerHTML = '<label id="label_num_nursery" class="text-danger" style="text-align: left; display: block;">"แปลงเพาะเต็ม!!!" </label';
-      document.getElementById('save1').style.display = 'none';
+      document.getElementById('save1').disabled = true;
       // ซ่อนปุ่ม submit
     } else if (numNuesery > num_have) {
       label.innerHTML = '<label id="label_num_nursery" class="text-danger" style="text-align: left; display: block;">"จำนวนที่ย้าย จำนวนที่มีในแปลงเพาะ!!!" </label';
-      document.getElementById('save1').style.display = 'none';
+      document.getElementById('save1').disabled = true;
       // ซ่อนปุ่ม submit
     } else if (numNuesery > space) {
       label.innerHTML = '<label id="label_num_nursery" class="text-danger" style="text-align: left; display: block;">"จำนวนที่ย้าย มากกว่าจำนวนสูงสุด!!!" </label';
-      document.getElementById('save1').style.display = 'none';
+      document.getElementById('save1').disabled = true;
       // ซ่อนปุ่ม submit
     } else {
-      document.getElementById('save1').style.display = 'block'; // แสดงปุ่ม submit
+      document.getElementById('save1').disabled = false;
       label.innerHTML = '<label id="label_num_nursery" class="text-dark" style="text-align: left; display: block;">จำนวนที่ย้าย  </label>';
     }
   }

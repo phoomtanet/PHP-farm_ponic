@@ -27,9 +27,9 @@ $result_greenhouse = mysqli_query($conn, $sql_greenhouse);
 </head>
 <style>
   .bt_dw {
-    background-color: none;
-    color: white;
-    border-color: white;
+    background-color: black;
+    color:white;
+    border-color:white;
   }
 
   .bt_dw:hover {

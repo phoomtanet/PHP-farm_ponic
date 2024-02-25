@@ -80,7 +80,7 @@ $rs3 = mysqli_fetch_array($result3);
     </div >
     <div class="modal-footer">
   <button type="button" class="mt-2 btn btn-secondary" onclick="cancel()" data-bs-dismiss="modal">ยกเลิก</button>
-  <button type="submit" name="edit1" id="edit1" class="mt-2 btn btn-success">บันทึก</button>
+  <button type="submit" name="edit1" id="edit1" class="mt-2 btn btn-warning">แก้ไข</button>
 </form>
 
 <!-- Ajax -->

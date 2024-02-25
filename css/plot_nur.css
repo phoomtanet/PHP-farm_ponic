@@ -46,6 +46,7 @@ th {
 
     border-top: 1px solid #e2e2e2;
     padding: 4px;
+    background-color: #01042e27;
 }
 .bl {
     border-left: 1px solid #e2e2e2;
@@ -55,7 +56,7 @@ th {
 
 td{
 
-    padding: 4px;
+    padding: 3px;
 }
 tr {
    

@@ -56,7 +56,7 @@ function drawChart_har() {
         0: { color: '#b91d47' },   // red
         1: { color: '#00aba9' },   // teal
         2: { color: '#2b5797' },   // blue
-        3: { color: '#e8c3b9' },   // light brown
+        3: { color: '#ff9933' },   // light brown
         4: { color: '#1e7145' },   // green
         5: { color: '#ff6666' },   // light red
         6: { color: '#006666' },   // dark teal

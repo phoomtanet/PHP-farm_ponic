@@ -59,7 +59,7 @@ $totalPages = ceil($totalRows / $itemsPerPage);
     <!-- <img src="../img/hidro.jpg" alt="รูปผัก" style="max-width: 100%; height: auto;"> -->
     <div class="main-content-div ">
 
-      <div class=" d-flex flex-nowrap justify-content-between text-center mx-5 mt-4 ">
+      <div class=" d-flex flex-nowrap justify-content-between text-center mx-5 mt-5 ">
       <div >
       <img src="../img/barcoler.png" alt="" width="360px">
         </div> 
@@ -76,7 +76,7 @@ $totalPages = ceil($totalRows / $itemsPerPage);
       <?php include '../php/gui_plot.php'; ?>
 
     </div>
-    <div class=" mt-5 d-flex justify-content-center ">      
+    <div class=" mt-5 d-flex justify-content-center "  >      
       <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
               <?php for ($page = 1; $page <= $totalPages; $page++) : ?>
@@ -382,14 +382,14 @@ $result_sql_fer = mysqli_query($conn, $sql_fer);
 
     if (veg_planting_amont < num_harvest_amount) {
       label.innerHTML = '<label class="text-danger" style="text-align: left; display: block;">จำนวนผักที่เก็บเกี่ยว มากกว่าที่ปลูก!!</label>';
-      document.getElementById('save_harvest').style.display = 'none';
+      document.getElementById('save_harvest').disabled = true;
       if (e.key === 'Enter') {
         e.preventDefault(); // Prevent the default form submission
       }
 
     } else {
       label.innerHTML = '<label style="text-align: left; display: block;">จำนวนผักที่เก็บเกี่ยว:</label>';
-      document.getElementById('save_harvest').style.display = 'block';
+      document.getElementById('save_harvest').disabled = false;
 
     }
 

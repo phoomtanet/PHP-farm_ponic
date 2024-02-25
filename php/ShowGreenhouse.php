@@ -72,7 +72,7 @@ $re = mysqli_fetch_array($result_sql_id);
           </button>
         </div>
       </div>
-      <table class="table table-striped table-bordered">
+      <table class="table table-striped table-bordered mt-5">
         <caption class="caption-top">ตารางแสดงข้อมูลโรงเรือน</caption>
 
 

@@ -36,6 +36,7 @@ $rs_vet = mysqli_query($conn, $sql_veg);
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <!-- Ajax -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <link rel="stylesheet" href="../css/plot_nur.css">
   <title>ShowVegetable</title>
 </head>
 <style>
@@ -77,22 +78,11 @@ $rs_vet = mysqli_query($conn, $sql_veg);
   <div class="pt-3 main-content-div  pt-5 mt-3" style=" text-align: center;">
 
     <div class="container" style="margin-top: 20px;">
-      <table class="table table-striped table-bordered">
+      <table >
         <caption class="caption-top">ตารางแสดงข้อมูลผัก</caption>
         <thead>
-          <th style="border: none;">
-            <!-- <a class="btn btn-primary" href="../php/ShowPrice.php">จัดการข้อมูลราคาผัก</a> -->
-          </th>
-          <th style="border: none;">
-            <!-- <a class="btn btn-primary" href="../php/ShowWeight.php">จัดการข้อมูลน้ำหนักผัก</a> -->
-          </th>
-          <th style="border: none;"></th>
-          <th style="border: none;"></th>
-          <th style="border: none;"></th>
-          <th style="border: none;"></th>
-          <!-- <th style="border: none;"></th> -->
-          <!-- <th style="border: none;"></th> -->
-          <th style="border: none; text-align: right;">
+      
+          <th colspan="7" class="bg-white"style="border: none; text-align: right;">
             <button class="btn btn-primary text-nowrap" data-bs-toggle="modal" data-bs-target="#add_data_Modal">
               <i class="fas fa-plus"></i><i class="fas fa-seedling"></i>
             </button>
@@ -100,13 +90,10 @@ $rs_vet = mysqli_query($conn, $sql_veg);
         </thead>
         <thead class="table-dark">
           <tr>
-            <!-- <th>รหัสผัก</th> -->
             <th colspan="2">ชื่อผัก</th>
             <th>อายุ</th>
             <th>ราคา</th>
             <th class="text-nowrap">น้ำหนักเฉลี่ย</th>
-            <!-- <th>น้ำหนัก</th> -->
-            <!-- <th>วันที่บันทึก</th> -->
             <th>ลบ</th>
             <th>แก้ไข</th>
           </tr>
@@ -117,17 +104,11 @@ $rs_vet = mysqli_query($conn, $sql_veg);
           ?>
             <tr>
 
-              <td><img src="../img/<?= $row['img_name'] ?>" style="width: 50px; border-radius: 50px;"></td>
-
-              <td><?= $row["vegetable_name"] ?></td>
-              <td class="text-nowrap"><?= $row["vegetable_age"] ?> วัน</td>
-
-              <td class="text-nowrap"><?= $row["price"] ?> บ.</td>
-
-              <td class="text-nowrap"><?= number_format($row["vegetableweight"] / $row["amount_tree"], 1) ?> กรัม</td>
-              <!-- <td><?= $row["vegetableweight"] ?> กก.</td> -->
-              <!-- <td><?= $row["vegetableweightdate"] ?></td> -->
-
+              <td class="border p-2"><img src="../img/<?= $row['img_name'] ?>" style="width: 50px; border-radius: 50px;"></td>
+              <td class="border"><?= $row["vegetable_name"] ?></td>
+              <td class="text-nowrap border"><?= $row["vegetable_age"] ?> วัน</td>
+              <td class="text-nowrap border"><?= $row["price"] ?> บ.</td>
+              <td class="text-nowrap border"><?= number_format($row["vegetableweight"] / $row["amount_tree"], 1) ?> กรัม</td>
               <?php
 
               $sql_check_vet = "SELECT v.vegetable_name, pt.id_planting, vn.id_nursery, sg.id_seed_germination
@@ -149,17 +130,17 @@ $rs_vet = mysqli_query($conn, $sql_veg);
 
               if (($numColumns > 0)) {
               ?>
-                <td style="border: none;">
+                <td class="border">
                   <a class="disabled" style="color: gray;"><i class="fa-regular fa-trash-can fa-xl"></i></a>
                 </td>
-                <td style="border: none;">
+                <td class="border">
                   <a class="update_data" style="color: orange; cursor: pointer;" id="<?= $row['id_vegetable']; ?>" id_veg_farm="<?= $row['id_veg_farm']; ?>" imgName="<?= $row['img_name']; ?>" data-bs-toggle="modal" data-bs-target="#update_data_Modal"><i class="fa-regular fa-pen-to-square fa-xl"></i></a>
                 </td>
               <?php } else { ?>
-                <td style="border: none;">
+                <td class="border">
                   <a class="" style="color: red;" href="../phpsql/delete_vegetable.php?id=<?= $row['id_vegetable'] ?> && id_veg_farm=<?= $row['id_veg_farm'] ?> " onclick="Del(this.href);return false;"><i class="fa-regular fa-trash-can fa-xl"></i></a>
                 </td>
-                <td style="border: none;">
+                <td class="border">
                   <a class="update_data" style="color: orange; cursor: pointer;" id="<?= $row['id_vegetable']; ?>" id_veg_farm="<?= $row['id_veg_farm']; ?>" data-bs-toggle="modal" imgName="<?= $row['img_name']; ?>" data-bs-target="#update_data_Modal"><i class="fa-regular fa-pen-to-square fa-xl"></i></a>
                 </td>
               <?php } ?>
@@ -175,12 +156,11 @@ $rs_vet = mysqli_query($conn, $sql_veg);
   <div class="main-content-div" style=" text-align: center;">
 
     <div class="container" style="margin-top: 20px;">
-      <table class="table table-striped table-bordered">
+      <table class="table">
         <caption class="caption-top">ตารางแสดงข้อมูลปุ่ย</caption>
         <thead>
-          <th style="border: none;"></th>
-          <th style="border: none;"></th>
-          <th style="border: none; text-align: right;">
+  
+          <th class="bg-white" colspan="3" style="border: none; text-align: right;">
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_fertilizer_Modal">
               <i class="fas fa-plus"></i><i class="fas fa-tint"></i>
             </button>
@@ -197,7 +177,7 @@ $rs_vet = mysqli_query($conn, $sql_veg);
           <?php while ($row_fer = mysqli_fetch_array($result_sql_fer)) { ?>
             <tr>
 
-              <td><?= $row_fer["fertilizer_name"] ?></td>
+              <td class="border"><?= $row_fer["fertilizer_name"] ?></td>
 
               <?php
               $idfertilizer = $row_fer["id_fertilizer"];
@@ -206,18 +186,18 @@ $rs_vet = mysqli_query($conn, $sql_veg);
               $fet_del_fer = mysqli_fetch_array($del_fer);
               if (isset($fet_del_fer['id_fertilizer'])) {
               ?>
-                <td style="border: none;">
+                <td class="border">
                   <a class="disabled" style="color: gray;"><i class="fa-regular fa-trash-can fa-xl"></i></a>
                 </td>
-                <td style="border: none;">
+                <td class="border">
                   <a class="edit-button" style="color: orange; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#update_fertilizer_Modal" data-fertilizer_name="<?= $row_fer["fertilizer_name"] ?>" data-id_fertilizer="<?= $row_fer["id_fertilizer"] ?>">
                     <i class="fa-regular fa-pen-to-square fa-xl"></i></a>
                 </td>
               <?php } else { ?>
-                <td style="border: none;">
+                <td class="border">
                   <a class="" style="color: red;" href="../phpsql/delete_data.php?id=<?= $row_fer["id_fertilizer"] ?>&tb=tb_fertilizer&idtb=id_fertilizer&location=../php/ShowVegetable.php" onclick="Del(this.href);return false;"><i class="fa-regular fa-trash-can fa-xl"></i></a>
                 </td>
-                <td style="border: none;">
+                <td class="border">
                   <a class="edit-button" style="color: orange; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#update_fertilizer_Modal" data-fertilizer_name="<?= $row_fer["fertilizer_name"] ?>" data-id_fertilizer="<?= $row_fer["id_fertilizer"] ?>">
                     <i class="fa-regular fa-pen-to-square fa-xl"></i></a>
                 </td>
@@ -239,7 +219,7 @@ $rs_vet = mysqli_query($conn, $sql_veg);
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header bg-dark">
-        <h5 class="modal-title text-light">เพิ่มแปลง</h5>
+        <h5 class="modal-title text-light">เพิ่มข้อมูลผัก</h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -299,7 +279,7 @@ $rs_vet = mysqli_query($conn, $sql_veg);
 <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header bg-dark">
-        <h5 class="modal-title text-light">เพิ่มแปลง</h5>
+        <h5 class="modal-title text-light">เพิ่มข้อมูลปุ๋ย</h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -324,7 +304,7 @@ $rs_vet = mysqli_query($conn, $sql_veg);
 <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header bg-dark">
-        <h5 class="modal-title text-light">เพิ่มแปลง</h5>
+        <h5 class="modal-title text-light">แก้ไขข้อมูลผัก</h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body" id="info_update5">
@@ -339,19 +319,21 @@ $rs_vet = mysqli_query($conn, $sql_veg);
 
 <!-- Modal update fertilizer-->
 <div class="modal fade" id="update_fertilizer_Modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable">
-    <div class="modal-content border-dark border-4">
-      <div class="modal-header text-center">
-        <h5 class="modal-title mx-auto" style="text-align: center;" id="staticBackdropLabel">เพิ่มข้อมูลปุ๋ย</h5>
+<div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-dark">
+        <h5 class="modal-title text-light">แก้ไขข้อมูลปุ๋ย</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-
-        <form method="post" action="../phpsql/update_fertilizer.php" enctype="multipart/form-data">
-          <input type="text" name="id_fertilizeredit" id="id_fertilizeredit" class="form-control" hidden>
-          <label class="mb-2">ชื่อปุ๋ย: </label>
-          <input type="text" name="fertilizer_name_edit" id="fertilizer_name_edit" onkeyup="checkInputvet(this)" class="form-control" required>
+        <form method="post" action="../phpsql/insert_fertilizer.php" enctype="multipart/form-data">
+        <input type="text" name="id_fertilizeredit" id="id_fertilizeredit" class="form-control" hidden>
+          <label class="mb-2">ชื่อปุ๋ย: </label><span id="fertilizer-availability-statusEdit"></span>
+          <input type="text" name="fertilizer_name_edit" id="fertilizer_name_edit" onkeyup="checkInputvet(this)" oninput="checkFertilizernameEdit()" class="form-control" required>
+          <div class="modal-footer">
           <button type="button" class="mt-2 btn btn-secondary" onclick="cancel()" data-bs-dismiss="modal">ยกเลิก</button>
-          <button type="submit" name="save2" id="save2" class="mt-2 btn btn-success">บันทึก</button>
+          <button type="submit" name="edit2" id="edit2" class="mt-2 btn btn-warning">แก้ไข</button>
+          </div>
         </form>
 
 
@@ -413,6 +395,28 @@ $rs_vet = mysqli_query($conn, $sql_veg);
       }
     });
   }
+
+  function checkFertilizernameEdit() {
+    $.ajax({
+      type: "POST",
+      url: "../phpsql/check_availability_vet.php",
+      cache: false,
+      data: {
+        type: 'tb_fertilizer',
+        input_name: $("#fertilizer_name_edit").val(),
+        where: 'fertilizer_name',
+      },
+      success: function(data) {
+        $("#fertilizer-availability-statusEdit").html(data);
+        if (data.indexOf("ถูกใช้ไปแล้ว") !== -1) {
+          $("#edit2").prop("disabled", true);
+        } else {
+          $("#edit2").prop("disabled", false);
+        }
+      }
+    });
+  }
+
 
   let photo = document.getElementById('photo');
   let previewImg = document.getElementById('previewImg');

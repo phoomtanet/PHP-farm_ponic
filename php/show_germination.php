@@ -38,7 +38,9 @@ $result_traysize = mysqli_query($conn, $name_traysize);
 <!doctype html>
 <html lang="en">
 <style>
-
+    td {
+        text-align: center;
+    }
 </style>
 
 <head>
@@ -50,7 +52,7 @@ $result_traysize = mysqli_query($conn, $name_traysize);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Ajax -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-
+    <link rel="stylesheet" href="../css/plot_nur.css">
     <title>Show Germination</title>
 </head>
 
@@ -66,25 +68,17 @@ $result_traysize = mysqli_query($conn, $name_traysize);
     <div class="pt-3 main-content-div  pt-5 mt-3" style=" text-align: center;">
         <div class="container" style="margin-top: 20px;">
             <div class="d-flex justify-content-end">
-                <button type="button" class="btn btn-primary btn-sl" data-bs-toggle="modal" data-bs-target="#add_germination" title="เพิ่มการเพาะเมล็ด">
-                    <i class="fas fa-plus"> </i> <i class="fas fa-seedling"></i>
-                </button>
+
             </div>
-            <table class="table table-striped table-bordered">
+            <table>
                 <caption class="caption-top">ตารางแสดงข้อมูลแปลงผักเพาะเม็ด </caption>
                 <thead>
-                    <th colspan="3" style="border: none;  text-align: left;">
-                    </th>
-                    </th>
-                    <th style="border: none;">
-                    <th style="border: none;">
-                    <th style="border: none;">
-                    <th style="border: none;">
-                    <th style="border: none; text-align: right;">
+                    <th colspan="8" class="bg-white" style="border: none; text-align: right;">
 
+                        <button type="button" class="btn btn-primary btn-sl" data-bs-toggle="modal" data-bs-target="#add_germination" title="เพิ่มการเพาะเมล็ด">
+                            <i class="fas fa-plus"> </i> <i class="fas fa-seedling"></i>
+                        </button>
                     </th>
-                </thead>
-                <thead class="table-dark">
                     <tr>
                         <th colspan="2">ชื่อผัก</th>
                         <th>ขนาดถาด</th>
@@ -109,26 +103,19 @@ $result_traysize = mysqli_query($conn, $name_traysize);
 
 
                     ?>
-                        <th style="border: none;"></th>
-                        <th style="border: none;"></th>
-                        <th style="border: none;"></th>
-                        <th style="border: none;"></th>
-                        <th style="border: none;"></th>
-                        <th style="border: none;"></th>
-                        <th style="border: none;"></th>
-                        <th style="border: none;"></th>
-                        <tr class="text-center">
-                            <td class="text-center text-nowrap">
+
+                        <tr>
+                            <td class="border text-nowrap">
                                 <img src="../img/<?php echo $row['img_name'] ?>" style="width: 50px; border-radius: 50px;">
                             </td>
-                            <td class="text-center"><?= $row["vegetable_name"] ?></td>
+                            <td class="border"><?= $row["vegetable_name"] ?></td>
 
-                            <td class="text-center"><?= $row["size_name"] ?></td>
-                            <td><?= $row["Amount_trays"] ?></td>
-                            <td class="text-nowrap"><?= $thaiDate_get ?></td>
-                            <td class="text-nowrap"><?= $daysDifference  . ' วัน' ?></td>
-                            <td><?= $row["germination_amount"] ?></td>
-                            <td class="text-nowrap">
+                            <td class="border"><?= $row["size_name"] ?></td>
+                            <td class="border"><?= $row["Amount_trays"] ?></td>
+                            <td class="border text-nowrap"><?= $thaiDate_get ?></td>
+                            <td class="border text-nowrap"><?= $daysDifference  . ' วัน' ?></td>
+                            <td class="border"><?= $row["germination_amount"] ?></td>
+                            <td class="border text-nowrap">
                                 <i class="btn fas fa-edit text-warning edit-button" data-bs-toggle="modal" data-bs-target="#edit_germination" data-id_seed_germination="<?= $row["id_seed_germination"] ?>" data-name_vegetable="<?= $row["vegetable_name"] ?>" data-id_veg_farm="<?= $row["id_veg_farm"] ?>" data-name_greenhouse="<?= $row['id_greenhouse'] ?>" data-Amount_germ="<?= $row["germination_amount"] ?>" data-germination_date="<?= $row["germination_date"] ?>" data-name_traysize="<?= $row["size_name"] ?>" data-id_traysize="<?= $row["id_traysize"] ?>"></i>
                                 <a class="btn fa-regular fa-trash-alt text-danger" href="../phpsql/delete_data.php?id=<?= $row["id_seed_germination"] ?>&tb=tb_seed_germination&idtb=id_seed_germination&location=../php/show_germination.php" onclick="Del(this.href);return false;"></a>
                             </td>
@@ -146,25 +133,17 @@ $result_traysize = mysqli_query($conn, $name_traysize);
     <!-- ตารางถาดเพาะ -->
     <div class=" main-content-div" style=" text-align: center;">
         <div class="container" style="margin-top: 50px;">
-            <div class="d-flex justify-content-end mt-5">
+            <table class="table ">
 
-                <button type="button" class="btn btn-primary btn-sl" data-bs-toggle="modal" data-bs-target="#add_traysize" title="เพิ่มถาดเพาะ">
-                    <i class="fas fa-plus"></i> <i class="fas fa-inbox"></i>
-                </button>
-            </div>
-            <table class="table table-striped table-bordered">
                 <caption class="caption-top">ตารางแสดงข้อมูลถาดเพาะ </caption>
-                <thead>
-                    <th colspan="3" style="border: none;  text-align: left;">
-                    </th>
-
-                    <th style="border: none; text-align: right;">
-
-                    </th>
-                </thead>
-                <thead class="table-dark">
+                
+            <thead class="table-dark">
+                <th colspan="4" class="bg-white" style="border: none; text-align: right;">
+                    <button type="button" class="btn btn-primary btn-sl" data-bs-toggle="modal" data-bs-target="#add_traysize" title="เพิ่มถาดเพาะ">
+                        <i class="fas fa-plus"></i> <i class="fas fa-inbox"></i>
+                    </button>
+                </th>
                     <tr>
-
                         <th>ชื่อไซต์</th>
                         <th>แถวถาดเพาะ</th>
                         <th>คอลัมน์ถาดเพาะ</th>
@@ -172,20 +151,17 @@ $result_traysize = mysqli_query($conn, $name_traysize);
                         </th>
                     </tr>
                 </thead>
-                <tbody>
+             
                     <?php
                     foreach ($result_traysize as $row) {
                     ?>
-                        <th style="border: none;"></th>
-                        <th style="border: none;"></th>
-                        <th style="border: none;"></th>
-                        <th style="border: none;"></th>
+
                         <tr>
 
-                            <td><?= $row["size_name"] ?></td>
-                            <td><?= $row["row_tray"] ?></td>
-                            <td><?= $row["column_tray"] ?></td>
-                            <td class="text-nowrap">
+                            <td class="border"><?= $row["size_name"] ?></td>
+                            <td class="border"><?= $row["row_tray"] ?></td>
+                            <td class="border"><?= $row["column_tray"] ?></td>
+                            <td class="text-nowrap border">
                                 <i class="btn fas fa-edit text-warning edit-button_tray" data-bs-toggle="modal" data-id_traysize="<?= $row['id_traysize'] ?>" data-size_name="<?= $row['size_name'] ?>" data-row_tray="<?= $row['row_tray'] ?>" data-column_tray="<?= $row['column_tray'] ?>" data-bs-target="#edit_traysize"></i>
                                 <?php
                                 $sql_del_tray = "SELECT * FROM `tb_traysize` as ts 
@@ -252,7 +228,7 @@ $result_traysize = mysqli_query($conn, $name_traysize);
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" onclick="cancelAndReload()" data-bs-dismiss="modal">ยกเลิก</button>
-                <input type="submit" name="save" id="save" class="btn btn-success" value="ยืนยัน"></input>
+                <input type="submit" name="save" id="save" class="btn btn-success" value="บันทึก"></input>
             </div>
             </form>
         </div>
@@ -289,7 +265,7 @@ $result_traysize = mysqli_query($conn, $name_traysize);
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" onclick="cancelAndReload()" data-bs-dismiss="modal">ยกเลิก</button>
-                <input type="submit" name="save2" id="save2" class="btn btn-success" value="ยืนยัน"></input>
+                <input type="submit" name="save2" id="save2" class="btn btn-success" value="บันทึก"></input>
             </div>
             </form>
         </div>
@@ -329,7 +305,7 @@ $result_traysize = mysqli_query($conn, $name_traysize);
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" onclick="cancelAndReload()" data-bs-dismiss="modal">ยกเลิก</button>
-                <input type="submit" name="edit" id="edit" class="btn btn-primary" value="แก้ไข"></input>
+                <input type="submit" name="edit" id="edit" class="btn btn-warning" value="แก้ไข"></input>
             </div>
             </form>
         </div>
@@ -340,9 +316,10 @@ $result_traysize = mysqli_query($conn, $name_traysize);
 <!-- edit traysize -->
 <div class="modal fade" id="edit_traysize" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border border-dark ">
-            <div class="modal-header text-center" style="background-color: #212529;">
-                <h5 class="modal-title mx-auto text-white" style="text-align: center;" id="staticBackdropLabel">เพิ่มถาดเพาะ</h5>
+        <div class="modal-content">
+            <div class="modal-header bg-dark">
+                <h5 class="modal-title text-light">แก้ไขถาดเพาะ</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form action="../phpsql/insert_germination.php" method="post" id="insertregister" name="insertregister" enctype="multipart/form-data">
@@ -360,7 +337,7 @@ $result_traysize = mysqli_query($conn, $name_traysize);
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" onclick="cancelAndReload()" data-bs-dismiss="modal">ยกเลิก</button>
-                <input type="submit" name="edit2" id="edit2" class="btn btn-primary" value="แก้ไข"></input>
+                <input type="submit" name="edit2" id="edit2" class="btn  btn-warning" value="แก้ไข"></input>
             </div>
             </form>
         </div>

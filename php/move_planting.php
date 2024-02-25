@@ -115,10 +115,10 @@ $result_green = mysqli_query($conn, $sql_green);
             if ($col['plotnursery_name'] !== $currentPlotName) {
               // แสดงชื่อแปลงใหม่
               echo '<tr>';
-                                echo '<td class="br_tb"  colspan="8" ';
-                  
-                  
-                                echo '</tr>';
+              echo '<td class="br_tb "  colspan="8" ';
+
+
+              echo '</tr>';
               $currentPlotName = $col['plotnursery_name'];
               echo '<tr>';
               echo '<td class="bd-bt border-top" >                             
@@ -186,7 +186,7 @@ $result_green = mysqli_query($conn, $sql_green);
 
           ?>
           <tr>
-            <td class="br_tb2 border-top" colspan="8" ></td>
+            <td class="br_tb bg-dark2 border-top" colspan="8"></td>
 
 
           </tr>
@@ -202,12 +202,12 @@ $result_green = mysqli_query($conn, $sql_green);
 </body>
 <div class="modal fade" id="add_data_Modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header bg-dark">
-                <h5 class="modal-title text-light">ย้ายการอนุบาล->แปลงปลูก</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-dark">
+        <h5 class="modal-title text-light">ย้ายการอนุบาล->แปลงปลูก</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
 
       <div class="modal-body">
         <form action="../phpsql/insert_move_planting.php" method="post" id="insertregister" name="insertregister" enctype="multipart/form-data">
@@ -271,13 +271,10 @@ $result_green = mysqli_query($conn, $sql_green);
 </div>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    // Get all elements with the class "move-button"
     const moveButtons = document.querySelectorAll('.move-button');
 
-    // Add a click event listener to each button
     moveButtons.forEach(function(button) {
       button.addEventListener('click', function() {
-          // Get the values from the data attributes
           const nurseryAmount = button.getAttribute('data-nursery-amount');
           const idNursery = button.getAttribute('data-id-nursery');
           const vegetable_name = button.getAttribute('data-name-vegetable');
@@ -285,11 +282,9 @@ $result_green = mysqli_query($conn, $sql_green);
           const date = button.getAttribute('data-date');
           var num_max = parseInt(document.getElementById('num_max').value);
 
-          // Set the values in the input fields
           const inputField = document.getElementById('num_have'); // You may need to use a different ID if necessary
           inputField.value = nurseryAmount;
 
-          // Set the id_nursery in the form's hidden field
           const idvegetableField = document.getElementById('id_veg_farm');
           idvegetableField.value = id_vegetable;
 
@@ -303,7 +298,6 @@ $result_green = mysqli_query($conn, $sql_green);
           date_Field.value = date;
 
           const num_planting = document.getElementById('num_planting');
-          //  document.write("<p>" + num_max  + "</p>");
 
           if (num_max > inputField.value) {
             num_planting.value = inputField.value;
@@ -320,13 +314,8 @@ $result_green = mysqli_query($conn, $sql_green);
 </script>
 
 <script>
-  //กดที่ช่อง จำนวนที่ย้าย  ให้ลบ ข้อมูลเก่า
-  // function clearValue() {
-  //   document.getElementById('num_planting').value = ''; // ลบค่าที่อยู่ในช่อง input
-  // }
-  //กด cancel รีเฟรชหน้า
+
   function cancelAndReload() {
-    // รีเฟรชหน้า
     window.location.reload();
   }
 
@@ -341,14 +330,14 @@ $result_green = mysqli_query($conn, $sql_green);
 
     if (numPlanting > num_have) {
       label.innerHTML = '<label id="label_num_planting" class="text-danger" style="text-align: left; display: block;">"จำนวนที่ย้าย จำนวนที่มีในแปลงอนุบาล!!!" </label';
-      document.getElementById('save1').style.display = 'none';
+      document.getElementById('save1').disabled = true;
       // ซ่อนปุ่ม submit
     } else if (numPlanting > num_max) {
       label.innerHTML = '<label id="label_num_planting" class="text-danger" style="text-align: left; display: block;">"จำนวนที่ย้าย มากกว่าจำนวนสูงสุด!!!" </label';
-      document.getElementById('save1').style.display = 'none';
+      document.getElementById('save1').disabled = true;
       // ซ่อนปุ่ม submit
     } else {
-      document.getElementById('save1').style.display = 'block'; // แสดงปุ่ม submit
+      document.getElementById('save1').disabled = false;
       label.innerHTML = '<label id="label_num_planting" class="text-dark" style="text-align: left; display: block;">จำนวนที่ย้าย  </label>';
     }
   }
