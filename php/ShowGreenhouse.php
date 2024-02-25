@@ -61,16 +61,16 @@ $re = mysqli_fetch_array($result_sql_id);
     <div class="container mt-5 ">
 
       <div class="d-flex justify-content-between">
-      <div >
+        <div>
           <a href="index.php" id="back" class="btn btn-dark ">
             <i class="fas fa-arrow-left me-2"></i> กลับ
           </a>
         </div>
 
-    <div>        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_data_Modal">
-          <i class="fas fa-plus"> </i> <i class="fa fa-database" aria-hidden="true"></i>
-        </button>
-</div>
+        <div> <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_data_Modal">
+            <i class="fas fa-plus"> </i> <i class="fa fa-database" aria-hidden="true"></i>
+          </button>
+        </div>
       </div>
       <table class="table table-striped table-bordered">
         <caption class="caption-top">ตารางแสดงข้อมูลโรงเรือน</caption>
@@ -141,11 +141,11 @@ $re = mysqli_fetch_array($result_sql_id);
 
 <!-- Modal insert-->
 <div class="modal fade" id="add_data_Modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content border-dark border-4">
-      <div class="modal-header text-center">
-        <h5 class="modal-title mx-auto" style="text-align: center;" id="staticBackdropLabel">เพิ่มโรงเรือน</h5>
-        <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+<div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-dark">
+        <h5 class="modal-title text-light">เพิ่มโรงเรือน</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body" id="info_update5">
 
@@ -162,8 +162,11 @@ $re = mysqli_fetch_array($result_sql_id);
           <label class="mb-2">ชื่อโรงเรือน : </label><span id="user-availability-status"></span>
           <input type="text" name="greenhouse_name" id="greenhouse_name" onkeyup="checkInput(this)" class="form-control" required oninput="checkAvailability()">
           <br>
-          <button type="submit" id="save1" class="btn btn-success">บันทึก</button>
-          <button type="button" class="btn btn-secondary" onclick="cancel()" data-bs-dismiss="modal">ยกเลิก</button>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="cancel()" data-bs-dismiss="modal">ยกเลิก</button>
+            <button type="submit" id="save1" class="btn btn-success">บันทึก</button>
+          
+          </div>
         </form>
 
       </div>
@@ -175,10 +178,11 @@ $re = mysqli_fetch_array($result_sql_id);
 
 <!-- Modal update-->
 <div class="modal fade" id="update_data_Modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content border-dark border-4">
-      <div class="modal-header text-center">
-        <h5 class="modal-title mx-auto" style="text-align: center;" id="staticBackdropLabel">แก้ไขข้อมูลโรงเรือน</h5>
+<div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-dark">
+        <h5 class="modal-title text-light">เพิ่มข้อมูลโรงเรือน</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body" id="info_update5">
 
@@ -196,8 +200,13 @@ $re = mysqli_fetch_array($result_sql_id);
           <label class="mb-2">ชื่อโรงเรือน : </label><span id="user-availability-statusEdit"></span>
           <input type="text" name="greenhouse_name_edit" id="greenhouse_name_edit" onkeyup="checkInput(this)" class="form-control" required oninput="checkAvailabilityEdit()">
           <br>
-          <button type="submit" id="edit1" class="btn btn-warning">แก้ไข</button>
+          <div class="modal-footer">
+
           <button type="button" class="btn btn-secondary" onclick="cancel()" data-bs-dismiss="modal">ยกเลิก</button>
+          <button type="submit" id="edit1" class="btn btn-warning">แก้ไข</button>
+   
+        </div>
+        
         </form>
 
       </div>
@@ -286,8 +295,8 @@ $re = mysqli_fetch_array($result_sql_id);
 
   window.onload = function() {
 
-   var greenDropdown = document.getElementById("greenhouseDropdown");
-   greenDropdown.disabled = true;
+    var greenDropdown = document.getElementById("greenhouseDropdown");
+    greenDropdown.disabled = true;
 
   };
 </script>

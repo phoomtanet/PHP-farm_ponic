@@ -1,5 +1,5 @@
 function checkInput(elm) {
-    if (!elm.value.match(/^[a-zA-Z0-9ก-๙ ]+$/i) && elm.value.length > 0  ) {
+    if (!elm.value.match(/^[a-zA-Z0-9ก-๙]+$/i) && elm.value.length > 0  ) {
       alert('ไม่สามารถใช้ตัวอักษรพิเศษได้');
       elm.value = '';
       document.getElementById('ets_plot').innerHTML = '';
@@ -12,7 +12,7 @@ function checkInput(elm) {
   }
 
   function checkInputTray(elm) {
-    if (!elm.value.match(/^[a-zA-Z0-9 ]+$/i) && elm.value.length > 0  ) {
+    if (!elm.value.match(/^[a-zA-Z0-9]+$/i) && elm.value.length > 0  ) {
       alert('ไม่สามารถใช้ตัวอักษรพิเศษได้');
       elm.value = '';
       } else if (elm.value.length > 10) {
@@ -23,7 +23,7 @@ function checkInput(elm) {
   }
 
   function checkInputUser(elm) {
-    if (!elm.value.match(/^[a-zA-Z0-9 ]+$/i) && elm.value.length > 0  ) {
+    if (!elm.value.match(/^[a-zA-Z0-9]+$/i) && elm.value.length > 0  ) {
       alert('ไม่สามารถใช้ตัวอักษรพิเศษได้');
       elm.value = '';
       } else if (elm.value.length > 15) {
@@ -34,7 +34,7 @@ function checkInput(elm) {
   }
 
   function checkInputName(elm) {
-    if (!elm.value.match(/^[a-zA-Z0-9ก-๙ ]+$/i) && elm.value.length > 0  ) {
+    if (!elm.value.match(/^[a-zA-Z0-9ก-๙]+$/i) && elm.value.length > 0  ) {
       alert('ไม่สามารถใช้ตัวอักษรพิเศษได้');
       elm.value = '';
       } else if (elm.value.length > 15) {
@@ -45,7 +45,7 @@ function checkInput(elm) {
   }
 
   function checkInputvet(elm) {
-    if (!elm.value.match(/^[a-zA-Z0-9ก-๙ ]+$/i) && elm.value.length > 0  ) {
+    if (!elm.value.match(/^[a-zA-Z0-9ก-๙]+$/i) && elm.value.length > 0  ) {
       alert('ไม่สามารถใช้ตัวอักษรพิเศษได้');
       elm.value = '';
       } else if (elm.value.length > 20) {
@@ -66,7 +66,7 @@ function checkInput(elm) {
   }
 
   function checkInputtext(elm) {
-    if (!elm.value.match(/^[a-zA-Z0-9ก-๙ ]+$/i) && elm.value.length > 0  ) {
+    if (!elm.value.match(/^[a-zA-Z0-9ก-๙]+$/i) && elm.value.length > 0  ) {
       alert('ไม่สามารถใช้ตัวอักษรพิเศษได้');
       elm.value = '';
       } else if (elm.value.length > 30) {

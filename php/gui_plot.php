@@ -58,6 +58,7 @@
         LEFT JOIN tb_veg_farm as vf on vf.id_veg_farm = e.id_veg_farm   
         LEFT JOIN tb_vegetable  as v on v.id_vegetable  = vf.id_vegetable    
         LEFT JOIN tb_fertilizationdate as g on   g.id_plot = e.id_plot
+        LEFT JOIN tb_fertilizer as f on f.id_farm = c.id_farm
         WHERE b.id_greenhouse = '$id_greenhouse_session' AND a.plot_name = '$escapedPlotName'
         GROUP BY e.id_planting";
                 $result_plan = mysqli_query($conn, $sql_plan);
@@ -82,7 +83,7 @@
                 }
                 ?>
                 <?php if ($days_difference >= $fertilizing_everyDays) {   ?>
-                    <div data-bs-toggle="modal" data-bs-target="#add_fertilizer" class="add_fertilizer bg-fer  mx-4 my-2 border flex-column p-1  border border-3 border-dark Small shadow d-flex justify-content-center align-items-center " style="border-radius: 5px;  " data-id_fertilizationDate="<?= $row["id_fertilizationDate"] ?>" data-plot_name2="<?= $col["plot_name"] ?>">
+                    <div data-bs-toggle="modal" data-bs-target="#add_fertilizer" class="add_fertilizer bg-fer  mx-4 my-2 border flex-column p-1  border border-3 border-dark Small shadow d-flex justify-content-center align-items-center " style="border-radius: 5px;  " data-name_fer="<?= $row["fertilizer_name"] ?>" data-id_fertilizationDate="<?= $row["id_fertilizationDate"] ?>" data-plot_name2="<?= $col["plot_name"] ?>">
 
                     <?php  } else { ?>
                         <div class="mx-4 my-2 border flex-column p-1 bg-add border border-3 border-dark Small shadow d-flex justify-content-center align-items-center" style="border-radius: 5px; ">

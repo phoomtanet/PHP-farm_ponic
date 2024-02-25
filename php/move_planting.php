@@ -62,7 +62,7 @@ $result_green = mysqli_query($conn, $sql_green);
   </div>
   <!-- เนื้อหาหลัก -->
   <div class=" main-content-div" style=" text-align: center;">
-    <div class="container" style="margin-top: 20px;">
+    <div class="container " style="margin-top: 20px;">
       <div class="d-flex justify-content-between mt-5">
         <div>
           <a href="index.php" id="back">
@@ -94,7 +94,7 @@ $result_green = mysqli_query($conn, $sql_green);
 
       <table>
         <caption class="caption-top">ย้ายการอนุบาลไปยังแปลง <?php echo "$namePlot" ?></caption>
-        <tr>
+        <tr class="bg-dark text-lihgt">
           <th>แปลง</th>
           <th colspan="2">ผัก</th>
           <th>วันที่เพาะ</th>
@@ -201,11 +201,14 @@ $result_green = mysqli_query($conn, $sql_green);
   <script src="../navbar/navbar.js"></script>
 </body>
 <div class="modal fade" id="add_data_Modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content border border-dark ">
-      <div class="modal-header text-center" style="background-color: #212529;">
-        <h5 class="modal-title mx-auto text-white" style="text-align: center;" id="staticBackdropLabel">ย้ายการอนุบาล->แปลงปลูก</h5>
-      </div>
+
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-dark">
+                <h5 class="modal-title text-light">ย้ายการอนุบาล->แปลงปลูก</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
       <div class="modal-body">
         <form action="../phpsql/insert_move_planting.php" method="post" id="insertregister" name="insertregister" enctype="multipart/form-data">
           <!-- #region --> <input type="hidden" name="id_nursery" id="id_nursery" class="form-control" readonly>

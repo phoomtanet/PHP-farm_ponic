@@ -37,6 +37,9 @@ $result_traysize = mysqli_query($conn, $name_traysize);
 
 <!doctype html>
 <html lang="en">
+<style>
+
+</style>
 
 <head>
     <meta charset="utf-8" />
@@ -193,7 +196,7 @@ $result_traysize = mysqli_query($conn, $name_traysize);
                                 $numColumns = mysqli_num_rows($result_check_tray);
                                 if (($numColumns > 0)) {
                                 ?>
-                                    <a class="btn disabled fa-regular fa-trash-alt "style="color: gray;"></a>
+                                    <a class="btn disabled fa-regular fa-trash-alt " style="color: gray;"></a>
                                 <?php } else { ?>
                                     <a class="btn fa-regular fa-trash-alt text-danger" href="../phpsql/delete_data.php?id=<?= $row["id_traysize"] ?>&tb=tb_traysize&idtb=id_traysize&location=../php/show_germination.php" onclick="Del(this.href);return false;"></a>
                                 <?php  } ?>

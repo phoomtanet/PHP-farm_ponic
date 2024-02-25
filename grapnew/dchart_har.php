@@ -39,7 +39,7 @@ function drawChart_har() {
     const data_har = google.visualization.arrayToDataTable(chartData_har);
 
     const options = {
-    title: 'กราฟแสดงจำนวนผักที่เก็บเกี่ยวย้านหลัง 30 วัน',
+    title: 'กราฟแสดงจำนวนผักที่เก็บเกี่ยวย้อนหลัง 30 วัน',
     pieHole: 0.3,
     titleTextStyle: {
         color: 'black', // สีของตัวหนังสือ

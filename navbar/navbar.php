@@ -109,13 +109,14 @@ $result_greenhouse = mysqli_query($conn, $sql_greenhouse);
     <ul class="navbar-nav  menu-top">
       <li class="nav-item">
       </li>
-      <a class="nav-link top_nav_menu" href="../php/show_germination.php">การเพาะเมล็ด</a>
+      <a class="navbar-brand top_nav_menu" href="../php/index.php">การปลูกผัก</a>
+
 
       <li class="nav-item">
         <a class="nav-link top_nav_menu" href="../php/plot_nursery.php">การอนุบาลผัก</a>
       </li>
       <li class="nav-item">
-        <a class="navbar-brand top_nav_menu" href="../php/index.php">การปลูกผัก</a>
+      <a class="nav-link top_nav_menu" href="../php/show_germination.php">การเพาะเมล็ด</a>
 
       </li>
       <li class="nav-item">

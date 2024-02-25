@@ -181,7 +181,7 @@ $result_sql_fer = mysqli_query($conn, $sql_fer);
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" onclick="cancel()" data-bs-dismiss="modal">ยกเลิก</button>
-        <input type="submit" name="editplot" id="editplot" class="btn btn-primary" value="แก้ไข"></input>
+        <input type="submit" name="editplot" id="editplot" class="btn btn-warning" value="แก้ไข"></input>
       </div>
       </form>
     </div>
@@ -239,6 +239,9 @@ $result_sql_fer = mysqli_query($conn, $sql_fer);
           <input type="hidden" name="id_fertilizationDate" id="id_fertilizationDate" class="form-control" readonly onBlur="checkAvailability()" onkeyup="check_char(this)">
           <label style="text-align: left; display: block;">ชื่อแปลง:</label><span id="user-availability-status"></span>
           <input type="text" name="plot_fertilization" id="plot_fertilization" class="form-control" readonly onBlur="checkAvailability()" onkeyup="check_char(this)">
+          <label style="text-align: left; display: block;">ปุ๋ยที่ให้:</label>
+          <input type="text" name="name_fer" id="name_fer" class="form-control" readonly onBlur="checkAvailability()" onkeyup="check_char(this)">
+      
           <label style="text-align: left; display: block;">วันที่ให้ปุ๋ย:</label>
           <input type="date" name="fertilizationdate" id="fertilizationdate" class="form-control" required placeholder="วันที่เพาะเมล็ด" max="<?php echo date('Y-m-d'); ?>">
 
@@ -321,6 +324,12 @@ $result_sql_fer = mysqli_query($conn, $sql_fer);
         const data_id_fertilizationDate = button.getAttribute('data-id_fertilizationDate');
         const id_fertilizationDate = document.getElementById('id_fertilizationDate');
         id_fertilizationDate.value = data_id_fertilizationDate;
+       
+        const  data_name_fer= button.getAttribute('data-name_fer');
+        const name_fer = document.getElementById('name_fer');
+        name_fer.value = data_name_fer;
+       
+
       });
     });
   });

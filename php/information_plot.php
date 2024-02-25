@@ -13,6 +13,7 @@ LEFT JOIN tb_planting as e on a.id_plot = e.id_plot
 LEFT JOIN tb_veg_farm as vf on vf.id_veg_farm = e.id_veg_farm   
 LEFT JOIN tb_vegetable as f on f.id_vegetable = vf.id_vegetable   
 LEFT JOIN tb_fertilizationdate as g on   g.id_plot = e.id_plot
+LEFT JOIN tb_fertilizer as fz on fz.id_fertilizer = a.id_fertilizer 
 WHERE a.id_plot = '$id_plot_data' GROUP BY e.id_planting";
 $result_plan = mysqli_query($conn, $sql_plot_plan);
 ?>
@@ -29,25 +30,41 @@ $result_plan = mysqli_query($conn, $sql_plot_plan);
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <title>Document</title>
 </head>
+<style> 
+#bar{
+    background-color: #5599e1;
+}
+.bg-text{
+    background-color: #d3d3d3;
+}
 
+</style>
 <body>
+<?php include '../navbar/navbar.php'; ?>
+
     <!-- เมนูด้านข้าง ( Side Menu ) -->
-    <div class="d-flex flex-column p-3 text-white bg-dark side-menu" style="width: 250px; height: 100vh; position: fixed; left: -250px">
+    <div class="d-flex flex-column p-3 mt-4 text-white bg-dark side-menu" style="width: 250px; height: 100vh; position: fixed; left: -250px">
         <ul class="nav nav-pills flex-column mb-auto pt-4 side_nav_menu">
     </div>
-    <div class="pt-5 main-content-div" style=" text-align: center;">
-    <div class="d-flex  justify-content-start mx-5">
-            <a href="../php/index.php  " class="mx-5 btn btn-primary">กลับ</a>
-        </div>
-        <br>
-        <div class="container">
+    <div class=" main-content-div " style=" text-align: center;">
 
+        <br>
+        <div class="container   ">
+            <div class="d-flex  justify-content-start my-5">
+                <div>
+                    <a href="index.php" id="back" class="btn btn-dark ">
+                        <i class="fas fa-arrow-left me-2"></i> กลับ
+                    </a>
+                </div>
+            </div>
             <div class="d-flex  flex-wrap justify-content-evenly">
                 <?php foreach ($result_plan as $row) {
-                    
+
                     $thaimonth = array("ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค.");
-                  
-                    $thaiMonth = $thaimonth[date('n', strtotime($row["planting_date"])) - 1];
+
+
+                    $thai_sg = date('d', strtotime($row["planting_date"])) . ' ' . $thaimonth[date('n', strtotime($row["planting_date"])) - 1] . ' ' .  date('Y', strtotime($row["planting_date"]));
+
 
                     $Date = new DateTime($row['planting_date']);
                     $currentDate = new DateTime(); // วันที่ปัจจุบัน
@@ -59,45 +76,47 @@ $result_plan = mysqli_query($conn, $sql_plot_plan);
                     $date_harvest = $planting_date->add($vegetable_age)->format('Y-m-d');
 
 
-                    $thaiMonth_harvest  = $thaimonth[date('n', strtotime($date_harvest)) - 1];
+                    $thaiMonth_harvest  = $thaimonth[date('n', strtotime($date_harvest)) - 1] . ' ' . date('Y', strtotime($date_harvest));
                     $thaiMonth_fer  = $thaimonth[date('n', strtotime($row["planting_date"])) - 1];
 
                     $fertilizationDate = $row['fertilizationDate'];
 
                     // แปลงวันที่เป็นวันที่แบบไทย
-                    $thaiDate_fer = date('d', strtotime($fertilizationDate)) . ' ' . $thaimonth[date('n', strtotime($fertilizationDate)) - 1];
-        
+                    $thaiDate_fer = date('d', strtotime($fertilizationDate)) . ' ' . $thaimonth[date('n', strtotime($fertilizationDate)) - 1] . ' ' .  date('Y', strtotime($fertilizationDate));
+
                 ?>
 
-                    <div class="  mx-5 secondary mb-2 ">
-                        <table class="border">
+                    <div class=" mx-5   ">
+                        <table class="border m-2">
                             <tr>
-                                <th class="bg-secondary rounded-start">
-                                    <div class="d-flex justify-content-start mx-3 my-2 text-light">
-                                        <?= $row["vegetable_name"] ?>
+                                <th  id="bar">
+                                    <div class="d-flex justify-content-start mx-3 my-3 text-light">
+                                        <h5><?= $row["vegetable_name"] ?></h5>
                                     </div>
                                 </th>
-                                <th class="bg-secondary rounded-end">
-                                    <div class="d-flex justify-content-end">
-                                        <a class="mx-2" style="color: red;" href="../phpsql/sql_planting.php?id_plan_del=<?= $row['id_planting'] ?>&id_plot=<?= $row['id_plot'] ?>&plot_name=<?= $name_plot ?>&slot=<?= $slot ?>" onclick="Del(this.href);return false;">
+                                <th class=" rounded-end"  id="bar">
+                                    <div class="d-flex justify-content-end ">
+                                        <a class="mx-2 bg-light rounded p-1 " style="color: red;" href="../phpsql/sql_planting.php?id_plan_del=<?= $row['id_planting'] ?>&id_plot=<?= $row['id_plot'] ?>&plot_name=<?= $name_plot ?>&slot=<?= $slot ?>" onclick="Del(this.href);return false;">
                                             <i class="fa-regular fa-trash-can fa-xl"></i>
                                         </a>
-                                        <a class="mx-2 edit-button" type="button" style="color: orange; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#update_data_Modal" data-id_planting="<?= $row["id_planting"] ?>" data-vet_name="<?= $row["vegetable_name"] ?>" data-slot="<?= $slot ?> " data-amount="<?= $row["vegetable_amount"] ?>" data-date="<?= $row["planting_date"] ?> " data-date_fer="<?= $row["fertilizationDate"] ?> "><i class="fa-regular fa-pen-to-square fa-xl"></i></a>
+                                        <a class="mx-2 bg-light rounded p-1 edit-button" type="button" style="color: orange; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#update_data_Modal" data-id_planting="<?= $row["id_planting"] ?>" data-vet_name="<?= $row["vegetable_name"] ?>" data-slot="<?= $slot ?> " data-amount="<?= $row["vegetable_amount"] ?>" data-date="<?= $row["planting_date"] ?> " data-date_fer="<?= $row["fertilizationDate"] ?> "><i class="fa-regular fa-pen-to-square fa-xl"></i></a>
                                     </div>
                                 </th>
 
                             </tr>
                             <tr>
                                 <td class="mt-3 " style="text-align: left;">
-                                    <img src="../img/<?= $row['img_name'] ?>" class="rounded-bottom" style="width: 150px; ">
+                                    <img src="../img/<?= $row['img_name'] ?>" class="rounded-bottom" style="width: 180px; ">
                                 </td>
-                                <td style="text-align: left; ">
+                                <td style="text-align: left;" class="px-3 bg-text">
                                     <p class="px-4 text-nowrap">
-                                        อายุ<?= $age ?> วัน <br>
-                                        จำนวน <?= $row['vegetable_amount'] ?> ต้น <br>
-                                        วันที่เพาะ <?= date('d ', strtotime($row["planting_date"])) ?><?= $thaiMonth ?> <br>
-                                        ให้ปุ๋ยล่าสุด <?= $thaiDate_fer  ?><br>
-                                        วันเก็บเกี่ยว <?= date('d ', strtotime($date_harvest)) ?><?= $thaiMonth_harvest ?>
+                                        อายุ: <?= $age ?> วัน <br>
+                                        จำนวน: <?= $row['vegetable_amount'] ?> ต้น <br>
+                                        ให้ปุ๋ยที่ให้: <?= $row['fertilizer_name']  ?><br>
+                                        วันที่เพาะ: <?= $thai_sg ?> <br>
+
+                                        ให้ปุ๋ยล่าสุด: <?= $thaiDate_fer  ?><br>
+                                        วันเก็บเกี่ยว: <?= date('d ', strtotime($date_harvest)) ?><?= $thaiMonth_harvest ?>
                                     </p>
                                 </td>
                             </tr>
@@ -111,12 +130,13 @@ $result_plan = mysqli_query($conn, $sql_plot_plan);
             </div>
         </div>
 
-      
+
         <div class="modal fade" id="update_data_Modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content border border-dark ">
-                    <div class="modal-header text-center" style="background-color: #212529;">
-                        <h5 class="modal-title mx-auto text-white" style="text-align: center;" id="staticBackdropLabel">แก้ไขการปลูก</h5>
+                <div class="modal-content">
+                    <div class="modal-header bg-dark">
+                        <h5 class="modal-title text-light">แก้ไขข้อมูล</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <form action="../phpsql/sql_planting.php" method="post" id="insertregister" name="insertregister" enctype="multipart/form-data">
@@ -130,10 +150,10 @@ $result_plan = mysqli_query($conn, $sql_plot_plan);
                             <input type="number" id="amount_vet" name="amount_vet" class="form-control" oninput="checkslot()">
                             <input hidden type="text" id="amount_vet_final" name="amount_vet_final" class="form-control">
                             <input type="text" hidden id="id_planting" name="id_planting" class="form-control">
-                            <input type="text" hidden id="id_plot" name="id_plot"  value= <?=$id_plot_data ?>>
-                            <input type="text" hidden id="plot_name" name="plot_name"  value= <?=$name_plot?>>
-                            <input type="text" hidden id="slot" name="slot"  >
-                             <label style="text-align: left; display: block;">วันที่เพาะ:</label>
+                            <input type="text" hidden id="id_plot" name="id_plot" value=<?= $id_plot_data ?>>
+                            <input type="text" hidden id="plot_name" name="plot_name" value=<?= $name_plot ?>>
+                            <input type="text" hidden id="slot" name="slot">
+                            <label style="text-align: left; display: block;">วันที่เพาะ:</label>
                             <input type="date" id="date_vet" name="date_vet" class="form-control" required max="<?php echo date('Y-m-d'); ?>">
 
                             <label style="text-align: left; display: block;">วันที่ให้ปุ๋ย:</label>
@@ -141,7 +161,7 @@ $result_plan = mysqli_query($conn, $sql_plot_plan);
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" onclick="cancel()" data-bs-dismiss="modal">ยกเลิก</button>
-                        <input type="submit" name="edit_plan" id="edit_plan" class="btn btn-primary" value="ยืนยัน"></input>
+                        <input type="submit" name="edit_plan" id="edit_plan" class="btn btn-warning" value="แก้ไข"></input>
                     </div>
                     </form>
                 </div>
@@ -149,13 +169,24 @@ $result_plan = mysqli_query($conn, $sql_plot_plan);
         </div>
 
 </body>
+<script src="../navbar/navbar.js"></script>
 
 </html>
 <script>
-     function cancel() {
-    // รีเฟรชหน้า
-    window.location.reload();
-  }
+      window.onload = function() {
+
+var greenDropdown = document.getElementById("greenhouseDropdown");
+greenDropdown.disabled = true;
+
+
+var farmDropdown = document.getElementById("farmDropdown");
+farmDropdown.disabled = true;
+
+};
+    function cancel() {
+        // รีเฟรชหน้า
+        window.location.reload();
+    }
     document.addEventListener('DOMContentLoaded', function() {
         const moveButtons = document.querySelectorAll('.edit-button');
 
@@ -195,7 +226,7 @@ $result_plan = mysqli_query($conn, $sql_plot_plan);
                 edit_vet_amount_final.value = vet_amount;
 
                 var label_slot = document.getElementById('slot');
-                label_slot.value =  slot;
+                label_slot.value = slot;
             });
         });
     });
@@ -209,18 +240,18 @@ $result_plan = mysqli_query($conn, $sql_plot_plan);
         var edit_planButton = document.getElementById("edit_plan");
         var label_slot = document.getElementById('slot');
 
- 
+
         if (fvet_amount > fvet_amount_final + emp_slot) {
             label.innerHTML = '<label style="text-align: left; display: block;" class="text-danger" >จำนวนต้นมากกว่าช่องว่างในแปลง:</label>';
             console.log(fvet_amount);
             console.log(fvet_amount_final);
             edit_planButton.disabled = true;
-        
+
 
         } else {
             label.innerHTML = '<label style="text-align: left; display: block;">จำนวนต้น:</label>';
             edit_planButton.disabled = false;
-            label_slot.value = fvet_amount_final + emp_slot - fvet_amount 
+            label_slot.value = fvet_amount_final + emp_slot - fvet_amount
         }
     }
 

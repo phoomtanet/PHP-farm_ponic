@@ -41,8 +41,6 @@ $result = mysqli_query($conn, $sql);;
     margin-bottom: 0;
     padding: 0.5rem 0.5rem;
   }
-
-
 </style>
 
 <body>
@@ -58,7 +56,7 @@ $result = mysqli_query($conn, $sql);;
 
     <div class="container mt-5">
       <div class="d-flex  justify-content-between">
-      <div >
+        <div>
           <a href="index.php" id="back" class="btn btn-dark ">
             <i class="fas fa-arrow-left me-2"></i> กลับ
           </a>
@@ -68,7 +66,7 @@ $result = mysqli_query($conn, $sql);;
             <i class="fas fa-plus"> </i> <i class="fa fa-database" aria-hidden="true"></i>
           </button>
         </div>
-     
+
       </div>
       <table class="table table-striped table-bordered mt-5">
         <caption class="caption-top">ตารางแสดงข้อมูลฟาร์ม</caption>
@@ -122,10 +120,10 @@ $result = mysqli_query($conn, $sql);;
 <!-- Modal -->
 <div class="modal fade" id="add_data_Modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content border-dark border-4">
-      <div class="modal-header text-center">
-        <h5 class="modal-title mx-auto" style="text-align: center;" id="staticBackdropLabel">เพิ่มฟาร์ม</h5>
-        <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+    <div class="modal-content">
+      <div class="modal-header bg-dark">
+        <h5 class="modal-title text-light">เพิ่มฟาร์ม</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body" id="info_update5">
 
@@ -146,8 +144,10 @@ $result = mysqli_query($conn, $sql);;
           <input type="text" name="greenhouse" onkeyup="checkInput(this)" id="greenhouse" class="form-control" required>
           <input type="num" name="check_insert" value="1" hidden>
           <br>
-          <button type="button" class="btn btn-secondary" onclick="cancel()" data-bs-dismiss="modal">ยกเลิก</button>
-          <button type="submit" id="savefarm" class="btn btn-success">บันทึก</button>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="cancel()" data-bs-dismiss="modal">ยกเลิก</button>
+            <button type="submit" id="savefarm" class="btn btn-success">บันทึก</button>
+          </div>
         </form>
 
       </div>
@@ -159,11 +159,12 @@ $result = mysqli_query($conn, $sql);;
 
 <!-- Modal update-->
 <div class="modal fade" id="update_data_Modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content border-dark border-4">
-      <div class="modal-header text-center">
-        <h5 class="modal-title mx-auto" style="text-align: center;" id="staticBackdropLabel">แก้ไขข้อมูฟาร์ม</h5>
-      </div>
+<div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-dark">
+                <h5 class="modal-title text-light">แก้ไขฟาร์ม</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
       <div class="modal-body" id="info_update5">
 
         <form method="post" action="../phpsql/insert_farm.php" enctype="multipart/form-data">
@@ -183,9 +184,11 @@ $result = mysqli_query($conn, $sql);;
           <input type="text" name="location_edit" id="location_edit" onkeyup="checkInputtext(this)" class="form-control" required>
           <input type="num" name="check_edit" value="1" hidden>
           <br>
+          <div class="modal-footer">
 
-          <button type="button" class="btn btn-secondary" onclick="cancel()" data-bs-dismiss="modal">ยกเลิก</button>
-          <button type="submit" id="save_edit" class="btn btn-warning">แก้ไข</button>
+            <button type="button" class="btn btn-secondary" onclick="cancel()" data-bs-dismiss="modal">ยกเลิก</button>
+            <button type="submit" id="save_edit" class="btn btn-warning">แก้ไข</button>
+          </div>
         </form>
 
       </div>

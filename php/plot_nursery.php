@@ -44,6 +44,8 @@ $result_plot__nursery = mysqli_query($conn, $sql_plot_nursery);
 
 <body>
     <?php include '../navbar/navbar.php'; ?>
+    <script src="../script/check.js"></script>
+
     <!-- เมนูด้านข้าง ( Side Menu ) -->
     <div class="d-flex flex-column p-4 mt-1 text-white bg-dark side-menu" style="width: 250px; height: 100vh; position: fixed; left: -250px">
         <ul class="nav nav-pills flex-column mb-auto pt-4 side_nav_menu"></ul>
@@ -54,9 +56,9 @@ $result_plot__nursery = mysqli_query($conn, $sql_plot_nursery);
 
 
             <div class="container">
-                <div class="d-flex flex-nowrap justify-content-start mt-5 text-center">
+                <div class="d-flex flex-nowrap justify-content-end mt-3 text-center">
                     <div>
-                        <button type="button" class="btn btn-dark " title="เพิ่มแปลงอนุบาล" data-bs-toggle="modal" data-bs-target="#add_plot_nursury">
+                        <button type="button" class="btn btn-primary" title="เพิ่มแปลงอนุบาล" data-bs-toggle="modal" data-bs-target="#add_plot_nursury">
                             <i class="fas fa-plus"></i> <i class="fas fa-inbox "></i>
                         </button>
 
@@ -166,7 +168,7 @@ $result_plot__nursery = mysqli_query($conn, $sql_plot_nursery);
                                    <p><small>  แก้ไขแปลงอนุบาล</small> </p>
                                     </td>';
 
-                                   
+
 
                                     echo '</tr>';
                                 }
@@ -226,22 +228,23 @@ $result_plot__nursery = mysqli_query($conn, $sql_plot_nursery);
 <!-- modal add_plot_nursury -->
 <div class="modal fade" id="add_plot_nursury" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border border-dark ">
-            <div class="modal-header text-center" style="background-color: #212529;">
-                <h5 class="modal-title mx-auto text-white" style="text-align: center;" id="staticBackdropLabel">เพิ่มแปลงอนุบาล</h5>
+        <div class="modal-content">
+            <div class="modal-header bg-dark">
+                <h5 class="modal-title text-light">เพิ่มแปลงอนุบาล</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form action="../phpsql/insert_plotnursery.php" method="post" id="insertregister" name="insertregister" enctype="multipart/form-data">
                     <label style="text-align: left; display: block;">ชื่อแปลง:</label><span id="user-availability-status"></span>
-                    <input type="text" name="plotnursery_name" id="plotnursery_name" oninput="checkname()" required placeholder="ป้อนชื่อแแปลง" class="form-control">
-                    <label style="text-align: left; display: block;">จำนวนแถว:</label>
-                    <input type="text" name="row" id="row" class="form-control" required placeholder="แถว">
-                    <label style="text-align: left; display: block;">จำนวนคอลัมน์:</label>
-                    <input type="text" name="column" id="column" class="form-control" required placeholder="คอลัมน์">
+                    <input type="text" name="plotnursery_name" id="plotnursery_name" oninput="checkname()" onkeyup="checkInput(this)" required placeholder="ข้อมูลไม่เกิน 10 ตัวอักษร" class="form-control">
+                    <label style="text-align: left; display: block;">จำนวนแถว(ด้านกว้าง):</label>
+                    <input type="number" name="row" id="row" min="1" max="99999" class="form-control" required placeholder="ด้านกว้าง...">
+                    <label style="text-align: left; display: block;">จำนวนคอลัมน์(ด้านยาว):</label>
+                    <input type="number" name="column" id="column" min="1" max="99999" class="form-control" required placeholder="ด้านยาว..">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" onclick="cancel()" data-bs-dismiss="modal">ยกเลิก</button>
-                <input type="submit" name="insert_plotnursery" id="insert_plotnursery" class="btn btn-primary" value="ยืนยัน"></input>
+                <input type="submit" name="insert_plotnursery" id="insert_plotnursery" class="btn btn-success" value="ยืนยัน"></input>
             </div>
             </form>
         </div>
@@ -252,25 +255,26 @@ $result_plot__nursery = mysqli_query($conn, $sql_plot_nursery);
 <!-- modal edit_plot_nursury -->
 <div class="modal fade" id="edit_plot_nursery" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border border-dark ">
-            <div class="modal-header text-center" style="background-color: #212529;">
-                <h5 class="modal-title mx-auto text-white" style="text-align: center;" id="staticBackdropLabel">แก้ไขแปลงอนุบาล</h5>
+        <div class="modal-content">
+            <div class="modal-header bg-dark">
+                <h5 class="modal-title text-light">เเก้ไขแปลงอนุบาล</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form action="../phpsql/insert_plotnursery.php" method="post" id="insertregister" name="insertregister" enctype="multipart/form-data">
                     <input type="hidden" name="id_plotnursery2" id="id_plotnursery2" required class="form-control">
                     <label style="text-align: left; display: block;">ชื่อแปลง:</label><span id="span_edit"></span>
-                    <input type="text" name="plotnursery_name2" id="plotnursery_name2" required placeholder="ป้อนชื่อแแปลง" class="form-control" oninput="checknameEdit()">
-                    <label style="text-align: left; display: block;">จำนวนแถว:</label>
-                    <input type="text" name="row2" id="row2" class="form-control" required placeholder="แถว">
-                    <label style="text-align: left; display: block;">จำนวนคอลัมน์:</label>
-                    <input type="text" name="column2" id="column2" class="form-control" required placeholder="คอลัมน์">
+                    <input type="text" name="plotnursery_name2" id="plotnursery_name2" required placeholder="ป้อนชื่อแแปลง" class="form-control" oninput="checknameEdit()" onkeyup="checkInput(this)">
+                    <label style="text-align: left; display: block;">จำนวนแถว(ด้านกว้าง):</label>
+                    <input type="number" name="row2" id="row2" class="form-control" min="1" max="99999" required placeholder="ด้านกว้าง..">
+                    <label style="text-align: left; display: block;">จำนวนคอลัมน์(ด้านยาว):</label>
+                    <input type="number" name="column2" id="column2" class="form-control" min="1" max="99999" required placeholder="คอลัมน์...">
             </div>
             <div class="modal-footer">
                 <!-- <input type="submit" name="del_plotnursery" id="del_plotnursery" class="btn btn-danger" value="ลบแปลง"></input> -->
 
                 <button type="button" class="btn btn-secondary" onclick="cancel()" data-bs-dismiss="modal">ยกเลิก</button>
-                <input type="submit" name="update_plotnursery" id="update_plotnursery" class="btn btn-primary" value="ยืนยัน"></input>
+                <input type="submit" name="update_plotnursery" id="update_plotnursery" class="btn btn-primary" value="แก้ไข"></input>
             </div>
             </form>
         </div>
@@ -279,9 +283,10 @@ $result_plot__nursery = mysqli_query($conn, $sql_plot_nursery);
 
 <div class="modal fade" id="edit_nursery" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border border-dark ">
-            <div class="modal-header text-center" style="background-color: #212529;">
-                <h5 class="modal-title mx-auto text-white" style="text-align: center;" id="staticBackdropLabel">แก้ไขแปลงอนุบาล</h5>
+        <div class="modal-content">
+            <div class="modal-header bg-dark">
+                <h5 class="modal-title text-light">เเก้ไขการอนุบาล</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form action="../phpsql/insert_plotnursery.php" method="post" id="insertregister" name="insertregister" enctype="multipart/form-data">
@@ -302,7 +307,7 @@ $result_plot__nursery = mysqli_query($conn, $sql_plot_nursery);
                 <!-- <input type="submit" name="del_plotnursery" id="del_plotnursery" class="btn btn-danger" value="ลบแปลง"></input> -->
 
                 <button type="button" class="btn btn-secondary" onclick="cancel()" data-bs-dismiss="modal">ยกเลิก</button>
-                <input type="submit" name="update_nursery" id="update_nursery" class="btn btn-primary" value="ยืนยัน"></input>
+                <input type="submit" name="update_nursery" id="update_nursery" class="btn btn-primary" value="แก้ไข"></input>
             </div>
             </form>
         </div>

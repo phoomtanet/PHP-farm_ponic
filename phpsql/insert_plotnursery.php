@@ -9,9 +9,6 @@ if (isset($_POST['insert_plotnursery'])) {
     $column = $_POST['column'];
     $row = $_POST['row'];
 
-    // echo $name_plot;
-    // echo $column;
-    // echo $row;
 
     $sql_greenhouse = "SELECT COUNT(a.plotnursery_name) AS count
     FROM `tb_plot_nursery` as a
@@ -39,7 +36,6 @@ if (isset($_POST['insert_plotnursery'])) {
 if (isset($_GET['id_plot_nur'])) {
     $id_plotnursery2 = $_GET['id_plot_nur'];
 
-    echo"$id_plotnursery2";
 $sql_del_nur="DELETE FROM `tb_plot_nursery` WHERE id_plotnursery = '$id_plotnursery2'";
 $rs_del_ner =   mysqli_query($conn, $sql_del_nur);
 if($rs_del_ner) {   
@@ -53,7 +49,6 @@ if (isset($_POST['update_plotnursery'])) {
     $column = $_POST['column2'];
     $row = $_POST['row2'];
 $plotnursery_name = $_POST['plotnursery_name2'];
-    echo"$id_plotnursery2";
 $sql_up_plot="UPDATE `tb_plot_nursery` SET `plotnursery_name`='$plotnursery_name',`row`='$row',`column`='$column' WHERE  id_plotnursery = '$id_plotnursery2'";
 $rs_update =  mysqli_query($conn, $sql_up_plot);
     if($rs_update){
