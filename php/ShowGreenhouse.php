@@ -49,6 +49,8 @@ $re = mysqli_fetch_array($result_sql_id);
 
 <body>
   <?php include '../navbar/navbar.php'; ?>
+  <script src="../script/check.js"></script>
+
   <!-- เมนูด้านข้าง ( Side Menu ) -->
   <div class="d-flex flex-column p-3 text-white bg-dark side-menu" style="width: 250px; height: 100vh; position: fixed; left: -250px">
     <ul class="nav nav-pills flex-column mb-auto pt-5 side_nav_menu"></ul>
@@ -56,31 +58,27 @@ $re = mysqli_fetch_array($result_sql_id);
   <!-- เนื้อหาหลัก -->
   <div class="pt-5 main-content-div" style=" text-align: center;">
 
-    <div class="container" style="margin-top: 20px;">
+    <div class="container mt-5 ">
+
+      <div class="d-flex justify-content-end">
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_data_Modal">
+          <i class="fas fa-plus"> </i> <i class="fa fa-database" aria-hidden="true"></i>
+        </button>
+
+      </div>
       <table class="table table-striped table-bordered">
         <caption class="caption-top">ตารางแสดงข้อมูลโรงเรือน</caption>
 
 
         <thead>
-          <th style="border: none;">
-            <!-- <a class="btn btn-secondary" href="index.php?">กลับ</a> -->
-          </th>
-
           <th style="border: none;"></th>
-          <!-- <th style="border: none;"></th> -->
-          <!-- <th style="border: none;"></th> -->
-          <!-- <th style="border: none;"></th> -->
-
-          <th style="border: none;">
-            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#add_data_Modal">+ เพิ่มข้อมูล</button>
-          </th>
+          <th style="border: none;"></th>
+          <th style="border: none;"></th>
         </thead>
 
 
         <thead class="table-dark">
           <tr>
-            <!-- <th>รหัสโรงเรือน</th> -->
-            <!-- <th>รหัสฟาร์ม</th> -->
             <th>ชื่อโรงเรือน</th>
             <th>ลบข้อมูล</th>
             <th>แก้ไขข้อมูล</th>
@@ -90,20 +88,35 @@ $re = mysqli_fetch_array($result_sql_id);
           <?php
           while ($row = mysqli_fetch_array($result)) {
 
-        //   $sql_check_del = "SELECT * FROM `tb_greenhouse` as gh 
-        //   LEFT JOIN tb_plot as p ON gh.id_greenhouse =p.id_greenhouse
-        //   LEFT JOIN tb_plot_nursery as pn on gh.id_greenhouse = pn.id_greenhouse
-        //   LEFT JOIN tb_seed_germination as sg on gh.id_greenhouse = sg.id_greenhouse
-        //  INNER JOIN tb_farm as f on f.id_farm = gh.id_farm
-        //  WHERE f.id_farm = '$id_farm_session' ";
           ?>
             <tr>
-              <!-- <td><?= $row["id_greenhouse"] ?></td> -->
-              <!-- <td><?= $row["id_farm"] ?></td> -->
+
               <td><?= $row["name_greenhouse"] ?></td>
-              
+
+
+              <?php
+              $sql_green = "SELECT g.name_greenhouse , p.plot_name , pn.plotnursery_name
+              FROM tb_greenhouse as g 
+              LEFT JOIN tb_plot as p on p.id_greenhouse = g.id_greenhouse 
+              LEFT JOIN tb_plot_nursery as pn on pn.id_greenhouse = g.id_greenhouse
+              LEFT JOIN tb_seed_germination as sg ON sg.id_greenhouse = g.id_greenhouse
+              INNER JOIN tb_farm as f ON f.id_farm = g.id_farm 
+              WHERE f.id_farm = $id_farm_session and g.name_greenhouse = '" . $row["name_greenhouse"] . "' 
+              AND (p.id_plot  IS NOT NULL or pn.id_plotnursery IS NOT NULL or sg.id_seed_germination IS NOT NULL )
+              ";
+              $result_check_gh = mysqli_query($conn, $sql_green);
+              $numColumns = mysqli_num_rows($result_check_gh);
+              ?>
+
               <td style="border: none;">
-                <a class="" style="color: red;" href="../phpsql/delete_data.php?id=<?= $row['id_greenhouse'] ?>&tb=tb_greenhouse&idtb=id_greenhouse&location=../php/ShowGreenhouse.php" onclick="Del(this.href);return false;"><i class="fa-regular fa-trash-can fa-xl"></i></a>
+                <?php if ($row["id_greenhouse"] == $id_greenhouse_session ||  $numColumns > 0) {  ?>
+                  <a class="" style="color: gray;"><i class="fa-regular fa-trash-can fa-xl"></i></a>
+
+                <?php
+                } else { ?>
+                  <a class="" style="color: red;" href="../phpsql/delete_data.php?id=<?= $row['id_greenhouse'] ?>&tb=tb_greenhouse&idtb=id_greenhouse&location=../php/ShowGreenhouse.php" onclick="Del(this.href);return false;"><i class="fa-regular fa-trash-can fa-xl"></i></a>
+
+                <?php } ?>
               </td>
               <td style="border: none;">
                 <a type="button" class="edit-button" style="color: orange; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#update_data_Modal" data-greenhouse_name="<?= $row["name_greenhouse"] ?>" data-id_greenhouse="<?= $row["id_greenhouse"] ?>"><i class="fa-regular fa-pen-to-square fa-xl"></i></a>
@@ -141,7 +154,7 @@ $re = mysqli_fetch_array($result_sql_id);
           <input type="text" name="id_farm" id="id_farm" class="form-control" value="<?= $re['id_farm'] ?>" hidden>
           <br>
           <label class="mb-2">ชื่อโรงเรือน : </label><span id="user-availability-status"></span>
-          <input type="text" name="greenhouse_name" id="greenhouse_name" class="form-control" required oninput="checkAvailability()">
+          <input type="text" name="greenhouse_name" id="greenhouse_name" onkeyup="checkInput(this)" class="form-control" required oninput="checkAvailability()">
           <br>
           <button type="submit" id="save1" class="btn btn-success">บันทึก</button>
           <button type="button" class="btn btn-secondary" onclick="cancel()" data-bs-dismiss="modal">ยกเลิก</button>
@@ -175,7 +188,7 @@ $re = mysqli_fetch_array($result_sql_id);
           <input type="text" name="id_greenhouseedit" id="id_greenhouseedit" class="form-control" hidden>
           <br>
           <label class="mb-2">ชื่อโรงเรือน : </label><span id="user-availability-statusEdit"></span>
-          <input type="text" name="greenhouse_name_edit" id="greenhouse_name_edit" class="form-control" required oninput="checkAvailabilityEdit()">
+          <input type="text" name="greenhouse_name_edit" id="greenhouse_name_edit" onkeyup="checkInput(this)" class="form-control" required oninput="checkAvailabilityEdit()">
           <br>
           <button type="submit" id="edit1" class="btn btn-warning">แก้ไข</button>
           <button type="button" class="btn btn-secondary" onclick="cancel()" data-bs-dismiss="modal">ยกเลิก</button>
@@ -231,6 +244,7 @@ $re = mysqli_fetch_array($result_sql_id);
       }
     });
   }
+
   function cancel() {
     window.location.reload();
   }
@@ -262,6 +276,14 @@ $re = mysqli_fetch_array($result_sql_id);
       });
     });
   });
+
+
+  window.onload = function() {
+
+   var greenDropdown = document.getElementById("greenhouseDropdown");
+   greenDropdown.disabled = true;
+
+  };
 </script>
 
 

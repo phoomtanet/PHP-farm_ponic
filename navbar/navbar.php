@@ -26,13 +26,23 @@ $result_greenhouse = mysqli_query($conn, $sql_greenhouse);
   <title>Document</title>
 </head>
 <style>
+.bt_dw{
+  background-color:none;
+color:white;
+border-color: white;
+}
+.bt_dw:hover{
+  background-color:white;
+color:darkblue;
+
+}
 
 </style>
 
 <body>
 
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top border  d-flex flex-wrap">
-    <div class="container-fluid   mx-2">
+    <div class="container-fluid   mx-3">
 
       <div class="d-flex justify-content-center align-items-center ">
         <!-- Toggle Button -->
@@ -46,7 +56,7 @@ $result_greenhouse = mysqli_query($conn, $sql_greenhouse);
 
         <form class="d-flex " method="post" action="../phpsql/sreach_farm.php">
           <div class="dropdown mx-3">
-            <button class="btn  btn-secondary  dropdown-toggle" type="button" id="farmDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <button class="btn bt_dw  dropdown-toggle" type="button" id="farmDropdown" data-bs-toggle="dropdown" aria-expanded="false">
               <?php echo 'ฟาร์ม : ' . $farm_name; ?>
             </button>
 
@@ -63,9 +73,9 @@ $result_greenhouse = mysqli_query($conn, $sql_greenhouse);
 
         <!-- Dropdown 2  เพิ่ม collapse ในการย่อ-->
 
-        <form class="d-flex" method="post" action="../phpsql/sreach_greenhouse.php">
+        <form class="d-flex mx-4" method="post" action="../phpsql/sreach_greenhouse.php">
           <div class="dropdown mx-3">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="greenhouseDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <button class="btn bt_dw dropdown-toggle" type="button" id="greenhouseDropdown" data-bs-toggle="dropdown" aria-expanded="false">
               <?php echo 'โรงเรือน : ' . $greenhouse_name; ?>
             </button>
             <ul class="dropdown-menu" aria-labelledby="greenhouseDropdown">

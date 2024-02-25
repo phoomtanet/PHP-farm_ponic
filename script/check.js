@@ -42,3 +42,14 @@ function checkInput(elm) {
       //   elm.value = '';
     }
   }
+
+  function checkInputtext(elm) {
+    if (!elm.value.match(/^[a-zA-Z0-9ก-๙ ]+$/i) && elm.value.length > 0  ) {
+      alert('ไม่สามารถใช้ตัวอักษรพิเศษได้');
+      elm.value = '';
+      } else if (elm.value.length > 30) {
+        alert('ตัวอักษรไม่เกิน 30 ตัวอักษร');
+        elm.value = '';
+
+    }
+  }

@@ -19,7 +19,7 @@ if (mysqli_query($conn, $sql)) {
     if ($resultd_greenhouse_session) {
         $row_greenhouse_session = mysqli_fetch_assoc($resultd_greenhouse_session);
         $id_greenhouse_session  = $row_greenhouse_session['id_greenhouse'];
-        $_SESSION["greenhouse_name"] = $name_greenhouse;
+        // $_SESSION["greenhouse_name"] = $name_greenhouse;
     }
 }
 echo "<script> alert('*เพิ่มโรงเรือนสำเร็จ*'); </script>";

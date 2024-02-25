@@ -60,18 +60,16 @@ $totalPages = ceil($totalRows / $itemsPerPage);
     <div class="main-content-div ">
 
       <div class=" d-flex flex-nowrap justify-content-between text-center mx-5 mt-4 ">
-        <div>
-          <button type="button" class="btn btn-dark text-nowrap" data-bs-toggle="modal" data-bs-target="#add_plot" title="เพิ่มแปลงปลูก">
+      <div >
+      <img src="../img/barcoler.png" alt="" width="360px">
+        </div> 
+      <div>
+          <button type="button" class="btn btn-primary text-nowrap" data-bs-toggle="modal" data-bs-target="#add_plot" title="เพิ่มแปลงปลูก">
             <i class=" text-white fas fa-plus"> </i>
             <i class="text-white fas fa-inbox"> </i>
           </button>
         </div>
-        <div >
-      <img src="../img/barcoler.png" alt="" width="420px">
-        </div>
-
-
-
+     
       </div>
 
 

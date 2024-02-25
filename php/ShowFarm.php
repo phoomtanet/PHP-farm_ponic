@@ -47,6 +47,7 @@ $result = mysqli_query($conn, $sql);
 
 <body>
   <?php include '../navbar/navbar.php'; ?>
+  <script src="../script/check.js"></script>
  
   <!-- เมนูด้านข้าง ( Side Menu ) -->
   <div class="d-flex flex-column p-3 text-white bg-dark side-menu" style="width: 250px; height: 100vh; position: fixed; left: -250px">
@@ -55,7 +56,13 @@ $result = mysqli_query($conn, $sql);
   <!-- เนื้อหาหลัก -->
   <div class="pt-5 main-content-div" style=" text-align: center;">
 
-    <div class="container" style="margin-top: 20px;">
+    <div class="container mt-5">
+    <div class="d-flex justify-content-end">
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_data_Modal">
+          <i class="fas fa-plus"> </i> <i class="fa fa-database" aria-hidden="true"></i>
+        </button>
+
+      </div>
       <table class="table table-striped table-bordered">
         <caption class="caption-top">ตารางแสดงข้อมูลฟาร์ม</caption>
 
@@ -65,7 +72,6 @@ $result = mysqli_query($conn, $sql);
           <th style="border: none;"></th>
           <th style="border: none;"></th>
           <th style="border: none;">
-            <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#add_data_Modal">+ เพิ่มข้อมูล</a>
           </th>
         </thead>
 
@@ -132,11 +138,11 @@ $result = mysqli_query($conn, $sql);
           </div>
           <input type="text" name="id_user" id="id_user" class="form-control" value="<?= $re['id_user'] ?>" hidden>
           <label class="mb-2">ชื่อฟาร์ม : </label><span id="user-availability-status"></span>
-          <input type="text" name="farm_name" id="farm_name" class="form-control" required oninput="checkAvailability()">
+          <input type="text" name="farm_name" id="farm_name" onkeyup="checkInput(this)" class="form-control" required oninput="checkAvailability()">
           <label class="mb-2">ที่อยู่ฟาร์ม : </label><br>
-          <input type="text" name="location" id="location" class="form-control" required>
+          <input type="text" name="location" id="location" onkeyup="checkInputtext(this)" class="form-control" required>
           <label class="mb-2">โรงเรือนในฟาร์ม : </label><br><span id="user-availability-statusGreen"></span>
-          <input type="text" name="greenhouse" id="greenhouse" class="form-control" required>
+          <input type="text" name="greenhouse" onkeyup="checkInput(this)" id="greenhouse" class="form-control" required>
           <input type="num" name="check_insert" value="1" hidden >
           <br>
           <button type="button" class="btn btn-secondary" onclick="cancel()" data-bs-dismiss="modal">ยกเลิก</button>
@@ -170,10 +176,10 @@ $result = mysqli_query($conn, $sql);
           <input type="text" name="id_user" id="id_user" class="form-control" value="<?= $re['id_user'] ?>" hidden>
           <input type="text" name="id_farm_edit" id="id_farm_edit" class="form-control" hidden>
           <label class="mb-2">ชื่อฟาร์ม : </label><span id="user-availability-statusEdit"></span>
-          <input type="text" name="farm_name_edit" id="farm_name_edit" class="form-control" required oninput="checkAvailabilityedit()">
+          <input type="text" name="farm_name_edit" id="farm_name_edit" onkeyup="checkInput(this)" class="form-control" required oninput="checkAvailabilityedit()">
           <label class="mb-2">ที่อยู่ฟาร์ม : </label><br>
           
-          <input type="text" name="location_edit" id="location_edit" class="form-control" required>
+          <input type="text" name="location_edit" id="location_edit" onkeyup="checkInputtext(this)" class="form-control" required>
           <input type="num" name="check_edit" value="1" hidden >
           <br>
 
@@ -266,6 +272,19 @@ $result = mysqli_query($conn, $sql);
   function cancel() {
       window.location.reload();
     }
+
+    window.onload = function() {
+
+var greenDropdown = document.getElementById("greenhouseDropdown");
+greenDropdown.disabled = true;
+
+
+var farmDropdown = document.getElementById("farmDropdown");
+farmDropdown.disabled = true;
+
+};
 </script>
+
+
 
 </html>

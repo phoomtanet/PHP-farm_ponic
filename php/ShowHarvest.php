@@ -215,8 +215,8 @@ GROUP BY v.vegetable_name";
     <script>
         window.onload = function() {
 
-            f_date = document.getElementById("frontDate").value;
-            b_date = document.getElementById("backDate").value;
+           var f_date = document.getElementById("frontDate").value;
+           var b_date = document.getElementById("backDate").value;
             var myButton = document.getElementById("bt_date");
             console.log(f_date);
             console.log(b_date);
