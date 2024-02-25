@@ -60,11 +60,17 @@ $re = mysqli_fetch_array($result_sql_id);
 
     <div class="container mt-5 ">
 
-      <div class="d-flex justify-content-end">
-        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_data_Modal">
+      <div class="d-flex justify-content-between">
+      <div >
+          <a href="index.php" id="back" class="btn btn-dark ">
+            <i class="fas fa-arrow-left me-2"></i> กลับ
+          </a>
+        </div>
+
+    <div>        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_data_Modal">
           <i class="fas fa-plus"> </i> <i class="fa fa-database" aria-hidden="true"></i>
         </button>
-
+</div>
       </div>
       <table class="table table-striped table-bordered">
         <caption class="caption-top">ตารางแสดงข้อมูลโรงเรือน</caption>

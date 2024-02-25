@@ -6,9 +6,7 @@ include '../Connect/session.php';
 $sql = "SELECT * FROM `tb_farm`
 INNER JOIN `tb_user` ON tb_farm.id_user = tb_user.id_user
 WHERE tb_user.id_user = '$id_user_session'";
-$result = mysqli_query($conn, $sql);
-
-;
+$result = mysqli_query($conn, $sql);;
 ?>
 
 <!doctype html>
@@ -43,12 +41,14 @@ $result = mysqli_query($conn, $sql);
     margin-bottom: 0;
     padding: 0.5rem 0.5rem;
   }
+
+
 </style>
 
 <body>
   <?php include '../navbar/navbar.php'; ?>
   <script src="../script/check.js"></script>
- 
+
   <!-- เมนูด้านข้าง ( Side Menu ) -->
   <div class="d-flex flex-column p-3 text-white bg-dark side-menu" style="width: 250px; height: 100vh; position: fixed; left: -250px">
     <ul class="nav nav-pills flex-column mb-auto pt-5 side_nav_menu"></ul>
@@ -57,18 +57,25 @@ $result = mysqli_query($conn, $sql);
   <div class="pt-5 main-content-div" style=" text-align: center;">
 
     <div class="container mt-5">
-    <div class="d-flex justify-content-end">
-        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_data_Modal">
-          <i class="fas fa-plus"> </i> <i class="fa fa-database" aria-hidden="true"></i>
-        </button>
-
+      <div class="d-flex  justify-content-between">
+      <div >
+          <a href="index.php" id="back" class="btn btn-dark ">
+            <i class="fas fa-arrow-left me-2"></i> กลับ
+          </a>
+        </div>
+        <div>
+          <button class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#add_data_Modal">
+            <i class="fas fa-plus"> </i> <i class="fa fa-database" aria-hidden="true"></i>
+          </button>
+        </div>
+     
       </div>
-      <table class="table table-striped table-bordered">
+      <table class="table table-striped table-bordered mt-5">
         <caption class="caption-top">ตารางแสดงข้อมูลฟาร์ม</caption>
 
 
         <thead>
-        
+
           <th style="border: none;"></th>
           <th style="border: none;"></th>
           <th style="border: none;">
@@ -82,7 +89,7 @@ $result = mysqli_query($conn, $sql);
             <!-- <th>รหัสผู้ใช้</th> -->
             <th>ชื่อฟาร์ม</th>
             <th>ที่ตั้ง</th>
-      
+
             <th>แก้ไขข้อมูล</th>
           </tr>
         </thead>
@@ -97,15 +104,9 @@ $result = mysqli_query($conn, $sql);
               <td><?= $row["location"] ?></td>
 
 
-            
+
               <td style="border: none;">
-                <a type="button" class="edit-button" style="color: orange; cursor: pointer;" 
-                data-bs-toggle="modal" 
-                data-bs-target="#update_data_Modal" 
-                data-farm_name="<?= $row["name_farm"] ?>"
-                data-id_farm="<?= $row["id_farm"] ?>"
-                data-location="<?= $row["location"] ?>"
-                ><i class="fa-regular fa-pen-to-square fa-xl"></i></a>
+                <a type="button" class="edit-button" style="color: orange; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#update_data_Modal" data-farm_name="<?= $row["name_farm"] ?>" data-id_farm="<?= $row["id_farm"] ?>" data-location="<?= $row["location"] ?>"><i class="fa-regular fa-pen-to-square fa-xl"></i></a>
               </td>
             </tr>
           <?php
@@ -143,10 +144,10 @@ $result = mysqli_query($conn, $sql);
           <input type="text" name="location" id="location" onkeyup="checkInputtext(this)" class="form-control" required>
           <label class="mb-2">โรงเรือนในฟาร์ม : </label><br><span id="user-availability-statusGreen"></span>
           <input type="text" name="greenhouse" onkeyup="checkInput(this)" id="greenhouse" class="form-control" required>
-          <input type="num" name="check_insert" value="1" hidden >
+          <input type="num" name="check_insert" value="1" hidden>
           <br>
           <button type="button" class="btn btn-secondary" onclick="cancel()" data-bs-dismiss="modal">ยกเลิก</button>
-          <button type="submit" id="savefarm"  class="btn btn-success">บันทึก</button>
+          <button type="submit" id="savefarm" class="btn btn-success">บันทึก</button>
         </form>
 
       </div>
@@ -165,7 +166,7 @@ $result = mysqli_query($conn, $sql);
       </div>
       <div class="modal-body" id="info_update5">
 
-      <form method="post" action="../phpsql/insert_farm.php" enctype="multipart/form-data">
+        <form method="post" action="../phpsql/insert_farm.php" enctype="multipart/form-data">
           <label class="mb-2">บัญชี : </label>
           <div class="alert alert-secondary" role="alert">
             <?php
@@ -178,9 +179,9 @@ $result = mysqli_query($conn, $sql);
           <label class="mb-2">ชื่อฟาร์ม : </label><span id="user-availability-statusEdit"></span>
           <input type="text" name="farm_name_edit" id="farm_name_edit" onkeyup="checkInput(this)" class="form-control" required oninput="checkAvailabilityedit()">
           <label class="mb-2">ที่อยู่ฟาร์ม : </label><br>
-          
+
           <input type="text" name="location_edit" id="location_edit" onkeyup="checkInputtext(this)" class="form-control" required>
-          <input type="num" name="check_edit" value="1" hidden >
+          <input type="num" name="check_edit" value="1" hidden>
           <br>
 
           <button type="button" class="btn btn-secondary" onclick="cancel()" data-bs-dismiss="modal">ยกเลิก</button>
@@ -207,9 +208,9 @@ $result = mysqli_query($conn, $sql);
       success: function(data) {
         $("#user-availability-status").html(data);
         if (data.indexOf("ถูกใช้ไปแล้ว") !== -1) {
-          $("#savefarm").prop("disabled", true);          
+          $("#savefarm").prop("disabled", true);
         } else {
-          $("#savefarm").prop("disabled",false);          
+          $("#savefarm").prop("disabled", false);
 
         }
       }
@@ -229,16 +230,16 @@ $result = mysqli_query($conn, $sql);
       success: function(data) {
         $("#user-availability-statusEdit").html(data);
         if (data.indexOf("ถูกใช้ไปแล้ว") !== -1) {
-          $("#save_edit").prop("disabled", true);         
-           
+          $("#save_edit").prop("disabled", true);
+
         } else {
-          $("#save_edit").prop("disabled",false);          
+          $("#save_edit").prop("disabled", false);
 
         }
       }
     });
   }
- 
+
   function Del(mypage) {
     var agree = confirm("คุณต้องการลบข้อมูลหรือไม่");
     if (agree) {
@@ -270,19 +271,19 @@ $result = mysqli_query($conn, $sql);
   });
 
   function cancel() {
-      window.location.reload();
-    }
+    window.location.reload();
+  }
 
-    window.onload = function() {
+  window.onload = function() {
 
-var greenDropdown = document.getElementById("greenhouseDropdown");
-greenDropdown.disabled = true;
+    var greenDropdown = document.getElementById("greenhouseDropdown");
+    greenDropdown.disabled = true;
 
 
-var farmDropdown = document.getElementById("farmDropdown");
-farmDropdown.disabled = true;
+    var farmDropdown = document.getElementById("farmDropdown");
+    farmDropdown.disabled = true;
 
-};
+  };
 </script>
 
 

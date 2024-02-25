@@ -26,30 +26,35 @@ $result_greenhouse = mysqli_query($conn, $sql_greenhouse);
   <title>Document</title>
 </head>
 <style>
-.bt_dw{
-  background-color:none;
-color:white;
-border-color: white;
-}
-.bt_dw:hover{
-  background-color:white;
-color:darkblue;
+  .bt_dw {
+    background-color: none;
+    color: white;
+    border-color: white;
+  }
 
-}
+  .bt_dw:hover {
+    background-color: white;
+    color: darkblue;
 
+  }
 </style>
 
 <body>
 
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top border  d-flex flex-wrap">
-    <div class="container-fluid   mx-3">
+    <div class="container-fluid    mx-3">
 
       <div class="d-flex justify-content-center align-items-center ">
-        <!-- Toggle Button -->
-        <button class="btn menu-btn" type="button" style="display: none;"  onclick=" show_side_menu(); toggleChart();">
+
+
+        <button class="btn menu-btn" type="button" style="display: none;" onclick=" show_side_menu(); toggleChart();">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <!-- Brand Logo (Home Link) -->
+        <!-- <a class="nav-item nav-link  mx-3 text-light" href="../php/show_germination.php">การเพาะเมล็ด</a>
+        <a class="nav-item nav-link  mx-3 text-light" href="../php/plot_nursery.php">การอนุบาลผัก</a>
+        <a class="nav-item nav-link  mx-3 text-light"  href="../php/index.php">การปลูกผัก</a> -->
+
+
 
       </div>
       <div class=" d-flex btn-group justify-content-center align-items-center   ">
@@ -98,14 +103,14 @@ color:darkblue;
   </nav>
 
 
-  
 
-  <div class="collapse navbar-collapse ">
+
+  <div class="collapse navbar-collapse  ">
     <ul class="navbar-nav  menu-top">
       <li class="nav-item">
       </li>
       <a class="nav-link top_nav_menu" href="../php/show_germination.php">การเพาะเมล็ด</a>
-    
+
       <li class="nav-item">
         <a class="nav-link top_nav_menu" href="../php/plot_nursery.php">การอนุบาลผัก</a>
       </li>
@@ -119,7 +124,7 @@ color:darkblue;
       <li class="nav-item">
         <a class="nav-link top_nav_menu" href="../php/ShowVegetable.php">ข้อมูลผัก</a>
       </li>
-      
+
       <!-- <li class="nav-item">
         <a class="top_nav_menu" href="../grap/grap_status.php">ภาพรวม</a>
       </li> -->
@@ -153,4 +158,3 @@ color:darkblue;
 </body>
 
 </html>
-

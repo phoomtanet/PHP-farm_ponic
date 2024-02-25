@@ -92,14 +92,8 @@ $result_green = mysqli_query($conn, $sql_green);
         </div>
       </div>
 
-
-
-
-
-
       <table>
         <caption class="caption-top">ย้ายการอนุบาลไปยังแปลง <?php echo "$namePlot" ?></caption>
-
         <tr>
           <th>แปลง</th>
           <th colspan="2">ผัก</th>

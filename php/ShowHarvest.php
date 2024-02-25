@@ -122,7 +122,7 @@ GROUP BY v.vegetable_name";
 <body>
     <?php include '../navbar/navbar.php'; ?>
     <!-- เมนูด้านข้าง ( Side Menu ) -->
-    <div class="d-flex flex-column p-3 text-white bg-dark side-menu" style="width: 250px; height: 100vh; position: fixed; left: -250px">
+    <div class="d-flex flex-column p-4 mt-1 text-white bg-dark side-menu" style="width: 250px; height: 100vh; position: fixed; left: -250px">
 
 
         <ul class="nav nav-pills flex-column mb-auto pt-4 side_nav_menu">
