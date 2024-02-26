@@ -43,7 +43,7 @@ function drawChart_har() {
     pieHole: 0.3,
     titleTextStyle: {
         color: 'black', // สีของตัวหนังสือ
-        // fontSize: 18, // ขนาดตัวหนังสือ
+        fontSize: 13, // ขนาดตัวหนังสือ
         bold: true, // ตัวหนังสือหนา
         italic: false, // ตัวหนังสือเอียง
         textAlign: 'center' // การจัดวางข้อความ (center, start, end)

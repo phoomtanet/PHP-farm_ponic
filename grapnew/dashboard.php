@@ -77,12 +77,13 @@ $formattedPrice = number_format($allprice);
 
 <body>
     <!-- สร้าง Top เมนู -->
-    <?php   include '../navbar/navbar.php'; 
-            include '../grapnew/chart_plot_price.php';
-            include '../grapnew/dchart_har.php';
-            include '../grapnew/dchart_c_veg.php';
-            include '../grapnew/dchar_c_nur.php';
-            include '../grapnew/chart_plot_slot.php';
+    <?php include '../navbar/navbar.php';
+    include '../grapnew/chart_plot_price.php';
+    include '../grapnew/dchart_har.php';
+    include '../grapnew/dchart_c_veg.php';
+    include '../grapnew/dchar_c_nur.php';
+    include '../grapnew/dchart_sg.php';
+    include '../grapnew/chart_plot_slot.php';
     ?>
 
     <!-- เมนูด้านข้าง ( Side Menu ) -->
@@ -90,9 +91,10 @@ $formattedPrice = number_format($allprice);
         <ul class="nav nav-pills flex-column mb-auto pt-4 side_nav_menu">
     </div>
     <!-- เนื้อหาหลัก -->
-    <div class="pt-5 main-content-div  pt-5 mt-3" style="text-align: center;">
-        <div class="d-flex justify-content-around  m-2">
-            <div class="text-center py-2  px-4" style="text-align: center;" id="result">
+    <div class="pt-5 main-content-div  d-flex flex-wrap justify-content-center pt-5 mt-3 mx-5" style="text-align: center;">
+   
+        <div class="d-flex flex-column mt-3" >
+            <div class="text-center py-2  px-4 " style=" text-align: center; align-items: center; " id="result">
                 <table>
                     <tr>
                         <td> <i class="material-icons">attach_money</i></td>
@@ -103,58 +105,69 @@ $formattedPrice = number_format($allprice);
                     </tr>
                 </table>
             </div>
-        </div>
-        <div class="d-flex flex-wrap justify-content-center text-center ">
-            <div class="border px-1 mx-1">
-                <div id="dChart_plan" style="width: 400px; height: 250px;"> </div>
-            </div>
-            <div class="border px-1 mx-1">
-                <div id="dChart_nur" style="width: 400px; height: 250px;"> </div>
-            </div>
-            <div class="border px-1 mx-1">
-                <div id="dChart_har" style="width: 400px; height: 250px;"> </div>
+
+
+            <div class="d-flex justify-content-between ">
+                <div>
+                    <div class="border px-1 m-1">
+                        <div id="dChart_plan" style="width: 400px; height: 280px;"> </div>
+                    </div>
+                    <div class="border px-1 m-1">
+                        <div id="dChart_nur" style="width: 400px; height: 280px;"> </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="border px-1 m-1">
+                        <div id="dChart_sg" style="width: 400px; height: 280px;"> </div>
+                    </div>
+                    <div class="border px-1 m-1">
+                        <div id="dChart_har" style="width: 400px; height: 280px;"> </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="pt-3 main-content-div" style="text-align: center;">
-            <div class="d-flex flex-wrap justify-content-center text-center ">
-                <div class="border px-4 mx-3">
-                <canvas id="Chart_num_slot" width="400" height="300"></canvas>
+        <div class=" main-content-div mt-3" style="text-align: center;">
+            <div class="d-flex d-flex flex-column flex-wrap justify-content-center text-center ">
+                <div class="border px-4  mx-3">
+                    <canvas id="Chart_num_slot" width="500" height="315"></canvas>
 
                 </div>
-                <div class="border px-4 mx-3">
-                    <canvas id="priceChart" width="400" height="300"></canvas>
+                <div class="border px-4 my-2 mx-3">
+                    <canvas id="priceChart" width="500" height="315"></canvas>
                 </div>
             </div>
+        </div>
 </body>
 
 
 <script src="../navbar/navbar.js"></script>
 
 <script>
-  function toggleChart() {
-    var chartDiv = document.getElementById('dChart_plan');
-    var chartDivh = document.getElementById('dChart_nur');
-    var chartDivnur = document.getElementById('dChart_har');
+    function toggleChart() {
+        var chartDiv = document.getElementById('dChart_plan');
+        var chartDivh = document.getElementById('dChart_nur');
+        var chartDivnur = document.getElementById('dChart_har');
+        var chartDivsg = document.getElementById('dChart_sg');
+        // ใช้ style.visibility เพื่อเปลี่ยนสถานะการแสดงผล
+        if (chartDiv.style.visibility === 'hidden') {
+            // แสดงกราฟ
+            chartDiv.style.visibility = 'visible';
+            chartDivh.style.visibility = 'visible';
+            chartDivnur.style.visibility = 'visible';
+            chartDivsg.style.visibility = 'visible';
 
-    // ใช้ style.visibility เพื่อเปลี่ยนสถานะการแสดงผล
-    if (chartDiv.style.visibility === 'hidden') {
-      // แสดงกราฟ
-      chartDiv.style.visibility = 'visible';
-      chartDivh.style.visibility = 'visible';
-      chartDivnur.style.visibility = 'visible';
+            // แสดงข้อมูลในกราฟ (ตัวอย่าง: แสดง alert)
+        } else {
+            // ซ่อนกราฟ
+            chartDiv.style.visibility = 'hidden';
+            chartDivh.style.visibility = 'hidden';
+            chartDivnur.style.visibility = 'hidden';
+            chartDivsg.style.visibility = 'hidden';
 
-
-      // แสดงข้อมูลในกราฟ (ตัวอย่าง: แสดง alert)
-    } else {
-      // ซ่อนกราฟ
-      chartDiv.style.visibility = 'hidden';
-      chartDivh.style.visibility = 'hidden';
-      chartDivnur.style.visibility = 'hidden';
-
-
-      // ปิดข้อมูลในกราฟ (ตัวอย่าง: แสดง alert)
+            // ปิดข้อมูลในกราฟ (ตัวอย่าง: แสดง alert)
+        }
     }
-  }
 </script>
+
 </html>

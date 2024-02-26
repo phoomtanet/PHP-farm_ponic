@@ -215,7 +215,7 @@ GROUP BY v.vegetable_name";
             var errSpan = document.getElementById("err");
             var myButton = document.getElementById("bt_date");
             frontDateInput.addEventListener('input', function() {
-                if (  backDateInput.value < backDate ) {
+                if (  backDateInput.value < frontDateInput.value && backDateInput.value >0) {
                     errSpan.innerHTML = "โปรดป้อน วันที่เริ่มต้นให้น้อยกว่าวันที่สิ้นสุด";
                     errSpan.style.color = 'red';
                     myButton.disabled = true;
@@ -225,7 +225,7 @@ GROUP BY v.vegetable_name";
                 }
             });
             backDateInput.addEventListener('input', function() {
-                if (frontDateInput.value > backDateInput.value) {
+                if (frontDateInput.value > backDateInput.value && frontDateInput.value>0) {
                     errSpan.innerHTML = "โปรดป้อน วันที่เริ่มต้นให้น้อยกว่าวันที่สิ้นสุด";
                     errSpan.style.color = 'red';
                     myButton.disabled = true;

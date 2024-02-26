@@ -1,50 +1,47 @@
-<?php
-
-$sql_c_veg_nur = "SELECT  v.vegetable_name , SUM(vn.nursery_amount) as  total_amount_nur
-FROM tb_plot_nursery as pn 
-INNER JOIN tb_vegetable_nursery as vn on vn.id_plotnursery = pn.id_plotnursery
-
-INNER JOIN tb_veg_farm AS vf on vf.id_veg_farm = vn.id_veg_farm
 
 
-INNER JOIN tb_vegetable AS v on v.id_vegetable = vf.id_vegetable
-INNER JOIN tb_greenhouse as g on g.id_greenhouse = pn.id_greenhouse
+
+<?php 
+$sql_sg = "SELECT v.vegetable_name ,IFNULL(SUM(sg.germination_amount), 0) AS total_sg 
+FROM `tb_seed_germination` as sg
+INNER JOIN tb_greenhouse as g on sg.id_greenhouse = g.id_greenhouse
+INNER JOIN tb_veg_farm as vf on vf.id_veg_farm = sg.id_veg_farm
+INNER JOIN tb_vegetable as v on v.id_vegetable = vf.id_vegetable
 WHERE g.id_greenhouse = '$id_greenhouse_session'
-GROUP BY v.vegetable_name";
-$rs_c_veg_nur = mysqli_query($conn , $sql_c_veg_nur);
+GROUP BY v.id_vegetable";
 
-$data_n_veg_nur = array();
-$data_c_veg_nur = array();
 
-while ($row_c_veg_nur = $rs_c_veg_nur->fetch_assoc()) {
-    $data_n_veg_nur[] = $row_c_veg_nur['total_amount_nur'];
-    $data_c_veg_nur [] =$row_c_veg_nur['vegetable_name'];
+
+
+$rs_sg_veg = mysqli_query($conn, $sql_sg);
+$data_sg_veg = array();
+$data_csg_veg = array();
+
+while ($row_sg_veg = $rs_sg_veg->fetch_assoc()) {
+    $data_sg_veg[] = $row_sg_veg['total_sg'];
+    $data_csg_veg[] = $row_sg_veg['vegetable_name'];
 }
 
-
-
-
-
-
-
 ?>
+
+
 <script>
 google.charts.load('current', {'packages':['corechart']});
-google.charts.setOnLoadCallback(drawChart_nur);
+google.charts.setOnLoadCallback(drawChart_sg);
 
-function drawChart_nur() {
+function drawChart_sg() {
     // Create a two-dimensional array from PHP data
-    var chartData_nur = [['Vegetable Name', 'Total Amount']];
+    var chartData_sg = [['Vegetable Name', 'Total Amount']];
     <?php
-    for ($i = 0; $i < count($data_c_veg_nur); $i++) {
-        echo "chartData_nur.push(['" . $data_c_veg_nur[$i] . "', " .  $data_n_veg_nur[$i] . "]);\n";
+    for ($i = 0; $i < count($data_csg_veg); $i++) {
+        echo "chartData_sg.push(['" . $data_csg_veg[$i] . "', " .  $data_sg_veg[$i] . "]);\n";
     }
     ?>
 
-    const data_nur = google.visualization.arrayToDataTable(chartData_nur);
+    const data_har = google.visualization.arrayToDataTable(chartData_sg);
 
     const options = {
-    title: 'กราฟแสดงจำนวนผักในแปลงอนุบาล',
+    title: 'กราฟแสดงจำนวนผักที่เพาะเมล็ด',
     pieHole: 0.3,
     titleTextStyle: {
         color: 'black', // สีของตัวหนังสือ
@@ -73,7 +70,7 @@ function drawChart_nur() {
 };
     
 
-    const chart = new google.visualization.PieChart(document.getElementById('dChart_nur'));
-    chart.draw(data_nur, options);
+    const chart = new google.visualization.PieChart(document.getElementById('dChart_sg'));
+    chart.draw(data_har, options);
 }
 </script>

@@ -2,12 +2,11 @@
 
 
 $sql_plot_slot ="SELECT a.plot_name, IFNULL(SUM(pt.vegetable_amount), 0) AS total_vegetable_amount   
--- ,  (a.row*a.column - IFNULL(SUM(pt.vegetable_amount), 0) )  as sumN
 FROM `tb_plot` AS a
 LEFT JOIN tb_planting AS pt ON a.id_plot = pt.id_plot
 INNER JOIN tb_greenhouse AS b ON a.id_greenhouse = b.id_greenhouse
 INNER JOIN tb_farm AS c ON c.id_farm = b.id_farm
-WHERE b.id_greenhouse = '$id_greenhouse_session' AND c.id_farm = '$id_farm_session'
+WHERE b.id_greenhouse = '$id_greenhouse_session'
 GROUP BY a.plot_name
 ORDER BY LENGTH(a.plot_name), a.plot_name";
 
@@ -45,9 +44,9 @@ document.addEventListener('DOMContentLoaded', function() {
             datasets: [{
                 label: 'จำนวนผัก',
                 data: <?php echo json_encode($data_slot); ?>,
+                backgroundColor: '#00aba9', // Adjust as needed
 
-                backgroundColor: 'rgba(255, 99, 132, 1)', // Adjust as needed
-                borderColor: 'rgba(255, 99, 132, 1)', // Adjust as needed
+                borderColor: 'black', // Adjust as needed
                 borderWidth: 1
             }]
         },
